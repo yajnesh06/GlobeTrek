@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { CalendarIcon, PlusCircle, MinusCircle } from 'lucide-react';
@@ -85,7 +83,20 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   };
 
   const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-    onSubmit(data);
+    const tripData: TripFormData = {
+      destination: data.destination,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      budget: data.budget,
+      travelers: data.travelers,
+      interests: data.interests,
+      dietaryRestrictions: data.dietaryRestrictions,
+      accommodationType: data.accommodationType,
+      transportationType: data.transportationType,
+      additionalNotes: data.additionalNotes || '',
+    };
+    
+    onSubmit(tripData);
   };
 
   const interestOptions = [
@@ -126,7 +137,6 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
         steps={steps} 
         currentStep={currentStep} 
         onStepClick={(step) => {
-          // Only allow clicking on previous steps
           if (step < currentStep) {
             setCurrentStep(step);
           }
