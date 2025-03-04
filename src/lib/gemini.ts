@@ -2,8 +2,9 @@
 import { TripFormData, GeneratedItinerary } from '../types';
 import { toast } from 'sonner';
 
+// Updated to use the correct API endpoint for Gemini
 const API_KEY = "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent";
 
 export async function generateItinerary(tripData: TripFormData): Promise<GeneratedItinerary | null> {
   try {
