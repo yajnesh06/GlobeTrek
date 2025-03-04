@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 // Updated to use the correct API endpoint for Gemini
 const API_KEY = "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
-const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent";
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 export async function generateItinerary(tripData: TripFormData): Promise<GeneratedItinerary | null> {
   try {
@@ -22,9 +22,10 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
     const durationDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
     const prompt = `
-      Create a detailed travel itinerary for a trip to ${tripData.destination}.
+      Create a detailed travel itinerary for a trip to ${tripData.destination} from ${tripData.startingAddress}.
       
       Trip details:
+      - Starting Address: ${tripData.startingAddress}
       - Destination: ${tripData.destination}
       - Travel dates: From ${startDate} to ${endDate} (${durationDays} days)
       - Budget level: ${tripData.budget}

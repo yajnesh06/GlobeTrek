@@ -1,6 +1,7 @@
 
 export interface TripFormData {
   destination: string;
+  startingAddress: string;
   startDate: Date | string;
   endDate: Date | string;
   budget: string;

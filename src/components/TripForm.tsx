@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +20,7 @@ import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   destination: z.string().min(2, { message: 'Please enter a valid destination' }),
+  startingAddress: z.string().min(2, { message: 'Please enter a valid starting address' }),
   startDate: z.date({ required_error: 'Please select a start date' }),
   endDate: z.date({ required_error: 'Please select an end date' }),
   budget: z.string({ required_error: 'Please select a budget' }),
@@ -43,6 +43,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       destination: '',
+      startingAddress: '',
       travelers: 2,
       interests: [],
       dietaryRestrictions: [],
@@ -62,7 +63,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
 
   const handleNext = async () => {
     const fieldsToValidate = {
-      0: ['destination'],
+      0: ['destination', 'startingAddress'],
       1: ['startDate', 'endDate'],
       2: ['travelers', 'budget'],
       3: ['interests', 'accommodationType', 'transportationType'],
@@ -85,9 +86,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   };
 
   const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-    // Ensure all required properties are present before submitting
     const tripData: TripFormData = {
       destination: data.destination,
+      startingAddress: data.startingAddress,
       startDate: data.startDate,
       endDate: data.endDate,
       budget: data.budget,
@@ -152,6 +153,19 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
             {currentStep === 0 && (
               <div className="space-y-6 animate-fade-in">
                 <h2 className="text-2xl font-semibold text-gray-900">Where do you want to go?</h2>
+                <FormField
+                  control={form.control}
+                  name="startingAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base">Starting Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your starting address" {...field} className="h-12 text-lg" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="destination"
@@ -538,6 +552,11 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                 
                 <div className="bg-gray-50 p-6 rounded-lg space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Starting Address</h3>
+                      <p className="text-base font-medium">{form.getValues().startingAddress}</p>
+                    </div>
+                    
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">Destination</h3>
                       <p className="text-base font-medium">{form.getValues().destination}</p>
