@@ -1,6 +1,6 @@
 
 import { TripFormData, GeneratedItinerary } from '../types';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 
 const API_KEY = "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
