@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,6 +48,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
       dietaryRestrictions: [],
       transportationType: [],
       additionalNotes: '',
+      budget: 'moderate', // Set a default budget
     },
   });
 
@@ -83,6 +85,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   };
 
   const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+    // Ensure all required properties are present before submitting
     const tripData: TripFormData = {
       destination: data.destination,
       startDate: data.startDate,
@@ -307,60 +310,69 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          value={field.value}
                           className="grid grid-cols-1 md:grid-cols-3 gap-4"
                         >
                           <FormItem className="h-full">
-                            <FormControl className="h-full">
-                              <Card className={`cursor-pointer transition-all border h-full ${
-                                field.value === 'budget' ? 'border-voyage-500 bg-voyage-50' : ''
-                              }`}>
-                                <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                  <RadioGroupItem 
-                                    value="budget" 
-                                    id="budget" 
-                                    className="sr-only" 
-                                  />
-                                  <div className="text-xl font-medium">Budget</div>
-                                  <div className="text-gray-500 text-sm">Cost-effective options</div>
-                                </CardContent>
-                              </Card>
+                            <FormLabel className="sr-only">Budget</FormLabel>
+                            <FormControl>
+                              <label>
+                                <Card className={`cursor-pointer transition-all border h-full ${
+                                  field.value === 'budget' ? 'border-voyage-500 bg-voyage-50' : ''
+                                }`}>
+                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
+                                    <RadioGroupItem 
+                                      value="budget" 
+                                      id="budget" 
+                                      className="sr-only" 
+                                    />
+                                    <div className="text-xl font-medium">Budget</div>
+                                    <div className="text-gray-500 text-sm">Cost-effective options</div>
+                                  </CardContent>
+                                </Card>
+                              </label>
                             </FormControl>
                           </FormItem>
                           
                           <FormItem className="h-full">
-                            <FormControl className="h-full">
-                              <Card className={`cursor-pointer transition-all border h-full ${
-                                field.value === 'moderate' ? 'border-voyage-500 bg-voyage-50' : ''
-                              }`}>
-                                <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                  <RadioGroupItem 
-                                    value="moderate" 
-                                    id="moderate" 
-                                    className="sr-only" 
-                                  />
-                                  <div className="text-xl font-medium">Moderate</div>
-                                  <div className="text-gray-500 text-sm">Mid-range comfort</div>
-                                </CardContent>
-                              </Card>
+                            <FormLabel className="sr-only">Moderate</FormLabel>
+                            <FormControl>
+                              <label>
+                                <Card className={`cursor-pointer transition-all border h-full ${
+                                  field.value === 'moderate' ? 'border-voyage-500 bg-voyage-50' : ''
+                                }`}>
+                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
+                                    <RadioGroupItem 
+                                      value="moderate" 
+                                      id="moderate" 
+                                      className="sr-only" 
+                                    />
+                                    <div className="text-xl font-medium">Moderate</div>
+                                    <div className="text-gray-500 text-sm">Mid-range comfort</div>
+                                  </CardContent>
+                                </Card>
+                              </label>
                             </FormControl>
                           </FormItem>
                           
                           <FormItem className="h-full">
-                            <FormControl className="h-full">
-                              <Card className={`cursor-pointer transition-all border h-full ${
-                                field.value === 'luxury' ? 'border-voyage-500 bg-voyage-50' : ''
-                              }`}>
-                                <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                  <RadioGroupItem 
-                                    value="luxury" 
-                                    id="luxury" 
-                                    className="sr-only" 
-                                  />
-                                  <div className="text-xl font-medium">Luxury</div>
-                                  <div className="text-gray-500 text-sm">Premium experiences</div>
-                                </CardContent>
-                              </Card>
+                            <FormLabel className="sr-only">Luxury</FormLabel>
+                            <FormControl>
+                              <label>
+                                <Card className={`cursor-pointer transition-all border h-full ${
+                                  field.value === 'luxury' ? 'border-voyage-500 bg-voyage-50' : ''
+                                }`}>
+                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
+                                    <RadioGroupItem 
+                                      value="luxury" 
+                                      id="luxury" 
+                                      className="sr-only" 
+                                    />
+                                    <div className="text-xl font-medium">Luxury</div>
+                                    <div className="text-gray-500 text-sm">Premium experiences</div>
+                                  </CardContent>
+                                </Card>
+                              </label>
                             </FormControl>
                           </FormItem>
                         </RadioGroup>
