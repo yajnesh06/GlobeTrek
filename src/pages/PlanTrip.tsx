@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { generateItinerary } from '@/lib/gemini';
 import Navbar from '@/components/Navbar';
 import ItineraryView from '@/components/ItineraryView';
-import { LoadingIndicator } from '@/components/LoadingIndicator';
+import LoadingIndicator from '@/components/LoadingIndicator';
 
 const PlanTrip = () => {
   const [itinerary, setItinerary] = useState<GeneratedItinerary | null>(null);
@@ -47,7 +47,7 @@ const PlanTrip = () => {
             <CardContent className="p-6">
               {isLoading ? (
                 <div className="py-20 flex flex-col items-center justify-center">
-                  <LoadingIndicator size="large" />
+                  <LoadingIndicator />
                   <p className="mt-4 text-gray-600">Crafting your personalized itinerary...</p>
                   <p className="text-sm text-gray-500 mt-2">This may take up to a minute</p>
                 </div>
