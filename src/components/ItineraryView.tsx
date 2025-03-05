@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import WeatherCard from '@/components/WeatherCard';
 import TripChat from '@/components/TripChat';
 import { generateTripCostEstimate } from '@/lib/weather';
-import { Indian } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
@@ -19,9 +19,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   const costEstimate = generateTripCostEstimate(
     itinerary.budget,
     // Extract number of travelers from summary if not directly available
-    itinerary.summary.includes('travelers') 
-      ? parseInt(itinerary.summary.match(/\d+(?=\s+travelers)/)?.[0] || '2') 
-      : 2,
+    itinerary.travelers || 
+      (itinerary.summary.includes('travelers') 
+        ? parseInt(itinerary.summary.match(/\d+(?=\s+travelers)/)?.[0] || '2') 
+        : 2),
     itinerary.duration
   );
 
@@ -86,7 +87,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3">*Estimates based on {itinerary.budget} budget level for the full duration of your trip</p>
+                <p className="text-xs text-gray-500 mt-3">*Estimates based on {itinerary.budget || 'moderate'} budget level for the full duration of your trip</p>
               </div>
             </div>
             <div>

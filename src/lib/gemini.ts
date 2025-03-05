@@ -49,6 +49,10 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         "startDate": "YYYY-MM-DD",
         "endDate": "YYYY-MM-DD",
         "duration": number of days,
+        "budget": "budget level from input",
+        "travelers": number of travelers from input,
+        "interests": ["interest1", "interest2", ...],
+        "transportationType": ["type1", "type2", ...],
         "summary": "Brief trip summary with number of travelers mentioned",
         "days": [
           {
@@ -109,6 +113,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       6. Make sure each highlight has at least 2-3 relevant tags
       7. Keep descriptions concise but informative (2-4 sentences)
       8. Include the number of travelers in the summary
+      9. MOST IMPORTANT: Include the budget, transportationType, and interests arrays in the returned JSON
     `;
 
     // Show toast to indicate processing
@@ -159,7 +164,13 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       }
       
       const jsonText = generatedText.substring(jsonStartIndex, jsonEndIndex);
-      const itinerary = JSON.parse(jsonText) as GeneratedItinerary;
+      let itinerary = JSON.parse(jsonText) as GeneratedItinerary;
+      
+      // Ensure the required fields are present
+      if (!itinerary.budget) itinerary.budget = tripData.budget;
+      if (!itinerary.travelers) itinerary.travelers = tripData.travelers;
+      if (!itinerary.interests) itinerary.interests = tripData.interests;
+      if (!itinerary.transportationType) itinerary.transportationType = tripData.transportationType;
       
       // Log success message
       console.log(`Successfully generated itinerary with: 

@@ -63,7 +63,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
       const question = inputValue.toLowerCase();
       
       if (question.includes('cost') || question.includes('price') || question.includes('budget') || question.includes('expense')) {
-        responseText = `The trip to ${itinerary.destination} for ${itinerary.duration} days with a ${itinerary.budget} budget will cost approximately ₹XXX,XXX. This includes accommodation, food, transportation, and activities. Check the cost breakdown in the summary section for more details.`;
+        responseText = `The trip to ${itinerary.destination} for ${itinerary.duration} days with a ${itinerary.budget || 'moderate'} budget will cost approximately ₹XXX,XXX. This includes accommodation, food, transportation, and activities. Check the cost breakdown in the summary section for more details.`;
       } 
       else if (question.includes('weather') || question.includes('temperature') || question.includes('climate')) {
         responseText = `The current weather in ${itinerary.destination} is displayed in the summary section. Generally, Switzerland has varying climates depending on altitude. The best time to visit is between April and October for warmer weather, while December to March is perfect for winter sports.`;
@@ -72,13 +72,13 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
         responseText = `Switzerland is famous for its cheese fondue, raclette, rösti, and chocolate. Check the "Dining" tab for recommended restaurants and local food suggestions. Don't miss trying Swiss chocolate from local chocolatiers!`;
       }
       else if (question.includes('travel') || question.includes('transport') || question.includes('get around')) {
-        responseText = `Switzerland has an excellent public transportation system including trains, buses, and boats. The Swiss Travel Pass might be worth considering for unlimited travel. For your itinerary, we've included a mix of ${itinerary.transportationType.join(', ')} as per your preferences.`;
+        responseText = `Switzerland has an excellent public transportation system including trains, buses, and boats. The Swiss Travel Pass might be worth considering for unlimited travel. For your itinerary, we've included a mix of ${itinerary.transportationType?.join(', ') || 'public transportation'} as per your preferences.`;
       }
       else if (question.includes('attraction') || question.includes('visit') || question.includes('see') || question.includes('place')) {
         responseText = `We've included many attractions in your itinerary! Check the "Attractions" tab for must-visit places and the "Hidden Gems" tab for unique experiences that most tourists miss. Your daily itinerary also includes specific times for visiting these places.`;
       }
       else {
-        responseText = `Thanks for your question about ${itinerary.destination}! I've analyzed your ${itinerary.duration}-day itinerary and can confirm that your trip includes the best experiences based on your interests in ${itinerary.interests.join(', ')}. Is there anything specific about a particular day or activity you'd like to know more about?`;
+        responseText = `Thanks for your question about ${itinerary.destination}! I've analyzed your ${itinerary.duration}-day itinerary and can confirm that your trip includes the best experiences based on your interests in ${itinerary.interests?.join(', ') || 'Switzerland'}. Is there anything specific about a particular day or activity you'd like to know more about?`;
       }
       
       const assistantMessage: ChatMessage = {
