@@ -127,7 +127,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   ];
 
   const transportOptions = [
-    { id: 'walking', label: 'Walking' },
+    { id: 'rental bikes', label: 'Bike Rental' },
     { id: 'publicTransport', label: 'Public Transport' },
     { id: 'taxi', label: 'Taxi / Ride-share' },
     { id: 'rental', label: 'Car Rental' },
@@ -160,7 +160,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Starting Address</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your starting address" {...field} className="h-12 text-lg" />
+                        <Input placeholder="Enter your starting address" {...field} className="h-8 text-lg" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -173,7 +173,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Destination</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter city, country, or region" {...field} className="h-12 text-lg" />
+                        <Input placeholder="Enter city, country, or region" {...field} className="h-8 text-lg" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -199,7 +199,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal h-12",
+                                  "w-full pl-3 text-left font-normal h-9",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -239,7 +239,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal h-12",
+                                  "w-full pl-3 text-left font-normal h-9",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -282,20 +282,20 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   name="travelers"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Number of Travelers</FormLabel>
+                      <FormLabel className='text-lg'>Number of Travelers</FormLabel>
                       <div className="flex items-center space-x-4">
                         <Button
                           type="button"
                           variant="outline"
                           size="icon"
                           onClick={() => field.onChange(Math.max(1, field.value - 1))}
-                          className="h-10 w-10 rounded-full"
+                          className="h-9 w-10 rounded-full"
                         >
                           <MinusCircle className="h-4 w-4" />
                         </Button>
                         
                         <FormControl>
-                          <div className="flex justify-center items-center w-16 h-12 font-medium text-lg border rounded-md">
+                          <div className="flex justify-center items-center w-16 h-9 font-medium text-lg border rounded-md">
                             {field.value}
                           </div>
                         </FormControl>
@@ -319,8 +319,8 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="budget"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel>Budget Level</FormLabel>
+                    <FormItem className="space-y-3 ">
+                      <FormLabel className='text-lg'>Budget Level</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}

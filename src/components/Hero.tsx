@@ -55,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToRef }) => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="border-gray-300 text-gray-700 font-medium text-lg px-8 py-6 hover:bg-gray-100 transition-all duration-300"
+                className=" border-voyage-400 border-2 text-gray-700 font-medium text-lg px-8 py-6 hover:bg-gray-100 transition-all duration-300"
               >
                 Learn More
               </Button>

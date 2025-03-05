@@ -40,7 +40,7 @@ const Navbar = () => {
           <Link to="/">
             <Button 
               variant={location.pathname === '/' ? 'secondary' : 'ghost'} 
-              className="font-medium"
+              className="border-2 border-voyage-400 font-medium"
             >
               Home
             </Button>
@@ -48,7 +48,7 @@ const Navbar = () => {
           <Link to="/about">
             <Button 
               variant={location.pathname === '/about' ? 'secondary' : 'ghost'} 
-              className="font-medium"
+              className="font-medium border-2 border-voyage-400"
             >
               About
             </Button>
