@@ -21,8 +21,9 @@ const Hero: React.FC<HeroProps> = ({ scrollToRef }) => {
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-sky-100 z-0"></div>
       
       {/* Abstract patterns */}
-      <div className="absolute top-1/4 right-10 w-64 h-64 bg-voyage-200 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse-custom"></div>
-      <div className="absolute bottom-1/3 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-custom" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/4 right-10 w-72 h-72 bg-voyage-300 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-floating"></div>
+<div className="absolute bottom-1/3 left-10 w-80 h-80 bg-voyage-400 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-floating" style={{ animationDelay: '1.5s' }}></div>
+
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
