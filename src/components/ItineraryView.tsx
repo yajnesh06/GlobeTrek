@@ -6,12 +6,25 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import WeatherCard from '@/components/WeatherCard';
+import TripChat from '@/components/TripChat';
+import { generateTripCostEstimate } from '@/lib/weather';
+import { Indian } from 'lucide-react';
 
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
 }
 
 const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
+  // Calculate cost estimate based on itinerary data
+  const costEstimate = generateTripCostEstimate(
+    itinerary.budget,
+    // Extract number of travelers from summary if not directly available
+    itinerary.summary.includes('travelers') 
+      ? parseInt(itinerary.summary.match(/\d+(?=\s+travelers)/)?.[0] || '2') 
+      : 2,
+    itinerary.duration
+  );
+
   return (
     <div className="w-full space-y-6">
       <Card>
@@ -28,7 +41,53 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
               <h3 className="text-xl font-medium text-voyage-800 mb-2">Trip Summary</h3>
-              <p className="text-gray-700">{itinerary.summary}</p>
+              <p className="text-gray-700 mb-4">{itinerary.summary}</p>
+              
+              <div className="bg-voyage-50 p-4 rounded-lg mt-4">
+                <h4 className="text-lg font-medium text-voyage-800 flex items-center mb-3">
+                  <span className="bg-voyage-100 p-1 rounded-full mr-2">₹</span> 
+                  Estimated Trip Cost
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Total Cost</span>
+                      <span className="text-xl font-bold text-voyage-600">₹{costEstimate.totalCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Accommodation</span>
+                      <span className="font-medium">₹{costEstimate.accommodationCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Food & Dining</span>
+                      <span className="font-medium">₹{costEstimate.foodCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Transportation</span>
+                      <span className="font-medium">₹{costEstimate.transportationCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Activities</span>
+                      <span className="font-medium">₹{costEstimate.activitiesCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Miscellaneous</span>
+                      <span className="font-medium">₹{costEstimate.miscCost.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-3">*Estimates based on {itinerary.budget} budget level for the full duration of your trip</p>
+              </div>
             </div>
             <div>
               <h3 className="text-xl font-medium text-voyage-800 mb-2">Current Weather</h3>
@@ -39,11 +98,12 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       </Card>
 
       <Tabs defaultValue="daily" className="w-full">
-        <TabsList className="grid grid-cols-4 mb-4">
+        <TabsList className="grid grid-cols-5 mb-4">
           <TabsTrigger value="daily">Daily Itinerary</TabsTrigger>
           <TabsTrigger value="attractions">Attractions</TabsTrigger>
           <TabsTrigger value="dining">Dining</TabsTrigger>
           <TabsTrigger value="hidden">Hidden Gems</TabsTrigger>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
         
         <TabsContent value="daily" className="space-y-6">
@@ -124,6 +184,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
             title="Hidden Gems" 
             items={itinerary.highlights.hiddenGems} 
           />
+        </TabsContent>
+        
+        <TabsContent value="chat" className="space-y-6">
+          <TripChat itinerary={itinerary} />
         </TabsContent>
       </Tabs>
     </div>
