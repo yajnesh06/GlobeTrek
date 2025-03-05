@@ -51,6 +51,7 @@ export interface GeneratedItinerary {
   travelers: number;
   interests: string[];
   transportationType: string[];
+  accommodationType: string;
   days: ItineraryDay[];
   highlights: TravelHighlights;
 }

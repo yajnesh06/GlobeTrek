@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,14 +55,12 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
     setIsLoading(true);
     
     try {
-      // Calculate cost estimate for budget questions
       const costEstimate = generateTripCostEstimate(
         itinerary.budget || 'moderate',
         itinerary.travelers || 2,
         itinerary.duration
       );
       
-      // Generate more dynamic response based on question content
       let responseText = '';
       const question = inputValue.toLowerCase();
       
@@ -119,18 +116,16 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
         responseText = `${itinerary.destination} uses the Euro (€) as its currency. Credit cards are widely accepted in most establishments, but it's good to carry some cash for small purchases at local markets or in rural areas. ATMs are readily available in cities and towns. The current exchange rate is approximately 1 EUR = 89-92 INR, but check the latest rates before your trip. Your estimated total trip cost is ₹${costEstimate.totalCost.toLocaleString('en-IN')}.`;
       }
       else if (question.includes('accommodation') || question.includes('hotel') || question.includes('stay') || question.includes('resort')) {
-        const accommodationType = itinerary.accommodationType || 'luxury hotels';
+        const accommodationType = itinerary.accommodationType || 'comfortable hotels';
         responseText = `Your itinerary includes ${accommodationType} accommodations throughout your trip to ${itinerary.destination}. All hotels have been selected based on your ${itinerary.budget || 'moderate'} budget preference and offer excellent amenities. Check your daily itinerary for specific hotel information and check-in times. All accommodations are conveniently located near major attractions or offer beautiful views.`;
       }
       else if (question.includes('tips') || question.includes('advice') || question.includes('recommendation') || question.includes('suggest')) {
         responseText = `For your trip to ${itinerary.destination}, I recommend: 1) Carry a refillable water bottle as tap water is safe to drink, 2) Public transport is efficient but validate tickets before boarding, 3) Always carry some cash for small establishments, 4) Try to learn basic German phrases, 5) Be punctual as Germans value timeliness, 6) Shops are typically closed on Sundays, and 7) When dining out, it's customary to leave a 5-10% tip if the service was good.`;
       }
       else {
-        // General response with personalized elements
         responseText = `Thanks for your question about ${itinerary.destination}! I've analyzed your ${itinerary.duration}-day itinerary for ${itinerary.travelers} travelers and can see you're interested in ${itinerary.interests?.join(', ') || 'exploring the destination'}. Your trip is planned from ${itinerary.startDate} to ${itinerary.endDate} with a ${itinerary.budget || 'moderate'} budget. Is there anything specific about a particular day, activity, or aspect of your trip you'd like to know more about?`;
       }
       
-      // Slight delay for natural feeling
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const assistantMessage: ChatMessage = {
@@ -144,7 +139,6 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
     } catch (error) {
       console.error('Error generating response:', error);
       
-      // Fallback response in case of error
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
