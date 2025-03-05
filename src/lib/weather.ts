@@ -12,7 +12,7 @@ export interface WeatherData {
 }
 
 // Using OpenWeatherMap API - free tier
-const API_KEY = "c3f10d16f9194ed8d2c5dc8aaf87b4cc"; // Updated API key
+const API_KEY = "72aa7ff7ec2f7b237e50d96eac7cd262"; // Updated API key
 const API_URL = "https://api.openweathermap.org/data/2.5/weather";
 
 export async function getWeatherData(location: string): Promise<WeatherData | null> {
