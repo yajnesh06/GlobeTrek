@@ -48,8 +48,8 @@ const PlanTrip = () => {
               {isLoading ? (
                 <div className="py-20 flex flex-col items-center justify-center">
                   <LoadingIndicator />
-                  <p className="mt-4 text-gray-600">Crafting your personalized itinerary...</p>
-                  <p className="text-sm text-gray-500 mt-2">This may take up to a minute</p>
+                  <p className="mt-4 text-gray-600">We're working on your dream vacation...</p>
+                  <p className="text-sm text-gray-500 mt-2">This typically takes less than a minute</p>
                 </div>
               ) : (
                 <TripForm onSubmit={handleSubmit} />
@@ -57,7 +57,7 @@ const PlanTrip = () => {
             </CardContent>
           </Card>
         ) : (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-3xl font-bold text-voyage-900">Your Personalized Itinerary</h1>
               <button 

@@ -38,10 +38,10 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       
       Include:
       1. A day-by-day itinerary with specific times for activities, meals, and transport
-      2. A list of must-visit attractions with descriptions
-      3. A selection of hidden gems/local spots that tourists often miss
-      4. Recommended restaurants with description of cuisine
-      5. Local foods to try with descriptions
+      2. A list of at least 8-10 must-visit attractions with descriptions
+      3. A selection of at least 6-8 hidden gems/local spots that tourists often miss
+      4. Recommended restaurants with description of cuisine (at least 5)
+      5. Local foods to try with descriptions (at least 5)
       
       Format the response as valid JSON with the following structure:
       {
@@ -100,9 +100,10 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         }
       }
 
-      Ensure the response is valid JSON that can be parsed.
+      Keep your response concise but ensure it contains at least 8 mustVisitPlaces, 6 hiddenGems, 5 restaurants, and 5 localFood items. Ensure the response is valid JSON that can be parsed.
     `;
 
+    // Improved API request with optimized parameters
     const response = await fetch(`${API_URL}?key=${API_KEY}`, {
       method: 'POST',
       headers: {
@@ -119,9 +120,9 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
           }
         ],
         generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
+          temperature: 0.6, // Lower temperature for more consistent results
+          topK: 30,
+          topP: 0.8,
           maxOutputTokens: 8192,
         }
       })

@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { GeneratedItinerary, HighlightItem } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { format } from 'date-fns';
+import WeatherCard from '@/components/WeatherCard';
 
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
@@ -25,9 +25,15 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
           </div>
         </CardHeader>
         <CardContent className="p-6">
-          <div className="prose max-w-none">
-            <h3 className="text-xl font-medium text-voyage-800">Trip Summary</h3>
-            <p className="text-gray-700">{itinerary.summary}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <h3 className="text-xl font-medium text-voyage-800 mb-2">Trip Summary</h3>
+              <p className="text-gray-700">{itinerary.summary}</p>
+            </div>
+            <div>
+              <h3 className="text-xl font-medium text-voyage-800 mb-2">Current Weather</h3>
+              <WeatherCard location={itinerary.destination} />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -93,7 +99,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
           
           <div className="mt-8">
             <h3 className="text-xl font-medium mb-4">Local Foods to Try</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {itinerary.highlights.localFood.map((food, index) => (
                 <Card key={index} className="overflow-hidden">
                   <CardContent className="p-4">
@@ -133,9 +139,9 @@ const HighlightSection: React.FC<HighlightSectionProps> = ({ title, items }) => 
   return (
     <div>
       <h3 className="text-xl font-medium mb-4">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((item, index) => (
-          <Card key={index} className="overflow-hidden">
+          <Card key={index} className="overflow-hidden h-full">
             <CardContent className="p-4">
               <h4 className="font-bold text-lg">{item.name}</h4>
               {item.location && (
