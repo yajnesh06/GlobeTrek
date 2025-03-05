@@ -3,10 +3,6 @@
 
 A modern travel planning application powered by Google's Gemini AI. Voyage helps you create personalized trip itineraries based on your preferences, interests, and travel style.
 
-## Project URL
-
-**URL**: https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456
-
 ## Features
 
 - AI-generated personalized trip itineraries
@@ -76,15 +72,6 @@ You can modify various aspects of the application:
 - Edit UI components in the `src/components` directory
 - Modify page layouts in the `src/pages` directory
 - Adjust API integration in the `src/lib` directory
-
-## Deployment
-
-To deploy the project:
-
-1. Open [Lovable](https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456)
-2. Click on Share -> Publish
-
-For custom domain deployment, follow our [custom domains guide](https://docs.lovable.dev/tips-tricks/custom-domain/).
 
 ## Contributing
 
