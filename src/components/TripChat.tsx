@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,7 +28,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
     {
       id: '1',
       sender: 'assistant',
-      text: `👋 Hello! I'm your ${itinerary.destination} trip assistant. Ask me anything about your itinerary, local customs, or travel tips for your trip!`,
+      text: `👋 Hello! I'm your ${itinerary.destination} trip assistant. Ask me anything about your itinerary, local customs, or travel tips!`,
       timestamp: new Date(),
     },
   ]);
@@ -64,7 +63,20 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
         The user is asking: "${userQuestion}"
         
-        Please provide a helpful, informative and conversational response. Keep the response between 100-250 words. Be specific to the destination and itinerary, not generic. Use facts about ${itinerary.destination} in your response. Be warm, personable and concise.
+        Provide a VERY CONCISE, helpful response in 2-3 sentences maximum. Be specific to ${itinerary.destination}, not generic. 
+        Focus only on directly answering the question without unnecessary introductions or conclusions.
+        
+        If the question is about:
+        - Cost/budget: Include actual typical prices in local currency and USD
+        - Weather: Include actual seasonal info for the dates
+        - Food: Mention 1-2 specific local dishes
+        - Transport: Give 1 specific recommendation
+        - Attractions: Mention only the most relevant 1-2 places
+        - Time: Give precise timing advice
+        - Language: Provide 1-2 useful phrases
+        - Currency: Give actual exchange rate info
+        - Accommodation: Recommend 1 specific area to stay
+        - Safety/tips: Provide 1-2 specific tips
       `;
 
       const response = await fetch(`${API_URL}?key=${API_KEY}`, {
@@ -86,7 +98,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
             temperature: 0.7,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 2048,
+            maxOutputTokens: 1024,
           }
         })
       });
@@ -101,7 +113,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
       return data.candidates[0].content.parts[0].text.trim();
     } catch (error) {
       console.error('Error generating chat response:', error);
-      return `I'm sorry, I encountered an error while processing your question about ${itinerary.destination}. Please try asking in a different way or another question.`;
+      return `I'm sorry, I encountered an error processing your question. Please try again.`;
     }
   };
 

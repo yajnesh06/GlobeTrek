@@ -1,69 +1,95 @@
-# Welcome to your Lovable project
 
-## Project info
+# Voyage AI Travel Planner
+
+A modern travel planning application powered by Google's Gemini AI. Voyage helps you create personalized trip itineraries based on your preferences, interests, and travel style.
+
+## Project URL
 
 **URL**: https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- AI-generated personalized trip itineraries
+- Day-by-day activity planning
+- Curated travel highlights (attractions, hidden gems, restaurants, local foods)
+- Interactive AI chat assistant for trip-related questions
+- Responsive design for all devices
 
-**Use Lovable**
+## Technology Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456) and start prompting.
+- React with TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui components
+- Google Gemini AI integration
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (v18 or higher) - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- npm (v8 or higher)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Running the Project Locally in VS Code
 
-Follow these steps:
+1. Clone the repository:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Navigate to the project directory:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```sh
+cd voyage-ai-travel-planner
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Install dependencies:
+
+```sh
+npm install
+```
+
+4. Start the development server:
+
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+5. Open your browser and navigate to `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Development Tips
 
-**Use GitHub Codespaces**
+- The project uses TypeScript for type safety
+- UI components are built with shadcn/ui and Tailwind CSS
+- Form validation is handled with react-hook-form and Zod
+- Google Gemini AI is used for generating itineraries and chat responses
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+For a detailed explanation of the project structure and architecture, please refer to the [project documentation](./docs/project-documentation.md).
 
-This project is built with .
+## Customization
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+You can modify various aspects of the application:
 
-## How can I deploy this project?
+- Edit UI components in the `src/components` directory
+- Modify page layouts in the `src/pages` directory
+- Adjust API integration in the `src/lib` directory
 
-Simply open [Lovable](https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456) and click on Share -> Publish.
+## Deployment
 
-## I want to use a custom domain - is that possible?
+To deploy the project:
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+1. Open [Lovable](https://lovable.dev/projects/f2d823d0-50a2-464d-bdec-43159a78a456)
+2. Click on Share -> Publish
+
+For custom domain deployment, follow our [custom domains guide](https://docs.lovable.dev/tips-tricks/custom-domain/).
+
+## Contributing
+
+Feel free to submit issues and enhancement requests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
