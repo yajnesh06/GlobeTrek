@@ -13,7 +13,12 @@ import {
   Gem,
   Utensils,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Save,
+  Share,
+  CloudSun,
+  DollarSign,
+  UserCircle
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -92,8 +97,120 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Benefits section */}
+      {/* Key Features section - Updated to reflect current state */}
       <section className="py-20 px-4 bg-gray-50">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Key Features
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              VoyageurAI combines cutting-edge AI with practical travel tools to create the ultimate trip planning experience.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <Star className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">AI-Powered Itineraries</h3>
+                <p className="text-gray-600">
+                  Our advanced AI creates personalized day-by-day travel plans based on your unique preferences, including budget level, interests, and travel style.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <Gem className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Hidden Gems Discovery</h3>
+                <p className="text-gray-600">
+                  Go beyond tourist traps with recommendations for lesser-known local spots that provide authentic experiences most travelers miss.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <Utensils className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Culinary Exploration</h3>
+                <p className="text-gray-600">
+                  Discover local restaurants and must-try dishes tailored to your dietary preferences and budget, enabling a delicious culinary journey.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <Save className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Save & Manage Trips</h3>
+                <p className="text-gray-600">
+                  Create an account to save and manage all your trip itineraries in one place, making it easy to reference them anytime.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <Share className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Easy Sharing</h3>
+                <p className="text-gray-600">
+                  Share your travel plans with friends and family with a single click, making group trip coordination simpler than ever.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <CloudSun className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Weather Integration</h3>
+                <p className="text-gray-600">
+                  Access current weather information for your destination to help pack appropriately and plan weather-dependent activities.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <DollarSign className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Cost Estimation</h3>
+                <p className="text-gray-600">
+                  Get estimated costs for your trip based on your chosen budget level, helping you plan your finances more effectively.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-voyage-100 p-3 rounded-lg mr-5">
+                <UserCircle className="h-6 w-6 text-voyage-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">User Accounts</h3>
+                <p className="text-gray-600">
+                  Create a secure account with Google authentication to save your preferences and access your trips from any device.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Benefits section */}
+      <section className="py-20 px-4 relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
