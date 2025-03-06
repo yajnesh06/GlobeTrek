@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -17,6 +16,7 @@ import { CalendarIcon, PlusCircle, MinusCircle } from 'lucide-react';
 import { TripFormData } from '@/types';
 import TripFormStepper from './TripFormStepper';
 import { cn } from '@/lib/utils';
+import AddressAutocomplete from './AddressAutocomplete';
 
 const formSchema = z.object({
   destination: z.string().min(2, { message: 'Please enter a valid destination' }),
@@ -160,7 +160,13 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Starting Address</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your starting address" {...field} className="h-8 text-lg" />
+                        <AddressAutocomplete
+                          placeholder="Enter your starting address"
+                          value={field.value}
+                          onChange={field.onChange}
+                          name={field.name}
+                          className="h-9 text-base"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -173,7 +179,13 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Destination</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter city, country, or region" {...field} className="h-8 text-lg" />
+                        <AddressAutocomplete
+                          placeholder="Enter city, country, or region"
+                          value={field.value}
+                          onChange={field.onChange}
+                          name={field.name}
+                          className="h-9 text-base"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

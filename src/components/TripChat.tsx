@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -46,11 +47,11 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
   const generateGeminiResponse = async (userQuestion: string) => {
     try {
-      // Create prompt with itinerary context and user question
+      // Create enhanced prompt with itinerary context and user question
       const prompt = `
         You are an AI travel assistant providing information about a trip to ${itinerary.destination}.
         
-        Here is the trip information:
+        Here is the detailed trip information:
         - Destination: ${itinerary.destination}
         - Travel dates: From ${itinerary.startDate} to ${itinerary.endDate} (${itinerary.duration} days)
         - Budget level: ${itinerary.budget || 'moderate'}
@@ -59,24 +60,31 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
         - Accommodation preference: ${itinerary.accommodationType || 'standard hotels'}
         - Transportation options: ${itinerary.transportationType?.join(', ') || 'various methods'}
         
-        The itinerary has ${itinerary.days.length} days of planned activities.
+        The itinerary includes:
+        - ${itinerary.days.length} days of planned activities
+        - ${itinerary.highlights.mustVisitPlaces.length} must-visit attractions
+        - ${itinerary.highlights.hiddenGems.length} hidden gems
+        - ${itinerary.highlights.restaurants.length} recommended restaurants
+        - ${itinerary.highlights.localFood.length} local food recommendations
 
         The user is asking: "${userQuestion}"
         
-        Provide a VERY CONCISE, helpful response in 2-3 sentences maximum. Be specific to ${itinerary.destination}, not generic. 
-        Focus only on directly answering the question without unnecessary introductions or conclusions.
+        Provide a very concise, helpful response in 2-3 short sentences maximum. Be specific to ${itinerary.destination}, not generic.
+        Focus on directly answering the question with precise, locally relevant information.
         
         If the question is about:
         - Cost/budget: Include actual typical prices in local currency and USD
         - Weather: Include actual seasonal info for the dates
-        - Food: Mention 1-2 specific local dishes
+        - Food: Mention 1 specific local dish
         - Transport: Give 1 specific recommendation
         - Attractions: Mention only the most relevant 1-2 places
         - Time: Give precise timing advice
-        - Language: Provide 1-2 useful phrases
+        - Language: Provide 1 useful phrase
         - Currency: Give actual exchange rate info
         - Accommodation: Recommend 1 specific area to stay
-        - Safety/tips: Provide 1-2 specific tips
+        - Safety/tips: Provide 1 specific tip
+        
+        DO NOT use more than 2-3 short sentences. Keep your response under 50 words.
       `;
 
       const response = await fetch(`${API_URL}?key=${API_KEY}`, {
@@ -95,10 +103,10 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
             }
           ],
           generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
+            temperature: 0.5,  // Reduced for more factual responses
+            topK: 20,
+            topP: 0.8,
+            maxOutputTokens: 256,  // Reduced to encourage shorter responses
           }
         })
       });
@@ -136,7 +144,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
       const responseText = await generateGeminiResponse(inputValue);
       
       // Add a small delay for natural feeling
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise(resolve => setTimeout(resolve, 600));
       
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
