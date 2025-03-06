@@ -57,11 +57,14 @@ const PlanTrip = () => {
     setIsSaving(true);
     
     try {
+      // Convert GeneratedItinerary to JSON compatible format
+      const tripDataJson = JSON.parse(JSON.stringify(itinerary));
+      
       const { error } = await supabase
         .from('saved_trips')
         .insert({
           user_id: user.id,
-          trip_data: itinerary
+          trip_data: tripDataJson
         });
         
       if (error) throw error;
