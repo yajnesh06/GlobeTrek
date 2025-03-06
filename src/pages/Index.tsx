@@ -36,7 +36,7 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How VoyageurAI Works
+              How WanderwiseAI Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our AI assistant makes trip planning effortless. Just tell us your preferences, and we'll create a personalized itinerary in minutes.
@@ -105,7 +105,7 @@ const Index = () => {
               Key Features
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              VoyageurAI combines cutting-edge AI with practical travel tools to create the ultimate trip planning experience.
+              WanderwiseAI combines cutting-edge AI with practical travel tools to create the ultimate trip planning experience.
             </p>
           </div>
           
@@ -218,7 +218,7 @@ const Index = () => {
                 Discover the Perfect Balance of Popular Spots and Hidden Gems
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                VoyageurAI doesn't just recommend tourist traps. Our AI understands what makes a destination special and creates balanced itineraries that include:
+                WanderwiseAI doesn't just recommend tourist traps. Our AI understands what makes a destination special and creates balanced itineraries that include:
               </p>
               
               <ul className="space-y-4">
@@ -357,7 +357,7 @@ const Index = () => {
             <div className="mb-6 md:mb-0">
               <Link to="/" className="flex items-center">
                 <Plane className="h-6 w-6 text-voyage-400 mr-2" />
-                <span className="text-2xl font-bold">VoyageurAI</span>
+                <span className="text-2xl font-bold">WanderwiseAI</span>
               </Link>
               <p className="mt-2 text-gray-400 max-w-md">
                 AI-powered travel planning that creates personalized itineraries based on your preferences.
@@ -387,7 +387,7 @@ const Index = () => {
           <Separator className="my-8 bg-gray-800" />
           
           <div className="text-center text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} VoyageurAI. All rights reserved.
+            &copy; {new Date().getFullYear()} WanderwiseAI. All rights reserved.
           </div>
         </div>
       </footer>
