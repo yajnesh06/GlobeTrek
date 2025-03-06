@@ -3,8 +3,6 @@
 
 A modern travel planning application powered by AI that helps you create personalized trip itineraries based on your preferences, interests, and travel style.
 
-![Voyage AI Travel Planner](public/og-image.png)
-
 ## Features
 
 - **AI-Generated Personalized Trip Itineraries**: Create custom travel plans tailored to your specific preferences
@@ -129,3 +127,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
 - AI-powered by Google's Gemini AI
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
+- autocomplete by Geoapify 
