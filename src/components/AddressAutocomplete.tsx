@@ -1,7 +1,5 @@
-
-import React, { useState, useEffect, useRef } from 'react';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import React, { useState, useEffect, useRef } from "react";
+import { Input } from "@/components/ui/input";
 
 interface AddressAutocompleteProps {
   placeholder?: string;
@@ -27,7 +25,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   name,
   className,
   required,
-  disabled
+  disabled,
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -35,61 +33,65 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionRef = useRef<HTMLDivElement>(null);
-  const debouncedSearchTerm = useDebounce(inputValue, 300);
-
-  function useDebounce(value: string, delay: number) {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-  
-    useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay);
-  
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [value, delay]);
-  
-    return debouncedValue;
-  }
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const controllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (!debouncedSearchTerm || debouncedSearchTerm.length < 3) {
-        setSuggestions([]);
-        return;
-      }
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
 
-      setIsLoading(true);
-      try {
-        const API_KEY = "68555af3f1a040f1ae75866ecdbfe846";
-        const response = await fetch(
-          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
-            debouncedSearchTerm
-          )}&format=json&apiKey=${API_KEY}`
-        );
+    debounceTimeout.current = setTimeout(() => {
+      fetchSuggestions(inputValue);
+    }, 300);
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setSuggestions(data.results || []);
-        setShowSuggestions(data.results && data.results.length > 0);
-      } catch (error) {
-        console.error('Error fetching address suggestions:', error);
-      } finally {
-        setIsLoading(false);
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
       }
     };
+  }, [inputValue]);
 
-    fetchSuggestions();
-  }, [debouncedSearchTerm]);
+  const fetchSuggestions = async (query: string) => {
+    if (!query || query.length < 3) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Abort previous API call if any
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+    controllerRef.current = new AbortController();
+
+    try {
+      const API_KEY = "68555af3f1a040f1ae75866ecdbfe846";
+      const response = await fetch(
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&format=json&apiKey=${API_KEY}`,
+        { signal: controllerRef.current.signal }
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      const data = await response.json();
+      setSuggestions(data.results || []);
+      setShowSuggestions(data.results.length > 0);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Error fetching address suggestions:", error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        suggestionRef.current && 
+        suggestionRef.current &&
         !suggestionRef.current.contains(event.target as Node) &&
         inputRef.current &&
         !inputRef.current.contains(event.target as Node)
@@ -98,9 +100,9 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -119,20 +121,24 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
         value={inputValue}
         onChange={(e) => {
           setInputValue(e.target.value);
-          if (e.target.value === '') {
-            onChange('');
+          if (!e.target.value) {
+            onChange("");
+            setSuggestions([]);
+            setShowSuggestions(false);
           }
         }}
-        onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+        onFocus={() => {
+          if (suggestions.length > 0) setShowSuggestions(true);
+        }}
         placeholder={placeholder}
         className={className}
         required={required}
         disabled={disabled}
         autoComplete="off"
       />
-      
+
       {showSuggestions && (
-        <div 
+        <div
           ref={suggestionRef}
           className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
         >
