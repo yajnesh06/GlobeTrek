@@ -54,7 +54,7 @@ const Navbar = () => {
           className="flex items-center space-x-2 transition-transform hover:scale-105"
         >
           <Plane className="h-6 w-6 text-voyage-500" strokeWidth={2.5} />
-          <span className="font-bold text-2xl text-gray-900">VoyageurAI</span>
+          <span className="font-bold text-2xl text-gray-900">WanderwiseAI</span>
         </Link>
         
         {/* Desktop Navigation */}
