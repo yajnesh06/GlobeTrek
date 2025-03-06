@@ -80,7 +80,5 @@ Each API call is constructed with a carefully crafted prompt that includes all r
 ## Future Enhancements
 
 Potential areas for improvement:
-- Saving itineraries for later reference
 - Sharing itineraries with other users
-- Adding weather data integration for trip planning
 - Implementing offline functionality for viewing saved itineraries
