@@ -28,7 +28,7 @@ const About = () => {
          <Navbar />
       {/* Title */}
       <motion.h1 variants={itemVariants} className="text-4xl p-4 m-3 md:text-6xl font-bold text-center text-gray-900 relative">
-        About <span className="text-voyage-600">Voyageur AI</span>
+        About <span className="text-voyage-600">WanderwiseAI</span>
       </motion.h1>
 
       {/* Subtitle */}
