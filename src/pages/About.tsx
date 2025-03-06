@@ -64,7 +64,7 @@ const About = () => {
     href="/plan-trip"
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.92 }}
-    className="text-voyage-500 font-semibold py-3 px-6 rounded-xl shadow-md transition-all border-2 border-voyage-500"
+    className="text-voyage-500 font-semibold py-3 px-2 rounded-xl shadow-md transition-all border-2 border-voyage-500"
   >
     Start Planning
   </motion.a>
