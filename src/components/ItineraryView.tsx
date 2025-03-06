@@ -18,13 +18,13 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   // Calculate cost estimate based on itinerary data
   const costEstimate = generateTripCostEstimate(
     itinerary.budget,
-    // Extract number of travelers from summary if not directly available
-    itinerary.travelers || 
-      (itinerary.summary.includes('travelers') 
-        ? parseInt(itinerary.summary.match(/\d+(?=\s+travelers)/)?.[0] || '2') 
-        : 2),
-    itinerary.duration
+    itinerary.travelers || 2,
+    itinerary.duration,
+    itinerary.budgetAmount
   );
+
+  // Calculate per-person budget
+  const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
 
   return (
     <div className="w-full space-y-6">
@@ -46,14 +46,20 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
               
               <div className="bg-voyage-50 p-4 rounded-lg mt-4">
                 <h4 className="text-lg font-medium text-voyage-800 flex items-center mb-3">
-                  <span className="bg-voyage-100 p-1 rounded-full mr-2">₹</span> 
-                  Estimated Trip Cost
+                  <span className="bg-voyage-100 p-1 rounded-full mr-2"><IndianRupee className="h-4 w-4" /></span> 
+                  Budget Breakdown
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Total Cost</span>
-                      <span className="text-xl font-bold text-voyage-600">₹{costEstimate.totalCost.toLocaleString('en-IN')}</span>
+                      <span className="text-gray-600">Total Budget</span>
+                      <span className="text-xl font-bold text-voyage-600">₹{itinerary.budgetAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                  <div className="bg-white p-3 rounded shadow-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Per Person</span>
+                      <span className="font-medium">₹{perPersonBudget.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
@@ -61,33 +67,53 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="text-gray-600">Accommodation</span>
                       <span className="font-medium">₹{costEstimate.accommodationCost.toLocaleString('en-IN')}</span>
                     </div>
+                    <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
+                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.accommodationCost / itinerary.budgetAmount) * 100}%` }}></div>
+                    </div>
+                    <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.accommodationCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Food & Dining</span>
                       <span className="font-medium">₹{costEstimate.foodCost.toLocaleString('en-IN')}</span>
                     </div>
+                    <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
+                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.foodCost / itinerary.budgetAmount) * 100}%` }}></div>
+                    </div>
+                    <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.foodCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Transportation</span>
                       <span className="font-medium">₹{costEstimate.transportationCost.toLocaleString('en-IN')}</span>
                     </div>
+                    <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
+                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.transportationCost / itinerary.budgetAmount) * 100}%` }}></div>
+                    </div>
+                    <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.transportationCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Activities</span>
                       <span className="font-medium">₹{costEstimate.activitiesCost.toLocaleString('en-IN')}</span>
                     </div>
+                    <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
+                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.activitiesCost / itinerary.budgetAmount) * 100}%` }}></div>
+                    </div>
+                    <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.activitiesCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Miscellaneous</span>
                       <span className="font-medium">₹{costEstimate.miscCost.toLocaleString('en-IN')}</span>
                     </div>
+                    <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
+                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.miscCost / itinerary.budgetAmount) * 100}%` }}></div>
+                    </div>
+                    <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.miscCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3">*Estimates based on {itinerary.budget || 'moderate'} budget level for the full duration of your trip</p>
+                <p className="text-xs text-gray-500 mt-3">*Based on your selected budget of ₹{itinerary.budgetAmount.toLocaleString('en-IN')} ({itinerary.budget} level)</p>
               </div>
             </div>
             <div>

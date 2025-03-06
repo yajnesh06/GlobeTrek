@@ -5,6 +5,7 @@ export interface TripFormData {
   startDate: Date | string;
   endDate: Date | string;
   budget: string;
+  budgetAmount: number;
   travelers: number;
   interests: string[];
   dietaryRestrictions: string[];
@@ -48,6 +49,7 @@ export interface GeneratedItinerary {
   duration: number;
   summary: string;
   budget: string;
+  budgetAmount: number;
   travelers: number;
   interests: string[];
   transportationType: string[];

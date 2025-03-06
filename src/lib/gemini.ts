@@ -28,19 +28,22 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       - Starting Address: ${tripData.startingAddress}
       - Destination: ${tripData.destination}
       - Travel dates: From ${startDate} to ${endDate} (${durationDays} days)
-      - Budget level: ${tripData.budget}
+      - Total budget: ₹${tripData.budgetAmount.toLocaleString('en-IN')} (${tripData.budget} level)
       - Number of travelers: ${tripData.travelers}
+      - Per person budget: ₹${Math.round(tripData.budgetAmount / tripData.travelers).toLocaleString('en-IN')}
       - Interests: ${tripData.interests.join(', ')}
       - Dietary restrictions: ${tripData.dietaryRestrictions.join(', ') || 'None'}
       - Accommodation preference: ${tripData.accommodationType}
       - Transportation preference: ${tripData.transportationType.join(', ')}
       - Additional notes: ${tripData.additionalNotes || 'None'}
       
+      IMPORTANT: Create an itinerary that fits within the specified budget of ₹${tripData.budgetAmount.toLocaleString('en-IN')} for the entire trip. The itinerary should reflect the budget level (${tripData.budget}) in terms of accommodation quality, restaurant choices, and activities.
+      
       Include:
       1. A day-by-day itinerary with specific times for activities, meals, and transport
-      2. A list of at least 12-15 must-visit attractions with detailed descriptions
-      3. A selection of at least 10-12 hidden gems/local spots that tourists often miss
-      4. Recommended restaurants with description of cuisine (at least 8)
+      2. A list of at least 12-15 must-visit attractions with detailed descriptions, choosing ones that fit within the budget
+      3. A selection of at least 10-12 hidden gems/local spots that tourists often miss and are budget-friendly
+      4. Recommended restaurants with description of cuisine (at least 8), ensuring they match the budget level
       5. Local foods to try with descriptions (at least 6)
       
       Format the response as valid JSON with the following structure:
@@ -50,10 +53,11 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         "endDate": "YYYY-MM-DD",
         "duration": number of days,
         "budget": "budget level from input",
+        "budgetAmount": numeric budget amount from input,
         "travelers": number of travelers from input,
         "interests": ["interest1", "interest2", ...],
         "transportationType": ["type1", "type2", ...],
-        "summary": "Brief trip summary with number of travelers mentioned",
+        "summary": "Brief trip summary with number of travelers mentioned and how the budget is being utilized",
         "days": [
           {
             "day": day number,
@@ -64,7 +68,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
                 "description": "Activity description",
                 "type": "attraction/restaurant/transportation/accommodation/other",
                 "location": "Location name",
-                "notes": "Additional notes"
+                "notes": "Additional notes including price if applicable"
               }
             ]
           }
@@ -75,7 +79,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
               "name": "Place name",
               "description": "Description",
               "location": "Location",
-              "tags": ["tag1", "tag2"]
+              "tags": ["tag1", "tag2", "budget-friendly"]
             }
           ],
           "hiddenGems": [
@@ -83,21 +87,21 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
               "name": "Place name",
               "description": "Description",
               "location": "Location",
-              "tags": ["tag1", "tag2"]
+              "tags": ["tag1", "tag2", "budget-friendly"]
             }
           ],
           "restaurants": [
             {
               "name": "Restaurant name",
-              "description": "Description",
+              "description": "Description with price range",
               "location": "Location",
-              "tags": ["tag1", "tag2"]
+              "tags": ["tag1", "tag2", "budget-friendly"]
             }
           ],
           "localFood": [
             {
               "name": "Food name",
-              "description": "Description",
+              "description": "Description with typical price",
               "tags": ["tag1", "tag2"]
             }
           ]
@@ -111,9 +115,11 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       4. You MUST include at least 6 localFood items
       5. Ensure the response is valid JSON that can be parsed directly
       6. Make sure each highlight has at least 2-3 relevant tags
-      7. Keep descriptions concise but informative (2-4 sentences)
-      8. Include the number of travelers in the summary
-      9. MOST IMPORTANT: Include the budget, transportationType, and interests arrays in the returned JSON
+      7. All recommendations MUST be within the specified budget of ₹${tripData.budgetAmount.toLocaleString('en-IN')}
+      8. Include price estimates or ranges where appropriate in the descriptions
+      9. Keep descriptions concise but informative (2-4 sentences)
+      10. Include the number of travelers in the summary
+      11. MOST IMPORTANT: Include the budget, budgetAmount, transportationType, and interests arrays in the returned JSON
     `;
 
     // Show toast to indicate processing
@@ -168,6 +174,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       
       // Ensure the required fields are present
       if (!itinerary.budget) itinerary.budget = tripData.budget;
+      if (!itinerary.budgetAmount) itinerary.budgetAmount = tripData.budgetAmount;
       if (!itinerary.travelers) itinerary.travelers = tripData.travelers;
       if (!itinerary.interests) itinerary.interests = tripData.interests;
       if (!itinerary.transportationType) itinerary.transportationType = tripData.transportationType;
@@ -177,7 +184,8 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         - ${itinerary.highlights.mustVisitPlaces.length} attractions
         - ${itinerary.highlights.hiddenGems.length} hidden gems
         - ${itinerary.highlights.restaurants.length} restaurants
-        - ${itinerary.highlights.localFood.length} local foods`);
+        - ${itinerary.highlights.localFood.length} local foods
+        - Budget: ₹${itinerary.budgetAmount.toLocaleString('en-IN')}`);
       
       return itinerary;
     } catch (parseError) {

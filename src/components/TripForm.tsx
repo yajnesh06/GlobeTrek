@@ -12,7 +12,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { CalendarIcon, PlusCircle, MinusCircle } from 'lucide-react';
+import { CalendarIcon, PlusCircle, MinusCircle, IndianRupee, SlidersHorizontal } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
 import { TripFormData } from '@/types';
 import TripFormStepper from './TripFormStepper';
 import { cn } from '@/lib/utils';
@@ -24,6 +25,7 @@ const formSchema = z.object({
   startDate: z.date({ required_error: 'Please select a start date' }),
   endDate: z.date({ required_error: 'Please select an end date' }),
   budget: z.string({ required_error: 'Please select a budget' }),
+  budgetAmount: z.number().min(5000, { message: 'Minimum budget is ₹5,000' }).max(500000, { message: 'Maximum budget is ₹500,000' }),
   travelers: z.number().min(1, { message: 'At least 1 traveler required' }).max(20, { message: 'Maximum 20 travelers allowed' }),
   interests: z.array(z.string()).min(1, { message: 'Please select at least one interest' }),
   dietaryRestrictions: z.array(z.string()),
@@ -49,7 +51,8 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
       dietaryRestrictions: [],
       transportationType: [],
       additionalNotes: '',
-      budget: 'moderate', // Set a default budget
+      budget: 'moderate', // Default budget category
+      budgetAmount: 50000, // Default budget amount in INR
     },
   });
 
@@ -58,6 +61,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
     'Dates',
     'Travelers',
     'Preferences',
+    'Budget',
     'Review'
   ];
 
@@ -67,6 +71,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
       1: ['startDate', 'endDate'],
       2: ['travelers', 'budget'],
       3: ['interests', 'accommodationType', 'transportationType'],
+      4: ['budgetAmount'],
     }[currentStep];
 
     if (fieldsToValidate) {
@@ -92,6 +97,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
       startDate: data.startDate,
       endDate: data.endDate,
       budget: data.budget,
+      budgetAmount: data.budgetAmount,
       travelers: data.travelers,
       interests: data.interests,
       dietaryRestrictions: data.dietaryRestrictions,
@@ -102,6 +108,23 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
     
     onSubmit(tripData);
   };
+
+  const totalBudget = form.watch('budgetAmount');
+  const travelers = form.watch('travelers');
+  const perPersonBudget = travelers > 0 ? Math.round(totalBudget / travelers) : totalBudget;
+
+  const getBudgetLabel = (amount: number): string => {
+    if (amount < 15000) return 'Budget';
+    if (amount < 50000) return 'Moderate';
+    if (amount < 150000) return 'Premium';
+    return 'Luxury';
+  };
+
+  React.useEffect(() => {
+    const budgetAmount = form.watch('budgetAmount');
+    const budgetCategory = getBudgetLabel(budgetAmount).toLowerCase();
+    form.setValue('budget', budgetCategory);
+  }, [form.watch('budgetAmount')]);
 
   const interestOptions = [
     { id: 'culture', label: 'Culture & History' },
@@ -287,7 +310,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
 
             {currentStep === 2 && (
               <div className="space-y-6 animate-fade-in">
-                <h2 className="text-2xl font-semibold text-gray-900">Travelers & Budget</h2>
+                <h2 className="text-2xl font-semibold text-gray-900">Travelers</h2>
                 
                 <FormField
                   control={form.control}
@@ -326,92 +349,11 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     </FormItem>
                   )}
                 />
-                
-                <FormField
-                  control={form.control}
-                  name="budget"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3 ">
-                      <FormLabel className='text-lg'>Budget Level</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          className="grid grid-cols-1 md:grid-cols-3 gap-4"
-                        >
-                          <FormItem className="h-full">
-                            <FormLabel className="sr-only">Budget</FormLabel>
-                            <FormControl>
-                              <label>
-                                <Card className={`cursor-pointer transition-all border h-full ${
-                                  field.value === 'budget' ? 'border-voyage-500 bg-voyage-50' : ''
-                                }`}>
-                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                    <RadioGroupItem 
-                                      value="budget" 
-                                      id="budget" 
-                                      className="sr-only" 
-                                    />
-                                    <div className="text-xl font-medium">Budget</div>
-                                    <div className="text-gray-500 text-sm">Cost-effective options</div>
-                                  </CardContent>
-                                </Card>
-                              </label>
-                            </FormControl>
-                          </FormItem>
-                          
-                          <FormItem className="h-full">
-                            <FormLabel className="sr-only">Moderate</FormLabel>
-                            <FormControl>
-                              <label>
-                                <Card className={`cursor-pointer transition-all border h-full ${
-                                  field.value === 'moderate' ? 'border-voyage-500 bg-voyage-50' : ''
-                                }`}>
-                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                    <RadioGroupItem 
-                                      value="moderate" 
-                                      id="moderate" 
-                                      className="sr-only" 
-                                    />
-                                    <div className="text-xl font-medium">Moderate</div>
-                                    <div className="text-gray-500 text-sm">Mid-range comfort</div>
-                                  </CardContent>
-                                </Card>
-                              </label>
-                            </FormControl>
-                          </FormItem>
-                          
-                          <FormItem className="h-full">
-                            <FormLabel className="sr-only">Luxury</FormLabel>
-                            <FormControl>
-                              <label>
-                                <Card className={`cursor-pointer transition-all border h-full ${
-                                  field.value === 'luxury' ? 'border-voyage-500 bg-voyage-50' : ''
-                                }`}>
-                                  <CardContent className="flex flex-col items-center justify-between p-6 text-center space-y-2">
-                                    <RadioGroupItem 
-                                      value="luxury" 
-                                      id="luxury" 
-                                      className="sr-only" 
-                                    />
-                                    <div className="text-xl font-medium">Luxury</div>
-                                    <div className="text-gray-500 text-sm">Premium experiences</div>
-                                  </CardContent>
-                                </Card>
-                              </label>
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
             )}
 
             {currentStep === 3 && (
-              <div className="space-y-8 animate-fade-in">
+              <div className="space-y-6 animate-fade-in">
                 <h2 className="text-2xl font-semibold text-gray-900">Preferences</h2>
                 
                 <FormField
@@ -559,6 +501,78 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
             )}
 
             {currentStep === 4 && (
+              <div className="space-y-8 animate-fade-in">
+                <h2 className="text-2xl font-semibold text-gray-900">Trip Budget</h2>
+                
+                <FormField
+                  control={form.control}
+                  name="budgetAmount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <FormLabel className="text-lg flex items-center">
+                            <IndianRupee className="h-5 w-5 mr-1" />
+                            Total Trip Budget
+                          </FormLabel>
+                          <div className="font-semibold text-xl text-voyage-800">
+                            ₹{field.value.toLocaleString('en-IN')}
+                          </div>
+                        </div>
+                        
+                        <div className="bg-voyage-50 p-6 rounded-lg">
+                          <div className="flex items-center gap-2 mb-6">
+                            <SlidersHorizontal className="h-5 w-5 text-voyage-700" />
+                            <span className="text-voyage-700 font-medium">Adjust your budget</span>
+                          </div>
+                          
+                          <FormControl>
+                            <div className="px-2">
+                              <Slider
+                                value={[field.value]}
+                                min={5000}
+                                max={500000}
+                                step={5000}
+                                onValueChange={(vals) => field.onChange(vals[0])}
+                                className="cursor-pointer"
+                              />
+                            </div>
+                          </FormControl>
+                          
+                          <div className="flex justify-between text-sm text-gray-600 mt-2 px-1">
+                            <div>₹5,000</div>
+                            <div>₹500,000</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between px-1">
+                          <div className="text-sm text-gray-600">Budget Level:</div>
+                          <div className="font-medium text-voyage-700">{getBudgetLabel(field.value)}</div>
+                        </div>
+                        
+                        <div className="flex justify-between px-1">
+                          <div className="text-sm text-gray-600">Per Person:</div>
+                          <div className="font-medium">₹{perPersonBudget.toLocaleString('en-IN')}</div>
+                        </div>
+                        
+                        <div className="mt-4 text-sm text-gray-500 bg-gray-50 p-4 rounded-lg">
+                          <p className="mb-2">Budget guidelines:</p>
+                          <ul className="list-disc pl-5 space-y-1">
+                            <li><span className="font-medium">Budget (₹5K-15K):</span> Hostels, public transport, street food</li>
+                            <li><span className="font-medium">Moderate (₹15K-50K):</span> 3-star hotels, mid-range dining</li>
+                            <li><span className="font-medium">Premium (₹50K-150K):</span> 4-star hotels, premium experiences</li>
+                            <li><span className="font-medium">Luxury (₹150K+):</span> 5-star hotels, high-end experiences</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
+            {currentStep === 5 && (
               <div className="space-y-6 animate-fade-in">
                 <h2 className="text-2xl font-semibold text-gray-900">Review Your Trip Details</h2>
                 
@@ -587,8 +601,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     </div>
                     
                     <div>
-                      <h3 className="text-sm font-medium text-gray-500">Budget Level</h3>
-                      <p className="text-base font-medium capitalize">{form.getValues().budget}</p>
+                      <h3 className="text-sm font-medium text-gray-500">Budget</h3>
+                      <p className="text-base font-medium">
+                        ₹{form.getValues().budgetAmount.toLocaleString('en-IN')} ({getBudgetLabel(form.getValues().budgetAmount)})
+                      </p>
                     </div>
                   </div>
                   
