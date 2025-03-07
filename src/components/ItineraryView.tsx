@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { GeneratedItinerary, HighlightItem } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import WeatherCard from '@/components/WeatherCard';
 import TripChat from '@/components/TripChat';
 import { generateTripCostEstimate } from '@/lib/weather';
-import { IndianRupee, DollarSign, Euro, PoundSterling, Yen } from 'lucide-react';
+import { IndianRupee, DollarSign, Euro, PoundSterling, JapaneseYen } from 'lucide-react';
 
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
@@ -48,7 +47,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       case 'USD': return <DollarSign className="h-4 w-4" />;
       case 'EUR': return <Euro className="h-4 w-4" />;
       case 'GBP': return <PoundSterling className="h-4 w-4" />;
-      case 'JPY': return <Yen className="h-4 w-4" />;
+      case 'JPY': return <JapaneseYen className="h-4 w-4" />;
       default: return <IndianRupee className="h-4 w-4" />;
     }
   };
