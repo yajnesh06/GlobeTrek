@@ -125,12 +125,12 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       </Card>
 
       <Tabs defaultValue="daily" className="w-full">
-        <TabsList className="grid grid-cols-5 mb-4">
-          <TabsTrigger value="daily">Daily Itinerary</TabsTrigger>
-          <TabsTrigger value="attractions">Attractions</TabsTrigger>
-          <TabsTrigger value="dining">Dining</TabsTrigger>
-          <TabsTrigger value="hidden">Hidden Gems</TabsTrigger>
-          <TabsTrigger value="chat">Chat</TabsTrigger>
+        <TabsList className="flex overflow-x-auto pb-1 mb-4 w-full">
+          <TabsTrigger value="daily" className="flex-1 min-w-[120px]">Daily Itinerary</TabsTrigger>
+          <TabsTrigger value="attractions" className="flex-1 min-w-[120px]">Attractions</TabsTrigger>
+          <TabsTrigger value="dining" className="flex-1 min-w-[120px]">Dining</TabsTrigger>
+          <TabsTrigger value="hidden" className="flex-1 min-w-[120px]">Hidden Gems</TabsTrigger>
+          <TabsTrigger value="chat" className="flex-1 min-w-[120px]">Chat</TabsTrigger>
         </TabsList>
         
         <TabsContent value="daily" className="space-y-6">

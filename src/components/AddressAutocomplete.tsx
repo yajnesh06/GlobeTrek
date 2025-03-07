@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -35,6 +36,15 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionRef = useRef<HTMLDivElement>(null);
   const debouncedSearchTerm = useDebounce(inputValue, 300);
+
+  // Reset component when value changes from outside (when changing between fields)
+  useEffect(() => {
+    if (value !== inputValue) {
+      setInputValue(value);
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [value]);
 
   function useDebounce(value: string, delay: number) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -125,7 +135,10 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
           }
         }}
         onFocus={() => {
-          if (suggestions.length > 0) setShowSuggestions(true);
+          // Only show suggestions if we have typed something
+          if (suggestions.length > 0 && inputValue.length >= 3) {
+            setShowSuggestions(true);
+          }
         }}
         onBlur={(e) => {
           setTimeout(() => {
