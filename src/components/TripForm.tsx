@@ -540,8 +540,8 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                           </FormControl>
                           
                           <div className="flex justify-between text-sm text-gray-600 mt-2 px-1">
-                            <div>₹5,000</div>
-                            <div>₹500,000</div>
+                            <div>₹5000</div>
+                            <div>₹1000,000</div>
                           </div>
                         </div>
                         
