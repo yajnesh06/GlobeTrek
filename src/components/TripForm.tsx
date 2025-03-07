@@ -94,7 +94,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   const budgetRanges = {
     low: { min: 5000, max: 30000, default: 15000 },
     medium: { min: 30000, max: 100000, default: 50000 },
-    high: { min: 100000, max: 300000, default: 150000 },
+    high: { min: 100000, max: 500000, default: 150000 },
     luxury: { min: 300000, max: 1000000, default: 500000 },
   };
 

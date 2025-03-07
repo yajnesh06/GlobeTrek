@@ -100,7 +100,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToRef }) => {
           {scrollToRef && (
             <button 
               onClick={handleScrollDown}
-              className="absolute bottom-1 mr-6 left-[49%] transform -translate-x-1/2 bg-white/80 rounded-full p-3 shadow-md hover:shadow-lg transition-all animate-bounce-light"
+              className="absolute bottom-1 mr-6 left-[47.2%] transform -translate-x-1/2 bg-white/80 rounded-full p-3 shadow-md hover:shadow-lg transition-all animate-bounce-light"
               aria-label="Scroll down"
             >
               <ArrowDown className="h-6 w-6 text-voyage-500" />
