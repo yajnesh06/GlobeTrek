@@ -26,6 +26,15 @@ const PlanTrip = () => {
     toast.info("Generating your personalized itinerary...");
     
     try {
+      // Add some debug logs to help troubleshoot production issues
+      console.log("Starting itinerary generation with data:", {
+        destination: data.destination,
+        budget: data.budget,
+        budgetAmount: data.budgetAmount,
+        currency: data.currency,
+        travelers: data.travelers
+      });
+      
       // Pass the selected currency to the itinerary generator
       const generatedItinerary = await generateItinerary({
         ...data,
@@ -36,9 +45,10 @@ const PlanTrip = () => {
       
       if (generatedItinerary) {
         toast.success("Your itinerary has been created!");
-        console.log("Generated itinerary:", generatedItinerary);
+        console.log("Generated itinerary successfully");
       } else {
-        toast.error("Unable to generate itinerary. Please try again.");
+        toast.error("Unable to generate itinerary. Please check console for details.");
+        console.error("Itinerary generation returned null");
       }
     } catch (error) {
       console.error("Error generating itinerary:", error);

@@ -2,12 +2,19 @@
 import { TripFormData, GeneratedItinerary } from '../types';
 import { toast } from 'sonner';
 
-// Using the correct API endpoint for Gemini
-const API_KEY = "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
+// Get API key from environment or use fallback for development
+const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY || "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 export async function generateItinerary(tripData: TripFormData): Promise<GeneratedItinerary | null> {
   try {
+    // Check if API key is available in production
+    if (!API_KEY) {
+      console.error("Missing Gemini API key in environment variables");
+      toast.error("API configuration error. Please contact support.");
+      return null;
+    }
+
     const startDate = tripData.startDate instanceof Date 
       ? tripData.startDate.toISOString().split('T')[0]
       : typeof tripData.startDate === 'string' ? tripData.startDate : '';
@@ -28,16 +35,16 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       - Starting Address: ${tripData.startingAddress}
       - Destination: ${tripData.destination}
       - Travel dates: From ${startDate} to ${endDate} (${durationDays} days)
-      - Total budget: ₹${tripData.budgetAmount.toLocaleString('en-IN')} (${tripData.budget} level)
+      - Total budget: ${tripData.currency}${tripData.budgetAmount.toLocaleString()} (${tripData.budget} level)
       - Number of travelers: ${tripData.travelers}
-      - Per person budget: ₹${Math.round(tripData.budgetAmount / tripData.travelers).toLocaleString('en-IN')}
+      - Per person budget: ${tripData.currency}${Math.round(tripData.budgetAmount / tripData.travelers).toLocaleString()}
       - Interests: ${tripData.interests.join(', ')}
       - Dietary restrictions: ${tripData.dietaryRestrictions.join(', ') || 'None'}
       - Accommodation preference: ${tripData.accommodationType}
       - Transportation preference: ${tripData.transportationType.join(', ')}
       - Additional notes: ${tripData.additionalNotes || 'None'}
       
-      IMPORTANT: Create an itinerary that fits within the specified budget of ₹${tripData.budgetAmount.toLocaleString('en-IN')} for the entire trip. The itinerary should reflect the budget level (${tripData.budget}) in terms of accommodation quality, restaurant choices, and activities.
+      IMPORTANT: Create an itinerary that fits within the specified budget of ${tripData.currency}${tripData.budgetAmount.toLocaleString()} for the entire trip. The itinerary should reflect the budget level (${tripData.budget}) in terms of accommodation quality, restaurant choices, and activities.
       
       Include:
       1. A day-by-day itinerary with specific times for activities, meals, and transport
@@ -115,7 +122,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       4. You MUST include at least 6 localFood items
       5. Ensure the response is valid JSON that can be parsed directly
       6. Make sure each highlight has at least 2-3 relevant tags
-      7. All recommendations MUST be within the specified budget of ₹${tripData.budgetAmount.toLocaleString('en-IN')}
+      7. All recommendations MUST be within the specified budget of ${tripData.currency}${tripData.budgetAmount.toLocaleString()}
       8. Include price estimates or ranges where appropriate in the descriptions
       9. Keep descriptions concise but informative (2-4 sentences)
       10. Include the number of travelers in the summary
@@ -124,6 +131,8 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
 
     // Show toast to indicate processing
     toast.info("Generating your personalized itinerary...");
+
+    console.log("Making API request to Gemini with key:", API_KEY.substring(0, 4) + "...");
 
     // Optimized API request with improved parameters for faster response
     const response = await fetch(`${API_URL}?key=${API_KEY}`, {
@@ -157,6 +166,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
     }
 
     const data = await response.json();
+    console.log("Received response from Gemini API");
     
     try {
       const generatedText = data.candidates[0].content.parts[0].text;
@@ -185,7 +195,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         - ${itinerary.highlights.hiddenGems.length} hidden gems
         - ${itinerary.highlights.restaurants.length} restaurants
         - ${itinerary.highlights.localFood.length} local foods
-        - Budget: ₹${itinerary.budgetAmount.toLocaleString('en-IN')}`);
+        - Budget: ${tripData.currency}${itinerary.budgetAmount.toLocaleString()}`);
       
       return itinerary;
     } catch (parseError) {
@@ -195,7 +205,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
     }
   } catch (error) {
     console.error('Error generating itinerary:', error);
-    toast.error('Failed to generate itinerary. Please try again.');
+    toast.error('Failed to generate itinerary. Please try again. ' + (error instanceof Error ? error.message : ''));
     return null;
   }
 }

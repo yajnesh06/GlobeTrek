@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 export interface WeatherData {
@@ -19,7 +20,7 @@ export interface WeatherData {
 
 export async function getWeatherData(location: string): Promise<WeatherData | null> {
   try {
-    const API_KEY = '72aa7ff7ec2f7b237e50d96eac7cd262';
+    const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY || '72aa7ff7ec2f7b237e50d96eac7cd262';
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${API_KEY}`
     );
