@@ -531,7 +531,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               <Slider
                                 value={[field.value]}
                                 min={5000}
-                                max={500000}
+                                max={1000000}
                                 step={5000}
                                 onValueChange={(vals) => field.onChange(vals[0])}
                                 className="cursor-pointer"
