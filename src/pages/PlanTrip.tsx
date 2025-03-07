@@ -26,7 +26,12 @@ const PlanTrip = () => {
     toast.info("Generating your personalized itinerary...");
     
     try {
-      const generatedItinerary = await generateItinerary(data);
+      // Pass the selected currency to the itinerary generator
+      const generatedItinerary = await generateItinerary({
+        ...data,
+        currency: data.currency || 'INR' // Ensure currency is included
+      });
+      
       setItinerary(generatedItinerary);
       
       if (generatedItinerary) {

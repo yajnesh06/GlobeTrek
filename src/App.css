@@ -91,7 +91,34 @@ input:focus, textarea:focus, select:focus {
   animation: bounce-light 2s infinite ease-in-out;
 }
 
-/* Responsive fixes */
+/* Tab animations */
+.tab-transition {
+  transition: all 0.3s ease;
+  transform-origin: bottom;
+}
+
+.tab-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.tab-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.tab-exit {
+  opacity: 1;
+}
+
+.tab-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Enhanced mobile responsiveness */
 @media (max-width: 640px) {
   .container {
     padding-left: 1rem;
@@ -102,16 +129,32 @@ input:focus, textarea:focus, select:focus {
     word-break: break-word;
   }
   
-  /* Make forms more mobile-friendly */
-  .form-scroll-container {
-    max-height: calc(100vh - 250px);
-    overflow-y: auto;
-    padding-right: 10px;
-  }
-  
   /* Improve touch targets on mobile */
   button, input, select, .card {
     min-height: 44px;
+  }
+  
+  /* Better tab navigation on mobile */
+  .tabs-list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    padding-bottom: 5px;
+  }
+  
+  .tabs-list::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  /* Trip form for mobile */
+  .trip-form-tabs .tab-content {
+    padding: 1rem !important;
+  }
+  
+  /* Enhance form element spacing on mobile */
+  .form-item-mobile {
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -149,4 +192,55 @@ input:focus, textarea:focus, select:focus {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #aaa;
+}
+
+/* Card hover effects */
+.highlight-card {
+  transition: all 0.3s ease;
+}
+
+.highlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button enhancements */
+.btn-gradient {
+  background-size: 200% auto;
+  transition: 0.5s;
+  background-image: linear-gradient(to right, #4f46e5 0%, #8b5cf6 51%, #4f46e5 100%);
+}
+
+.btn-gradient:hover {
+  background-position: right center;
+}
+
+/* Form field animations */
+.form-field {
+  transition: all 0.3s ease;
+}
+
+.form-field:focus-within {
+  transform: translateY(-2px);
+}
+
+/* Trip form tab styling */
+.trip-form-tab {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.trip-form-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #4f46e5, #8b5cf6);
+  transition: width 0.3s ease;
+}
+
+.trip-form-tab[data-state="active"]::after {
+  width: 100%;
 }

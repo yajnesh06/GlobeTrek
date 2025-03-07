@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { GeneratedItinerary, HighlightItem } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import WeatherCard from '@/components/WeatherCard';
 import TripChat from '@/components/TripChat';
 import { generateTripCostEstimate } from '@/lib/weather';
-import { IndianRupee } from 'lucide-react';
+import { IndianRupee, DollarSign, Euro, PoundSterling, Yen } from 'lucide-react';
 
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
@@ -25,6 +25,35 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
 
   // Calculate per-person budget
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
+  
+  // Get currency symbol based on currency code
+  const getCurrencySymbol = (currencyCode: string = 'INR') => {
+    switch(currencyCode) {
+      case 'USD': return '$';
+      case 'EUR': return '€';
+      case 'GBP': return '£';
+      case 'JPY': return '¥';
+      case 'AUD': return 'A$';
+      case 'CAD': return 'C$';
+      case 'SGD': return 'S$';
+      case 'AED': return 'د.إ';
+      default: return '₹';
+    }
+  };
+  
+  // Get currency icon component
+  const CurrencyIcon = () => {
+    const currency = itinerary.currency || 'INR';
+    switch(currency) {
+      case 'USD': return <DollarSign className="h-4 w-4" />;
+      case 'EUR': return <Euro className="h-4 w-4" />;
+      case 'GBP': return <PoundSterling className="h-4 w-4" />;
+      case 'JPY': return <Yen className="h-4 w-4" />;
+      default: return <IndianRupee className="h-4 w-4" />;
+    }
+  };
+  
+  const currencySymbol = getCurrencySymbol(itinerary.currency);
 
   return (
     <div className="w-full space-y-6">
@@ -46,26 +75,26 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
               
               <div className="bg-voyage-50 p-4 rounded-lg mt-4">
                 <h4 className="text-lg font-medium text-voyage-800 flex items-center mb-3">
-                  <span className="bg-voyage-100 p-1 rounded-full mr-2"><IndianRupee className="h-4 w-4" /></span> 
+                  <span className="bg-voyage-100 p-1 rounded-full mr-2"><CurrencyIcon /></span> 
                   Budget Breakdown
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Total Budget</span>
-                      <span className="text-xl font-bold text-voyage-600">₹{itinerary.budgetAmount.toLocaleString('en-IN')}</span>
+                      <span className="text-xl font-bold text-voyage-600">{currencySymbol}{itinerary.budgetAmount.toLocaleString()}</span>
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Per Person</span>
-                      <span className="font-medium">₹{perPersonBudget.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{perPersonBudget.toLocaleString()}</span>
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Accommodation</span>
-                      <span className="font-medium">₹{costEstimate.accommodationCost.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{costEstimate.accommodationCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
                       <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.accommodationCost / itinerary.budgetAmount) * 100}%` }}></div>
@@ -75,7 +104,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Food & Dining</span>
-                      <span className="font-medium">₹{costEstimate.foodCost.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{costEstimate.foodCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
                       <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.foodCost / itinerary.budgetAmount) * 100}%` }}></div>
@@ -85,7 +114,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Transportation</span>
-                      <span className="font-medium">₹{costEstimate.transportationCost.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{costEstimate.transportationCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
                       <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.transportationCost / itinerary.budgetAmount) * 100}%` }}></div>
@@ -95,7 +124,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Activities</span>
-                      <span className="font-medium">₹{costEstimate.activitiesCost.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{costEstimate.activitiesCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
                       <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.activitiesCost / itinerary.budgetAmount) * 100}%` }}></div>
@@ -105,7 +134,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Miscellaneous</span>
-                      <span className="font-medium">₹{costEstimate.miscCost.toLocaleString('en-IN')}</span>
+                      <span className="font-medium">{currencySymbol}{costEstimate.miscCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
                       <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.miscCost / itinerary.budgetAmount) * 100}%` }}></div>
@@ -113,7 +142,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.miscCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3">*Based on your selected budget of ₹{itinerary.budgetAmount.toLocaleString('en-IN')} ({itinerary.budget} level)</p>
+                <p className="text-xs text-gray-500 mt-3">*Based on your selected budget of {currencySymbol}{itinerary.budgetAmount.toLocaleString()} ({itinerary.budget} level)</p>
               </div>
             </div>
             <div>

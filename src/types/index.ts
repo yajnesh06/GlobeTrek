@@ -12,6 +12,7 @@ export interface TripFormData {
   accommodationType: string;
   transportationType: string[];
   additionalNotes: string;
+  currency: string;
 }
 
 export interface ItineraryDay {
@@ -56,4 +57,5 @@ export interface GeneratedItinerary {
   accommodationType: string;
   days: ItineraryDay[];
   highlights: TravelHighlights;
+  currency?: string;
 }
