@@ -3,7 +3,7 @@ import { TripFormData, GeneratedItinerary } from '../types';
 import { toast } from 'sonner';
 
 // Get API key from environment or use fallback for development
-const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY || "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
+const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 export async function generateItinerary(tripData: TripFormData): Promise<GeneratedItinerary | null> {
