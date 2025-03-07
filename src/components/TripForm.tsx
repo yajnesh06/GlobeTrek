@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Globe } from 'lucide-react';
+import { CalendarIcon, Globe, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { TripFormData } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -70,6 +70,8 @@ interface TripFormProps {
 }
 
 const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
+  const [activeTab, setActiveTab] = useState("basic");
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -114,11 +116,30 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
     return found.label.substring(found.label.indexOf('(') + 1, found.label.indexOf(')'));
   };
 
+  const goToNextTab = () => {
+    switch (activeTab) {
+      case "basic":
+        setActiveTab("dates");
+        break;
+      case "dates":
+        setActiveTab("budget");
+        break;
+      case "budget":
+        setActiveTab("preferences");
+        break;
+      case "preferences":
+        setActiveTab("extras");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
-        <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="grid grid-cols-5 mb-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid grid-cols-5 mb-6 mx-auto max-w-full overflow-x-auto">
             <TabsTrigger value="basic">Basics</TabsTrigger>
             <TabsTrigger value="dates">Dates</TabsTrigger>
             <TabsTrigger value="budget">Budget</TabsTrigger>
@@ -207,6 +228,16 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   </FormItem>
                 )}
               />
+              
+              <div className="flex justify-end pt-4">
+                <Button 
+                  type="button" 
+                  onClick={goToNextTab}
+                  className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+                >
+                  Next <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </TabsContent>
 
@@ -285,6 +316,16 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                 </div>
               </CardContent>
             </Card>
+            
+            <div className="flex justify-end pt-4">
+              <Button 
+                type="button" 
+                onClick={goToNextTab}
+                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+              >
+                Next <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="budget" className="space-y-6 animate-fade-in">
@@ -384,6 +425,16 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                 )}
               />
             </div>
+            
+            <div className="flex justify-end pt-4">
+              <Button 
+                type="button" 
+                onClick={goToNextTab}
+                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+              >
+                Next <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="preferences" className="space-y-6 animate-fade-in">
@@ -460,6 +511,16 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   </FormItem>
                 )}
               />
+            </div>
+            
+            <div className="flex justify-end pt-4">
+              <Button 
+                type="button" 
+                onClick={goToNextTab}
+                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+              >
+                Next <ArrowRight className="h-4 w-4" />
+              </Button>
             </div>
           </TabsContent>
 
@@ -577,14 +638,17 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                 )}
               />
             </div>
+            
+            <div className="pt-6">
+              <Button 
+                type="submit" 
+                className="w-full md:w-auto bg-gradient-to-r from-voyage-500 to-voyage-600 hover:from-voyage-600 hover:to-voyage-700 text-white font-medium py-2 px-6 rounded-md shadow-md"
+              >
+                Generate Itinerary
+              </Button>
+            </div>
           </TabsContent>
         </Tabs>
-
-        <div className="pt-4">
-          <Button type="submit" className="w-full md:w-auto bg-gradient-to-r from-voyage-500 to-voyage-600 hover:from-voyage-600 hover:to-voyage-700 text-white font-medium py-2 px-6 rounded-md shadow-md">
-            Generate Itinerary
-          </Button>
-        </div>
       </form>
     </Form>
   );

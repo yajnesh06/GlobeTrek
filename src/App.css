@@ -136,15 +136,9 @@ input:focus, textarea:focus, select:focus {
   
   /* Better tab navigation on mobile */
   .tabs-list {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For Internet Explorer and Edge */
-    padding-bottom: 5px;
-  }
-  
-  .tabs-list::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   /* Trip form for mobile */
@@ -155,6 +149,19 @@ input:focus, textarea:focus, select:focus {
   /* Enhance form element spacing on mobile */
   .form-item-mobile {
     margin-bottom: 1.5rem;
+  }
+  
+  /* Make tabs more mobile-friendly */
+  [role="tablist"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 2px;
+  }
+  
+  [role="tab"] {
+    padding: 8px 10px;
+    font-size: 14px;
+    white-space: nowrap;
   }
 }
 
