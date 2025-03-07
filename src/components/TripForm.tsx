@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +18,7 @@ import { Slider } from '@/components/ui/slider';
 import { TripFormData } from '@/types';
 import TripFormStepper from './TripFormStepper';
 import { cn } from '@/lib/utils';
-import AddressAutocomplete from './AddressAutocomplete';
+import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
   destination: z.string().min(2, { message: 'Please enter a valid destination' }),
@@ -183,12 +184,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Starting Address</FormLabel>
                       <FormControl>
-                        <AddressAutocomplete
+                        <Input
                           placeholder="Enter your starting address"
-                          value={field.value}
-                          onChange={field.onChange}
-                          name={field.name}
-                          className="h-9 text-base"
+                          className="h-12 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all"
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -202,12 +201,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     <FormItem>
                       <FormLabel className="text-base">Destination</FormLabel>
                       <FormControl>
-                        <AddressAutocomplete
+                        <Input
                           placeholder="Enter city, country, or region"
-                          value={field.value}
-                          onChange={field.onChange}
-                          name={field.name}
-                          className="h-9 text-base"
+                          className="h-12 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all"
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -234,7 +231,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal h-9",
+                                  "w-full pl-3 text-left font-normal h-12 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -254,6 +251,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               onSelect={field.onChange}
                               disabled={(date) => date < new Date()}
                               initialFocus
+                              className="rounded-lg bg-white shadow-lg border border-gray-100"
                             />
                           </PopoverContent>
                         </Popover>
@@ -274,7 +272,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal h-9",
+                                  "w-full pl-3 text-left font-normal h-12 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -297,6 +295,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                                 return date < new Date() || (startDate && date < startDate);
                               }}
                               initialFocus
+                              className="rounded-lg bg-white shadow-lg border border-gray-100"
                             />
                           </PopoverContent>
                         </Popover>
@@ -316,21 +315,21 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="travelers"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className='text-lg'>Number of Travelers</FormLabel>
-                      <div className="flex items-center space-x-4">
+                    <FormItem className="bg-voyage-50 p-6 rounded-xl shadow-sm border border-voyage-100">
+                      <FormLabel className='text-lg text-voyage-800'>Number of Travelers</FormLabel>
+                      <div className="flex items-center space-x-4 mt-4">
                         <Button
                           type="button"
                           variant="outline"
                           size="icon"
                           onClick={() => field.onChange(Math.max(1, field.value - 1))}
-                          className="h-9 w-10 rounded-full"
+                          className="h-12 w-12 rounded-full border-2 border-voyage-300 hover:bg-voyage-100 hover:border-voyage-400 text-voyage-700"
                         >
-                          <MinusCircle className="h-4 w-4" />
+                          <MinusCircle className="h-6 w-6" />
                         </Button>
                         
                         <FormControl>
-                          <div className="flex justify-center items-center w-16 h-9 font-medium text-lg border rounded-md">
+                          <div className="flex justify-center items-center w-20 h-12 font-bold text-2xl text-voyage-700 border-2 border-voyage-200 bg-white rounded-lg">
                             {field.value}
                           </div>
                         </FormControl>
@@ -340,9 +339,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                           variant="outline"
                           size="icon"
                           onClick={() => field.onChange(Math.min(20, field.value + 1))}
-                          className="h-10 w-10 rounded-full"
+                          className="h-12 w-12 rounded-full border-2 border-voyage-300 hover:bg-voyage-100 hover:border-voyage-400 text-voyage-700"
                         >
-                          <PlusCircle className="h-4 w-4" />
+                          <PlusCircle className="h-6 w-6" />
                         </Button>
                       </div>
                       <FormMessage />
@@ -360,9 +359,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="interests"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Travel Interests (Select at least one)</FormLabel>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-1">
+                    <FormItem className="p-6 rounded-xl bg-white shadow-md border border-gray-100">
+                      <FormLabel className="text-lg font-semibold">Travel Interests</FormLabel>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4">
                         {interestOptions.map((interest) => (
                           <FormItem
                             key={interest.id}
@@ -376,9 +375,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                                     ? field.onChange([...field.value, interest.id])
                                     : field.onChange(field.value?.filter((value) => value !== interest.id));
                                 }}
+                                className="h-5 w-5 border-2 border-voyage-300 data-[state=checked]:bg-voyage-500 data-[state=checked]:border-voyage-500"
                               />
                             </FormControl>
-                            <FormLabel className="font-normal cursor-pointer">
+                            <FormLabel className="font-medium cursor-pointer">
                               {interest.label}
                             </FormLabel>
                           </FormItem>
@@ -393,9 +393,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="dietaryRestrictions"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Dietary Restrictions (Optional)</FormLabel>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-1">
+                    <FormItem className="p-6 rounded-xl bg-white shadow-md border border-gray-100">
+                      <FormLabel className="text-lg font-semibold">Dietary Restrictions</FormLabel>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4">
                         {dietaryOptions.map((option) => (
                           <FormItem
                             key={option.id}
@@ -409,9 +409,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                                     ? field.onChange([...field.value, option.id])
                                     : field.onChange(field.value?.filter((value) => value !== option.id));
                                 }}
+                                className="h-5 w-5 border-2 border-voyage-300 data-[state=checked]:bg-voyage-500 data-[state=checked]:border-voyage-500"
                               />
                             </FormControl>
-                            <FormLabel className="font-normal cursor-pointer">
+                            <FormLabel className="font-medium cursor-pointer">
                               {option.label}
                             </FormLabel>
                           </FormItem>
@@ -425,15 +426,15 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="accommodationType"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Preferred Accommodation</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormItem className="p-6 rounded-xl bg-white shadow-md border border-gray-100">
+                      <FormLabel className="text-lg font-semibold">Preferred Accommodation</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="mt-4 h-12 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all">
                             <SelectValue placeholder="Select accommodation type" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
+                        <SelectContent className="bg-white shadow-lg border border-gray-100 rounded-lg">
                           <SelectItem value="hotel">Hotel</SelectItem>
                           <SelectItem value="hostel">Hostel</SelectItem>
                           <SelectItem value="apartment">Apartment / Vacation Rental</SelectItem>
@@ -451,9 +452,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="transportationType"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Preferred Transportation (Select at least one)</FormLabel>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-1">
+                    <FormItem className="p-6 rounded-xl bg-white shadow-md border border-gray-100">
+                      <FormLabel className="text-lg font-semibold">Preferred Transportation</FormLabel>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4">
                         {transportOptions.map((option) => (
                           <FormItem
                             key={option.id}
@@ -467,9 +468,10 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                                     ? field.onChange([...field.value, option.id])
                                     : field.onChange(field.value?.filter((value) => value !== option.id));
                                 }}
+                                className="h-5 w-5 border-2 border-voyage-300 data-[state=checked]:bg-voyage-500 data-[state=checked]:border-voyage-500"
                               />
                             </FormControl>
-                            <FormLabel className="font-normal cursor-pointer">
+                            <FormLabel className="font-medium cursor-pointer">
                               {option.label}
                             </FormLabel>
                           </FormItem>
@@ -484,12 +486,12 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   control={form.control}
                   name="additionalNotes"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Additional Notes (Optional)</FormLabel>
+                    <FormItem className="p-6 rounded-xl bg-white shadow-md border border-gray-100">
+                      <FormLabel className="text-lg font-semibold">Additional Notes</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Tell us more about your trip, special requirements, or anything else we should know..."
-                          className="resize-none min-h-[100px]"
+                          className="resize-none min-h-[120px] mt-4 bg-white border-gray-300 hover:border-voyage-400 focus:border-voyage-500 shadow-sm rounded-lg transition-all"
                           {...field}
                         />
                       </FormControl>
@@ -509,25 +511,25 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   name="budgetAmount"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <FormLabel className="text-lg flex items-center">
-                            <IndianRupee className="h-5 w-5 mr-1" />
-                            Total Trip Budget
+                      <div className="space-y-6">
+                        <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                          <FormLabel className="text-xl flex items-center font-semibold text-voyage-800">
+                            <IndianRupee className="h-6 w-6 mr-2 text-voyage-600" />
+                            Total Budget
                           </FormLabel>
-                          <div className="font-semibold text-xl text-voyage-800">
+                          <div className="font-bold text-2xl text-voyage-700">
                             ₹{field.value.toLocaleString('en-IN')}
                           </div>
                         </div>
                         
-                        <div className="bg-voyage-50 p-6 rounded-lg">
-                          <div className="flex items-center gap-2 mb-6">
-                            <SlidersHorizontal className="h-5 w-5 text-voyage-700" />
-                            <span className="text-voyage-700 font-medium">Adjust your budget</span>
+                        <div className="bg-gradient-to-br from-voyage-50 to-voyage-100 p-8 rounded-xl shadow-md border border-voyage-200">
+                          <div className="flex items-center gap-3 mb-8">
+                            <SlidersHorizontal className="h-6 w-6 text-voyage-700" />
+                            <span className="text-voyage-800 font-semibold text-lg">Adjust your budget</span>
                           </div>
                           
                           <FormControl>
-                            <div className="px-2">
+                            <div className="px-4">
                               <Slider
                                 value={[field.value]}
                                 min={5000}
@@ -539,29 +541,43 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                             </div>
                           </FormControl>
                           
-                          <div className="flex justify-between text-sm text-gray-600 mt-2 px-1">
-                            <div>₹5000</div>
-                            <div>₹1000,000</div>
+                          <div className="flex justify-between text-sm text-voyage-700 mt-4 px-4 font-medium">
+                            <div>₹5,000</div>
+                            <div>₹1,000,000</div>
                           </div>
                         </div>
                         
-                        <div className="flex justify-between px-1">
-                          <div className="text-sm text-gray-600">Budget Level:</div>
-                          <div className="font-medium text-voyage-700">{getBudgetLabel(field.value)}</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="flex justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <div className="text-gray-600 font-medium">Budget Level:</div>
+                            <div className="font-semibold text-voyage-700">{getBudgetLabel(field.value)}</div>
+                          </div>
+                          
+                          <div className="flex justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <div className="text-gray-600 font-medium">Per Traveler:</div>
+                            <div className="font-semibold text-voyage-700">₹{perPersonBudget.toLocaleString('en-IN')}</div>
+                          </div>
                         </div>
                         
-                        <div className="flex justify-between px-1">
-                          <div className="text-sm text-gray-600">Per Person:</div>
-                          <div className="font-medium">₹{perPersonBudget.toLocaleString('en-IN')}</div>
-                        </div>
-                        
-                        <div className="mt-4 text-sm text-gray-500 bg-gray-50 p-4 rounded-lg">
-                          <p className="mb-2">Budget guidelines:</p>
-                          <ul className="list-disc pl-5 space-y-1">
-                            <li><span className="font-medium">Budget (₹5K-15K):</span> Hostels, public transport, street food</li>
-                            <li><span className="font-medium">Moderate (₹15K-50K):</span> 3-star hotels, mid-range dining</li>
-                            <li><span className="font-medium">Premium (₹50K-150K):</span> 4-star hotels, premium experiences</li>
-                            <li><span className="font-medium">Luxury (₹150K+):</span> 5-star hotels, high-end experiences</li>
+                        <div className="mt-4 text-sm text-gray-600 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-200">
+                          <p className="mb-3 font-semibold text-gray-700">Budget Guidelines:</p>
+                          <ul className="space-y-2">
+                            <li className="flex items-center gap-2">
+                              <span className="h-2 w-2 bg-voyage-300 rounded-full"></span>
+                              <span className="font-medium text-voyage-800">Budget (₹5K-15K):</span> Hostels, public transport, street food
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <span className="h-2 w-2 bg-voyage-400 rounded-full"></span>
+                              <span className="font-medium text-voyage-800">Moderate (₹15K-50K):</span> 3-star hotels, mid-range dining
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <span className="h-2 w-2 bg-voyage-500 rounded-full"></span>
+                              <span className="font-medium text-voyage-800">Premium (₹50K-150K):</span> 4-star hotels, premium experiences
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <span className="h-2 w-2 bg-voyage-600 rounded-full"></span>
+                              <span className="font-medium text-voyage-800">Luxury (₹150K+):</span> 5-star hotels, high-end experiences
+                            </li>
                           </ul>
                         </div>
                       </div>
@@ -576,43 +592,43 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               <div className="space-y-6 animate-fade-in">
                 <h2 className="text-2xl font-semibold text-gray-900">Review Your Trip Details</h2>
                 
-                <div className="bg-gray-50 p-6 rounded-lg space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
+                <div className="bg-gradient-to-br from-voyage-50 to-white p-8 rounded-xl shadow-md border border-voyage-100 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Starting Address</h3>
-                      <p className="text-base font-medium">{form.getValues().startingAddress}</p>
+                      <p className="text-base font-medium mt-1 text-voyage-800">{form.getValues().startingAddress}</p>
                     </div>
                     
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Destination</h3>
-                      <p className="text-base font-medium">{form.getValues().destination}</p>
+                      <p className="text-base font-medium mt-1 text-voyage-800">{form.getValues().destination}</p>
                     </div>
                     
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Travel Dates</h3>
-                      <p className="text-base font-medium">
+                      <p className="text-base font-medium mt-1 text-voyage-800">
                         {form.getValues().startDate && format(form.getValues().startDate, "PPP")} to {form.getValues().endDate && format(form.getValues().endDate, "PPP")}
                       </p>
                     </div>
                     
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Travelers</h3>
-                      <p className="text-base font-medium">{form.getValues().travelers}</p>
+                      <p className="text-base font-medium mt-1 text-voyage-800">{form.getValues().travelers}</p>
                     </div>
                     
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Budget</h3>
-                      <p className="text-base font-medium">
+                      <p className="text-base font-medium mt-1 text-voyage-800">
                         ₹{form.getValues().budgetAmount.toLocaleString('en-IN')} ({getBudgetLabel(form.getValues().budgetAmount)})
                       </p>
                     </div>
                   </div>
                   
-                  <div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                     <h3 className="text-sm font-medium text-gray-500">Interests</h3>
-                    <div className="flex flex-wrap gap-2 mt-1">
+                    <div className="flex flex-wrap gap-2 mt-2">
                       {form.getValues().interests.map((interest) => (
-                        <span key={interest} className="px-2.5 py-0.5 bg-voyage-100 text-voyage-800 rounded-full text-sm">
+                        <span key={interest} className="px-3 py-1 bg-voyage-100 text-voyage-800 rounded-full text-sm font-medium">
                           {interestOptions.find(opt => opt.id === interest)?.label || interest}
                         </span>
                       ))}
@@ -620,11 +636,11 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   </div>
                   
                   {form.getValues().dietaryRestrictions.length > 0 && (
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Dietary Restrictions</h3>
-                      <div className="flex flex-wrap gap-2 mt-1">
+                      <div className="flex flex-wrap gap-2 mt-2">
                         {form.getValues().dietaryRestrictions.map((diet) => (
-                          <span key={diet} className="px-2.5 py-0.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                          <span key={diet} className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
                             {dietaryOptions.find(opt => opt.id === diet)?.label || diet}
                           </span>
                         ))}
@@ -632,16 +648,16 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                     </div>
                   )}
                   
-                  <div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                     <h3 className="text-sm font-medium text-gray-500">Accommodation</h3>
-                    <p className="text-base font-medium capitalize">{form.getValues().accommodationType}</p>
+                    <p className="text-base font-medium mt-1 text-voyage-800 capitalize">{form.getValues().accommodationType}</p>
                   </div>
                   
-                  <div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                     <h3 className="text-sm font-medium text-gray-500">Transportation</h3>
-                    <div className="flex flex-wrap gap-2 mt-1">
+                    <div className="flex flex-wrap gap-2 mt-2">
                       {form.getValues().transportationType.map((transport) => (
-                        <span key={transport} className="px-2.5 py-0.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                        <span key={transport} className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
                           {transportOptions.find(opt => opt.id === transport)?.label || transport}
                         </span>
                       ))}
@@ -649,9 +665,9 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                   </div>
                   
                   {form.getValues().additionalNotes && (
-                    <div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                       <h3 className="text-sm font-medium text-gray-500">Additional Notes</h3>
-                      <p className="text-base">{form.getValues().additionalNotes}</p>
+                      <p className="text-base mt-1 text-gray-700">{form.getValues().additionalNotes}</p>
                     </div>
                   )}
                 </div>
@@ -659,12 +675,13 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
             )}
           </div>
           
-          <div className="flex justify-between pt-4 border-t">
+          <div className="flex justify-between pt-6 border-t mt-8">
             {currentStep > 0 ? (
               <Button
                 type="button"
                 variant="outline"
                 onClick={handlePrevious}
+                className="h-12 px-6 text-voyage-600 border-2 border-voyage-200 hover:bg-voyage-50 hover:border-voyage-300 transition-all"
               >
                 Previous
               </Button>
@@ -676,14 +693,14 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               <Button
                 type="button"
                 onClick={handleNext}
-                className="bg-voyage-500 hover:bg-voyage-600"
+                className="h-12 px-6 bg-voyage-500 hover:bg-voyage-600 text-white transition-all shadow-md hover:shadow-lg"
               >
                 Next
               </Button>
             ) : (
               <Button
                 type="submit"
-                className="bg-voyage-500 hover:bg-voyage-600"
+                className="h-12 px-8 bg-voyage-500 hover:bg-voyage-600 text-white transition-all shadow-md hover:shadow-lg text-lg font-medium"
               >
                 Create My Itinerary
               </Button>

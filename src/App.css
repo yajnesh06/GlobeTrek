@@ -6,52 +6,89 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Add modern styling for all cards and inputs */
+.card, .input, button, select, textarea {
+  transition: all 0.3s ease;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover, .card:hover {
+  transform: translateY(-2px);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
 
-.card {
-  padding: 0.75em;
+.animate-floating {
+  animation: float 6s ease-in-out infinite;
 }
 
-@media (min-width: 640px) {
-  .card {
-    padding: 1em;
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (min-width: 768px) {
-  .card {
-    padding: 2em;
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.read-the-docs {
-  color: #888;
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease forwards;
+}
+
+@keyframes bounce-light {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-light {
+  animation: bounce-light 2s infinite ease-in-out;
 }
 
 /* Responsive fixes */
@@ -64,4 +101,52 @@
   h1, h2, h3 {
     word-break: break-word;
   }
+  
+  /* Make forms more mobile-friendly */
+  .form-scroll-container {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+  
+  /* Improve touch targets on mobile */
+  button, input, select, .card {
+    min-height: 44px;
+  }
+}
+
+/* Shadow utilities */
+.shadow-soft {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-hover:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }

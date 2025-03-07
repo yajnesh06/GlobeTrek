@@ -103,37 +103,41 @@ const PlanTrip = () => {
       <Navbar />
       <div className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16">
         {!itinerary ? (
-          <Card className="max-w-3xl mx-auto shadow-lg">
-            <CardHeader className="bg-voyage-50 border-b border-voyage-100 p-4 sm:p-6">
-              <CardTitle className="text-xl md:text-2xl text-center text-voyage-900">Plan Your Dream Trip</CardTitle>
+          <Card className="max-w-3xl mx-auto shadow-lg overflow-hidden border-0 rounded-xl">
+            <CardHeader className="bg-gradient-to-r from-voyage-50 to-voyage-100 border-b border-voyage-200 p-6 sm:p-8">
+              <CardTitle className="text-2xl md:text-3xl font-bold text-center text-voyage-900">Plan Your Dream Trip</CardTitle>
             </CardHeader>
-            <CardContent className="p-4 sm:p-6">
+            <CardContent className="p-0">
               {isLoading ? (
-                <div className="py-10 sm:py-16 md:py-20 flex flex-col items-center justify-center">
+                <div className="py-16 md:py-24 flex flex-col items-center justify-center bg-white">
                   <LoadingIndicator />
-                  <p className="mt-4 text-gray-600">We're working on your dream vacation...</p>
+                  <p className="mt-6 text-lg text-gray-700">We're crafting your perfect vacation...</p>
                   <p className="text-sm text-gray-500 mt-2">This typically takes less than a minute</p>
                 </div>
               ) : (
-                <TripForm onSubmit={handleSubmit} />
+                <div className="p-6 sm:p-8 bg-white">
+                  <TripForm onSubmit={handleSubmit} />
+                </div>
               )}
             </CardContent>
           </Card>
         ) : (
           <div className="w-full max-w-6xl mx-auto">
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-voyage-900">Your Personalized Itinerary</h1>
-              <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 gap-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-voyage-900 bg-clip-text text-transparent bg-gradient-to-r from-voyage-700 to-voyage-500">
+                Your Trip to {itinerary.destination}
+              </h1>
+              <div className="flex flex-wrap gap-3">
                 <Button 
                   variant="outline"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 border-2 border-voyage-300 text-voyage-700 hover:bg-voyage-50"
                   onClick={handleShareTrip}
                 >
                   <Share className="h-4 w-4" />
                   Share
                 </Button>
                 <Button 
-                  className="bg-voyage-500 hover:bg-voyage-600 flex items-center gap-2"
+                  className="bg-gradient-to-r from-voyage-500 to-voyage-600 hover:from-voyage-600 hover:to-voyage-700 flex items-center gap-2 shadow-md"
                   onClick={handleSaveTrip}
                   disabled={isSaving || !user}
                 >
