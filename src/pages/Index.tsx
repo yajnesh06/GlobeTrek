@@ -29,7 +29,7 @@ const Index = () => {
       <Navbar />
       <Hero scrollToRef={featuresRef} />
       
-      {/* Features section */}
+      {/* Features section with video */}
       <section ref={featuresRef} className="py-20 px-4 relative">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
@@ -41,56 +41,77 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Map className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Share Your Preferences</h3>
-                <p className="text-gray-600">
-                  Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Features section (2/3 width) */}
+            <div className="md:w-2/3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Map className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Share Your Preferences</h3>
+                    <p className="text-gray-600">
+                      Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Clock className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">AI Creates Your Plan</h3>
+                    <p className="text-gray-600">
+                      Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Plane className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Enjoy Your Trip</h3>
+                    <p className="text-gray-600">
+                      Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <div className="flex justify-center mt-12">
+                <Link to="/plan-trip">
+                  <Button 
+                    size="lg" 
+                    className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
+                  >
+                    Start Planning Now
+                  </Button>
+                </Link>
+              </div>
+            </div>
             
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Clock className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">AI Creates Your Plan</h3>
-                <p className="text-gray-600">
-                  Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Plane className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Enjoy Your Trip</h3>
-                <p className="text-gray-600">
-                  Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <div className="flex justify-center mt-12">
-            <Link to="/plan-trip">
-              <Button 
-                size="lg" 
-                className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
-              >
-                Start Planning Now
-              </Button>
-            </Link>
+            {/* Video section (1/3 width) */}
+            <div className="md:w-1/3 flex items-center justify-center">
+              <div className="w-full rounded-lg overflow-hidden shadow-xl">
+                <video 
+                  className="w-full h-auto object-cover" 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                >
+                  <source src="/vid.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       </section>
