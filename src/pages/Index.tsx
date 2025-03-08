@@ -41,10 +41,10 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col md:flex-row h-[70vh]">
             {/* Features section (2/3 width) */}
-            <div className="md:w-2/3">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:w-2/3 h-full flex flex-col">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-grow">
                 <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
                   <div className="h-2 bg-voyage-500"></div>
                   <CardContent className="pt-6">
@@ -98,10 +98,10 @@ const Index = () => {
             </div>
             
             {/* Video section (1/3 width) */}
-            <div className="md:w-1/3 flex items-center justify-center">
-              <div className="w-full rounded-lg overflow-hidden shadow-xl">
+            <div className="md:w-1/3 h-full">
+              <div className="w-full h-full rounded-lg overflow-hidden shadow-xl">
                 <video 
-                  className="w-full h-auto object-cover" 
+                  className="w-full h-full object-cover" 
                   autoPlay 
                   loop 
                   muted 
