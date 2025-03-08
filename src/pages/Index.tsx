@@ -12,7 +12,6 @@ import {
   Star, 
   Gem,
   Utensils,
-  ChevronDown,
   ChevronRight,
   CloudSun,
   DollarSign,
@@ -23,6 +22,17 @@ import Hero from '@/components/Hero';
 
 const Index = () => {
   const featuresRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    // Force video to play again on component mount
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.error("Video playback failed:", error);
+      });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen w-full">
@@ -101,13 +111,15 @@ const Index = () => {
             <div className="md:w-1/3 h-full">
               <div className="w-full h-full rounded-lg overflow-hidden shadow-xl">
                 <video 
+                  ref={videoRef}
                   className="w-full h-full object-cover" 
                   autoPlay 
                   loop 
                   muted 
                   playsInline
+                  controls
                 >
-                  <source src="/vid.mp4" type="video/mp4" />
+                  <source src="vid.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
