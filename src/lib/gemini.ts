@@ -116,9 +116,9 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       }
 
       IMPORTANT REQUIREMENTS:
-      1. You MUST include at least 12 mustVisitPlaces
-      2. You MUST include at least 10 hiddenGems
-      3. You MUST include at least 8 restaurants
+      1. You MUST include at least 8 mustVisitPlaces
+      2. You MUST include at least 6 hiddenGems
+      3. You MUST include at least 6 restaurants
       4. You MUST include at least 6 localFood items
       5. Ensure the response is valid JSON that can be parsed directly
       6. Make sure each highlight has at least 2-3 relevant tags
