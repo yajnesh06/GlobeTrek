@@ -38,7 +38,7 @@ A modern travel planning application powered by AI that helps you create persona
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd voyage-ai-travel-planner
+   cd GlobeTrek
    ```
 
 2. Install dependencies:
