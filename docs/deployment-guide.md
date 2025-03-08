@@ -9,6 +9,7 @@ This guide will walk you through deploying your VoyageurAI application to Vercel
 
 1. A [Vercel account](https://vercel.com/signup)
 2. Your project code pushed to a Git repository (GitHub, GitLab, or Bitbucket)
+3. API keys for the services used in the application
 
 ### Steps to Deploy
 
@@ -75,4 +76,3 @@ Below is a complete list of environment variables used in the application:
 - [Supabase Documentation](https://supabase.io/docs)
 - [Google Gemini AI Documentation](https://ai.google.dev/docs)
 - [OpenWeather API Documentation](https://openweathermap.org/api)
-

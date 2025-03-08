@@ -2,16 +2,16 @@
 import { TripFormData, GeneratedItinerary } from '../types';
 import { toast } from 'sonner';
 
-// Get API key from environment or use fallback for development
-const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY || "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
+// Get API key from environment variables
+const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY;
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 export async function generateItinerary(tripData: TripFormData): Promise<GeneratedItinerary | null> {
   try {
-    // Check if API key is available in production
+    // Check if API key is available
     if (!API_KEY) {
       console.error("Missing Gemini API key in environment variables");
-      toast.error("API configuration error. Please contact support.");
+      toast.error("Failed to generate itinerary: API key missing. Check the deployment guide for instructions.");
       return null;
     }
 
@@ -132,7 +132,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
     // Show toast to indicate processing
     toast.info("Generating your personalized itinerary...");
 
-    console.log("Making API request to Gemini with key:", API_KEY.substring(0, 4) + "...");
+    console.log("Making API request to Gemini API...");
 
     // Optimized API request with improved parameters for faster response
     const response = await fetch(`${API_URL}?key=${API_KEY}`, {
@@ -151,7 +151,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
           }
         ],
         generationConfig: {
-          temperature: 0.7, // Slightly higher for more creative responses
+          temperature: 0.7,
           topK: 40,
           topP: 0.95,
           maxOutputTokens: 8192,
@@ -205,7 +205,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
     }
   } catch (error) {
     console.error('Error generating itinerary:', error);
-    toast.error('Failed to generate itinerary. Please try again. ' + (error instanceof Error ? error.message : ''));
+    toast.error('Failed to generate itinerary. Please check your environment variables and try again. ' + (error instanceof Error ? error.message : ''));
     return null;
   }
 }
