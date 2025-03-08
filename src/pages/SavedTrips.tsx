@@ -34,6 +34,7 @@ const SavedTrips = () => {
       if (!user) return;
       
       try {
+        console.log("Fetching saved trips for user:", user.id);
         const { data, error } = await supabase
           .from('saved_trips')
           .select('*')
@@ -41,9 +42,11 @@ const SavedTrips = () => {
           .order('created_at', { ascending: false });
           
         if (error) {
+          console.error("Error fetching trips:", error);
           throw error;
         }
         
+        console.log("Fetched trips:", data);
         setTrips(data || []);
       } catch (error) {
         console.error('Error fetching saved trips:', error);
@@ -62,12 +65,14 @@ const SavedTrips = () => {
 
   const handleDeleteTrip = async (tripId: string) => {
     try {
+      console.log("Deleting trip:", tripId);
       const { error } = await supabase
         .from('saved_trips')
         .delete()
         .eq('id', tripId);
         
       if (error) {
+        console.error("Error deleting trip:", error);
         throw error;
       }
       

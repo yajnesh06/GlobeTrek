@@ -1,7 +1,7 @@
 
-# Deployment Guide for VoyageurAI
+# Deployment Guide for GlobeTrekAI
 
-This guide will walk you through deploying your VoyageurAI application to Vercel and creating a Docker image for containerized deployment.
+This guide will walk you through deploying your GlobeTrekAI application to Vercel and setting up the required environment variables.
 
 ## Deploying to Vercel
 
@@ -9,6 +9,7 @@ This guide will walk you through deploying your VoyageurAI application to Vercel
 
 1. A [Vercel account](https://vercel.com/signup)
 2. Your project code pushed to a Git repository (GitHub, GitLab, or Bitbucket)
+3. API keys for the services used in the application
 
 ### Steps to Deploy
 
@@ -33,6 +34,8 @@ This guide will walk you through deploying your VoyageurAI application to Vercel
    3. Navigate to "Environment Variables" section
    4. Add each variable with its corresponding value
 
+   > **IMPORTANT**: The application requires these environment variables to function properly in production. Without them, features like itinerary generation and weather data will not work.
+
 3. **Configure Build Settings**
    - Build Command: `npm run build`
    - Output Directory: `dist`
@@ -42,107 +45,34 @@ This guide will walk you through deploying your VoyageurAI application to Vercel
    - Click "Deploy" and wait for the build process to complete
    - Vercel will provide you with a deployment URL
 
-### Handling Updates
+### Troubleshooting Common Issues
 
-For subsequent updates, simply push changes to your connected repository, and Vercel will automatically rebuild and redeploy your application.
+If you encounter the "Failed to generate itinerary" error:
 
-## Creating a Docker Image
+1. **Check Environment Variables**: Ensure all required environment variables are correctly set in Vercel.
+   - The Google Gemini API key (`VITE_GOOGLE_GEMINI_API_KEY`) is essential for itinerary generation.
+   - You can get a Gemini API key from the [Google AI Studio](https://makersuite.google.com/app/apikey).
 
-### Prerequisites
+2. **Verify API Access**: Make sure your API keys are valid and have sufficient access/quota.
 
-1. [Docker](https://docs.docker.com/get-docker/) installed on your machine
-2. Basic familiarity with Docker commands
+3. **Check Browser Console**: Open your browser's developer tools (F12) and check the console for error messages that might provide more details about the issue.
 
-### Steps to Create a Docker Image
-
-1. **Create a Dockerfile**
-   Create a file named `Dockerfile` in your project root with the following content:
-
-   ```dockerfile
-   # Build stage
-   FROM node:18-alpine as build
-
-   WORKDIR /app
-   COPY package*.json ./
-   RUN npm ci
-   COPY . .
-   RUN npm run build
-
-   # Production stage
-   FROM nginx:stable-alpine
-   COPY --from=build /app/dist /usr/share/nginx/html
-   COPY nginx.conf /etc/nginx/conf.d/default.conf
-   EXPOSE 80
-   CMD ["nginx", "-g", "daemon off;"]
-   ```
-
-2. **Create an Nginx Configuration**
-   Create a file named `nginx.conf` in your project root:
-
-   ```nginx
-   server {
-     listen 80;
-     
-     location / {
-       root /usr/share/nginx/html;
-       index index.html;
-       try_files $uri $uri/ /index.html;
-     }
-   }
-   ```
-
-3. **Create a .dockerignore File**
-   ```
-   node_modules
-   dist
-   .git
-   .github
-   .gitignore
-   README.md
-   .env
-   .env.local
-   ```
-
-4. **Build the Docker Image**
-   Open a terminal in your project directory and run:
-   ```bash
-   docker build -t voyageur-ai:latest .
-   ```
-
-5. **Run the Docker Container Locally (Optional)**
-   ```bash
-   docker run -p 8080:80 \
-     -e VITE_SUPABASE_URL=your-supabase-url \
-     -e VITE_SUPABASE_ANON_KEY=your-supabase-anon-key \
-     -e VITE_GOOGLE_GEMINI_API_KEY=your-gemini-api-key \
-     -e VITE_OPEN_WEATHER_API_KEY=your-openweather-api-key \
-     voyageur-ai:latest
-   ```
-
-6. **Push to a Docker Registry (Optional)**
-   First, tag your image:
-   ```bash
-   docker tag voyageur-ai:latest yourusername/voyageur-ai:latest
-   ```
-   
-   Then push to Docker Hub (you'll need to be logged in):
-   ```bash
-   docker push yourusername/voyageur-ai:latest
-   ```
+4. **Redeploy After Changes**: After adding environment variables, redeploy your application for the changes to take effect.
 
 ## Environment Variables Reference
 
 Below is a complete list of environment variables used in the application:
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_SUPABASE_URL` | Supabase project URL | Yes |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | Yes |
-| `VITE_GOOGLE_GEMINI_API_KEY` | Google Gemini API key for AI features | Yes |
-| `VITE_OPEN_WEATHER_API_KEY` | OpenWeather API key for weather data | Yes |
+| Variable | Description | Required | Where to Get It |
+|----------|-------------|----------|----------------|
+| `VITE_SUPABASE_URL` | Supabase project URL | Yes | [Supabase Dashboard](https://supabase.com/dashboard) > Project Settings > API |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key | Yes | [Supabase Dashboard](https://supabase.com/dashboard) > Project Settings > API |
+| `VITE_GOOGLE_GEMINI_API_KEY` | Google Gemini API key | Yes | [Google AI Studio](https://makersuite.google.com/app/apikey) |
+| `VITE_OPEN_WEATHER_API_KEY` | OpenWeather API key | Yes | [OpenWeather](https://home.openweathermap.org/api_keys) |
 
 ## Additional Resources
 
 - [Vercel Documentation](https://vercel.com/docs)
-- [Docker Documentation](https://docs.docker.com/)
 - [Supabase Documentation](https://supabase.io/docs)
+- [Google Gemini AI Documentation](https://ai.google.dev/docs)
+- [OpenWeather API Documentation](https://openweathermap.org/api)

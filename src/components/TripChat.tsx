@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from 'sonner';
 
 // API Configuration for Gemini
-const API_KEY = "AIzaSyDzme5XdqHO-htFRLSJvs1F2LvgmPG2NEQ";
+const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY;
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 interface TripChatProps {
@@ -47,6 +46,12 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
   const generateGeminiResponse = async (userQuestion: string) => {
     try {
+      // Check if API key is available
+      if (!API_KEY) {
+        console.error("Missing Gemini API key in environment variables");
+        return `I'm sorry, I can't provide information right now due to a configuration issue. Please check the deployment guide for instructions on setting up the API key.`;
+      }
+
       // Create enhanced prompt with itinerary context and user question
       const prompt = `
         You are an AI travel assistant providing information about a trip to ${itinerary.destination}.
@@ -103,10 +108,10 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
             }
           ],
           generationConfig: {
-            temperature: 0.5,  // Reduced for more factual responses
+            temperature: 0.5,
             topK: 20,
             topP: 0.8,
-            maxOutputTokens: 256,  // Reduced to encourage shorter responses
+            maxOutputTokens: 256,
           }
         })
       });

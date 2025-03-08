@@ -12,7 +12,6 @@ import {
   Star, 
   Gem,
   Utensils,
-  ChevronDown,
   ChevronRight,
   CloudSun,
   DollarSign,
@@ -23,74 +22,108 @@ import Hero from '@/components/Hero';
 
 const Index = () => {
   const featuresRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    // Force video to play again on component mount
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(error => {
+        console.error("Video playback failed:", error);
+      });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen w-full">
       <Navbar />
       <Hero scrollToRef={featuresRef} />
       
-      {/* Features section */}
+      {/* Features section with video */}
       <section ref={featuresRef} className="py-20 px-4 relative">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How WanderwiseAI Works
+              How GlobeTrekAI Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our AI assistant makes trip planning effortless. Just tell us your preferences, and we'll create a personalized itinerary in minutes.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Map className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Share Your Preferences</h3>
-                <p className="text-gray-600">
-                  Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="flex flex-col md:flex-row h-[70vh]">
+            {/* Features section (2/3 width) */}
+            <div className="md:w-2/3 h-full flex flex-col">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-grow">
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Map className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Share Your Preferences</h3>
+                    <p className="text-gray-600">
+                      Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Clock className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">AI Creates Your Plan</h3>
+                    <p className="text-gray-600">
+                      Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="h-2 bg-voyage-500"></div>
+                  <CardContent className="pt-6">
+                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      <Plane className="h-6 w-6 text-voyage-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Enjoy Your Trip</h3>
+                    <p className="text-gray-600">
+                      Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <div className="flex justify-center mt-12">
+                <Link to="/plan-trip">
+                  <Button 
+                    size="lg" 
+                    className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
+                  >
+                    Start Planning Now
+                  </Button>
+                </Link>
+              </div>
+            </div>
             
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Clock className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">AI Creates Your Plan</h3>
-                <p className="text-gray-600">
-                  Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div className="h-2 bg-voyage-500"></div>
-              <CardContent className="pt-6">
-                <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <Plane className="h-6 w-6 text-voyage-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Enjoy Your Trip</h3>
-                <p className="text-gray-600">
-                  Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <div className="flex justify-center mt-12">
-            <Link to="/plan-trip">
-              <Button 
-                size="lg" 
-                className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
-              >
-                Start Planning Now
-              </Button>
-            </Link>
+            {/* Video section (1/3 width) */}
+            <div className="md:w-1/3 h-full">
+              <div className="w-full h-full rounded-lg overflow-hidden shadow-xl">
+                <video 
+                  ref={videoRef}
+                  className="w-full h-full object-cover" 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  controls
+                >
+                  <source src="vid.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -104,7 +137,7 @@ const Index = () => {
                 Discover the Perfect Balance of Popular Spots and Hidden Gems
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                WanderwiseAI doesn't just recommend tourist traps. Our AI understands what makes a destination special and creates balanced itineraries that include:
+                GlobeTrekAI doesn't just recommend tourist traps. Our AI understands what makes a destination special and creates balanced itineraries that include:
               </p>
               
               <ul className="space-y-4">
@@ -243,7 +276,7 @@ const Index = () => {
             <div className="mb-6 md:mb-0">
               <Link to="/" className="flex items-center">
                 <Plane className="h-6 w-6 text-voyage-400 mr-2" />
-                <span className="text-2xl font-bold">WanderwiseAI</span>
+                <span className="text-2xl font-bold">GlobeTrekAI</span>
               </Link>
               <p className="mt-2 text-gray-400 max-w-md">
                 AI-powered travel planning that creates personalized itineraries based on your preferences.
@@ -273,7 +306,7 @@ const Index = () => {
           <Separator className="my-8 bg-gray-800" />
           
           <div className="text-center text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} WanderwiseAI. All rights reserved.
+            &copy; {new Date().getFullYear()} GlobeTrekAI. All rights reserved.
           </div>
         </div>
       </footer>

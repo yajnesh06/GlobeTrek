@@ -118,7 +118,7 @@ const Navbar = () => {
             >
               <Plane className="h-6 w-6 text-voyage-500" strokeWidth={2.5} />
             </motion.div>
-            <span className="font-bold text-2xl text-gray-900">WanderwiseAI</span>
+            <span className="font-bold text-2xl text-gray-900">GlobeTrekAI</span>
           </Link>
         </motion.div>
         
