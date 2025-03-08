@@ -70,20 +70,27 @@ const PlanTrip = () => {
     }
     
     setIsSaving(true);
+    console.log("Attempting to save trip for user:", user.id);
     
     try {
       // Convert GeneratedItinerary to JSON compatible format
       const tripDataJson = JSON.parse(JSON.stringify(itinerary));
       
-      const { error } = await supabase
+      console.log("Saving trip to Supabase...");
+      const { data, error } = await supabase
         .from('saved_trips')
         .insert({
           user_id: user.id,
           trip_data: tripDataJson
-        });
+        })
+        .select();
         
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
       
+      console.log("Trip saved successfully:", data);
       toast.success("Trip saved successfully!");
       navigate('/saved-trips');
     } catch (error) {
@@ -98,7 +105,7 @@ const PlanTrip = () => {
     if (navigator.share) {
       navigator.share({
         title: `Travel Itinerary for ${itinerary?.destination}`,
-        text: `Check out my travel itinerary for ${itinerary?.destination} created with VoyageurAI!`,
+        text: `Check out my travel itinerary for ${itinerary?.destination} created with GlobeTrekAI!`,
         url: window.location.href,
       })
       .then(() => toast.success("Shared successfully!"))

@@ -1,7 +1,7 @@
 
-# Deployment Guide for VoyageurAI
+# Deployment Guide for GlobeTrekAI
 
-This guide will walk you through deploying your VoyageurAI application to Vercel and setting up the required environment variables.
+This guide will walk you through deploying your GlobeTrekAI application to Vercel and setting up the required environment variables.
 
 ## Deploying to Vercel
 
