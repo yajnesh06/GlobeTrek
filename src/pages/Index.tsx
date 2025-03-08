@@ -40,209 +40,120 @@ const Index = () => {
       <Hero scrollToRef={featuresRef} />
       
       {/* Features section with video */}
-      <section ref={featuresRef} className="py-20 px-4 relative">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How GlobeTrekAI Works
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our AI assistant makes trip planning effortless. Just tell us your preferences, and we'll create a personalized itinerary in minutes.
-            </p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row h-[70vh]">
-            {/* Features section (2/3 width) */}
-            <div className="md:w-2/3 h-full flex flex-col">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-grow">
-                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                  <div className="h-2 bg-voyage-500"></div>
-                  <CardContent className="pt-6">
-                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                      <Map className="h-6 w-6 text-voyage-600" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Share Your Preferences</h3>
-                    <p className="text-gray-600">
-                      Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                  <div className="h-2 bg-voyage-500"></div>
-                  <CardContent className="pt-6">
-                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                      <Clock className="h-6 w-6 text-voyage-600" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">AI Creates Your Plan</h3>
-                    <p className="text-gray-600">
-                      Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                  <div className="h-2 bg-voyage-500"></div>
-                  <CardContent className="pt-6">
-                    <div className="bg-voyage-50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                      <Plane className="h-6 w-6 text-voyage-600" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Enjoy Your Trip</h3>
-                    <p className="text-gray-600">
-                      Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-              
-              <div className="flex justify-center mt-12">
-                <Link to="/plan-trip">
-                  <Button 
-                    size="lg" 
-                    className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
-                  >
-                    Start Planning Now
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            
-            {/* Video section (1/3 width) */}
-            <div className="md:w-1/3 h-full">
-              <div className="w-full h-full rounded-lg overflow-hidden shadow-xl">
-                <video 
-                  ref={videoRef}
-                  className="w-full h-full object-cover" 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline
-                  controls
-                >
-                  <source src="vid.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        
       
       {/* Benefits section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Discover the Perfect Balance of Popular Spots and Hidden Gems
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                GlobeTrekAI doesn't just recommend tourist traps. Our AI understands what makes a destination special and creates balanced itineraries that include:
-              </p>
-              
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <div className="bg-voyage-100 p-2 rounded-full mr-4 mt-0.5">
-                    <Star className="h-5 w-5 text-voyage-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Must-See Attractions</h3>
-                    <p className="text-gray-600">The iconic places that define a destination.</p>
-                  </div>
-                </li>
-                
-                <li className="flex items-start">
-                  <div className="bg-voyage-100 p-2 rounded-full mr-4 mt-0.5">
-                    <Gem className="h-5 w-5 text-voyage-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Hidden Local Gems</h3>
-                    <p className="text-gray-600">Off-the-beaten-path spots that most tourists miss.</p>
-                  </div>
-                </li>
-                
-                <li className="flex items-start">
-                  <div className="bg-voyage-100 p-2 rounded-full mr-4 mt-0.5">
-                    <Utensils className="h-5 w-5 text-voyage-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Culinary Experiences</h3>
-                    <p className="text-gray-600">Recommended restaurants and must-try local dishes.</p>
-                  </div>
-                </li>
-              </ul>
-              
-              <div className="mt-8">
-                <Link to="/plan-trip">
-                  <Button 
-                    variant="outline" 
-                    className="border-voyage-500 text-voyage-500 hover:bg-voyage-50"
-                  >
-                    Plan Your Adventure
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+   
+
+      {/* Right Side: Video (1/3 width) */}
+      
+      
+     <section ref={featuresRef} className="py-12 px-0 relative">
+  <div className="container mx-auto max-w-full px-4">
+    <div className="flex flex-col md:flex-row items-center gap-8">
+      
+      {/* Left Side: Flowchart Content (1/3 width) */}
+      <div className="md:w-1/3 w-full flex flex-col items-center text-center">
+        {/* Header */}
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+            How GlobeTrekAI Works
+          </h2>
+          <p className="text-xl text-gray-600 mt-2">
+            Our AI assistant makes trip planning effortless. Just tell us your preferences, and we'll create a personalized itinerary in minutes.
+          </p>
+        </div>
+
+        {/* Flowchart Boxes */}
+        <div className="flex flex-col items-center gap-6 relative">
+          {/* Flowchart Box 1 */}
+          <div className="relative bg-voyage-50 border border-voyage-200 rounded-lg p-4 shadow-lg w-full max-w-xs">
+            <div className="flex items-center mb-2">
+              <div className="bg-voyage-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                <Map className="h-5 w-5 text-voyage-600" />
               </div>
+              <h3 className="text-lg font-semibold text-gray-900">Share Your Preferences</h3>
             </div>
-            
-            <div className="relative">
-              <div className="absolute -top-6 -left-6 w-64 h-64 bg-voyage-100 rounded-lg opacity-50 z-0"></div>
-              <div className="relative z-10 bg-white rounded-lg shadow-lg p-6 border">
-                <div className="flex items-center mb-6">
-                  <CalendarDays className="h-5 w-5 text-voyage-500 mr-2" />
-                  <h3 className="font-semibold text-gray-900">Day 2 in Paris</h3>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="pb-4 border-b border-gray-100">
-                    <div className="flex">
-                      <span className="text-sm font-medium text-gray-500 w-16">09:00</span>
-                      <div>
-                        <p className="font-medium text-gray-900">Louvre Museum</p>
-                        <p className="text-sm text-gray-600 mt-1">World's largest art museum and historic monument</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="pb-4 border-b border-gray-100">
-                    <div className="flex">
-                      <span className="text-sm font-medium text-gray-500 w-16">13:00</span>
-                      <div>
-                        <p className="font-medium text-gray-900">Lunch at Le Soufflé</p>
-                        <p className="text-sm text-gray-600 mt-1">Classic French restaurant specializing in soufflés</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="pb-4 border-b border-gray-100">
-                    <div className="flex">
-                      <span className="text-sm font-medium text-gray-500 w-16">15:00</span>
-                      <div>
-                        <p className="font-medium text-gray-900">Montmartre Walking Tour</p>
-                        <p className="text-sm text-gray-600 mt-1">Bohemian neighborhood with stunning Sacré-Cœur Basilica</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <div className="flex">
-                      <span className="text-sm font-medium text-gray-500 w-16">19:30</span>
-                      <div>
-                        <p className="font-medium text-gray-900">Dinner at Le Petit Canard</p>
-                        <p className="text-sm text-gray-600 mt-1">Cozy restaurant serving traditional duck dishes</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-6 flex justify-center">
-                  <span className="text-voyage-500 text-sm font-medium">View full itinerary</span>
-                </div>
-              </div>
+            <p className="text-gray-600 text-sm">
+              Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
+            </p>
+            {/* Arrow pointing to the next box */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+              <svg className="w-6 h-6 text-voyage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+              </svg>
             </div>
           </div>
+
+          {/* Flowchart Box 2 */}
+          <div className="relative bg-voyage-50 border border-voyage-200 rounded-lg p-4 shadow-lg w-full max-w-xs">
+            <div className="flex items-center mb-2">
+              <div className="bg-voyage-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                <Clock className="h-5 w-5 text-voyage-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">AI Creates Your Plan</h3>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Our AI analyzes your preferences and crafts a personalized itinerary in minutes.
+            </p>
+            {/* Arrow pointing to the next box */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+              <svg className="w-6 h-6 text-voyage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+              </svg>
+            </div>
+          </div>
+
+          {/* Flowchart Box 3 */}
+          <div className="relative bg-voyage-50 border border-voyage-200 rounded-lg p-4 shadow-lg w-full max-w-xs">
+            <div className="flex items-center mb-2">
+              <div className="bg-voyage-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                <Plane className="h-5 w-5 text-voyage-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Enjoy Your Trip</h3>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Get a day-by-day itinerary with attractions, restaurants, and local gems to explore.
+            </p>
+          </div>
         </div>
-      </section>
+
+        {/* Button - Centered Below Flowchart */}
+        <div className="mt-12">
+          <Link to="/plan-trip">
+            <Button 
+              size="lg" 
+              className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8"
+            >
+              Start Planning Now
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Right Side: Video (2/3 width) */}
+      <div className="md:w-2/3 w-full">
+        <video 
+          className="w-full h-full min-h-[400px] object-cover rounded-lg shadow-lg"
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        >
+          <source src="/vid1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+    {/* CTA Button */}
+    
+
+
       
       {/* CTA section */}
       <section className="py-20 px-4 relative overflow-hidden">
