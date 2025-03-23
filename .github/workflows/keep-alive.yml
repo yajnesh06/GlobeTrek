@@ -1,0 +1,14 @@
+name: Keep Vercel API Alive
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"  # Runs every 3 hours
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Alive Request to PlanTrip Page
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" "https://globetrekai.vercel.app/plan-trip" || echo "Request failed"
