@@ -80,7 +80,7 @@ const Index = () => {
               Tell us where you want to go, your travel dates, budget, and what you enjoy doing.
             </p>
             {/* Arrow pointing to the next box */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 translate-y-1/2">
               <svg className="w-5 h-5 md:w-6 md:h-6 text-voyage-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>

@@ -50,7 +50,7 @@ const accommodationOptions = [
 ];
 
 const transportationOptions = [
-  'Public Transport', 'Rental Car', 'Taxi/Uber', 'Walking/Biking', 'Guided Tours'
+  'Public Transport', 'Rental Car', 'Rental Bikes','Taxi/Uber', 'Walking', 'Guided Tours'
 ];
 
 const currencyOptions = [

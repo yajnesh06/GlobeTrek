@@ -1,5 +1,4 @@
-
-# Voyage AI Travel Planner
+# GlobeTrekAI Travel Planner
 
 A modern travel planning application powered by AI that helps you create personalized trip itineraries based on your preferences, interests, and travel style.
 
