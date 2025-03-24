@@ -14,6 +14,9 @@ interface ItineraryViewProps {
 }
 
 const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
+  // Add debugging log to see what currency is coming in
+  console.log("Itinerary currency:", itinerary.currency);
+  
   // Calculate cost estimate based on itinerary data
   const costEstimate = generateTripCostEstimate(
     itinerary.budget,
@@ -25,10 +28,11 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   // Calculate per-person budget
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
   
-  // Add currency validation
+  // Add currency validation with more explicit debugging
   const validatedCurrency = itinerary.currency || 'INR'; // Default to INR if undefined
+  console.log("Using currency:", validatedCurrency);
   
-  // Get currency symbol based on validated currency
+  // Rest of the component remains the same
   const getCurrencySymbol = (currencyCode: string) => {
     switch(currencyCode) {
       case 'USD': return '$';
