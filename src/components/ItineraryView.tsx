@@ -25,8 +25,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   // Calculate per-person budget
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
   
-  // Get currency symbol based on currency code
-  // Remove the default 'INR' from getCurrencySymbol
+  // Add currency validation
+  const validatedCurrency = itinerary.currency || 'INR'; // Default to INR if undefined
+  
+  // Get currency symbol based on validated currency
   const getCurrencySymbol = (currencyCode: string) => {
     switch(currencyCode) {
       case 'USD': return '$';
@@ -42,21 +44,18 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
     }
   };
   
-  // Remove the default 'INR' from CurrencyIcon
   const CurrencyIcon = () => {
-    const currency = itinerary.currency;
-    switch(currency) {
+    switch(validatedCurrency) {
       case 'USD': return <DollarSign className="h-4 w-4" />;
       case 'EUR': return <Euro className="h-4 w-4" />;
       case 'GBP': return <PoundSterling className="h-4 w-4" />;
       case 'JPY': return <JapaneseYen className="h-4 w-4" />;
       case 'INR': return <IndianRupee className="h-4 w-4" />;
-      default: return <span>{currency}</span>; // Fallback for unknown currencies
+      default: return <span>{validatedCurrency}</span>; // Fallback for unknown currencies
     }
   };
   
-  // Use the currency from itinerary without default
-  const currencySymbol = getCurrencySymbol(itinerary.currency);
+  const currencySymbol = getCurrencySymbol(validatedCurrency);
 
   return (
     <div className="w-full space-y-6">
