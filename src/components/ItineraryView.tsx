@@ -26,7 +26,8 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
   
   // Get currency symbol based on currency code
-  const getCurrencySymbol = (currencyCode: string = 'INR') => {
+  // Remove the default 'INR' from getCurrencySymbol
+  const getCurrencySymbol = (currencyCode: string) => {
     switch(currencyCode) {
       case 'USD': return '$';
       case 'EUR': return '€';
@@ -36,22 +37,25 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       case 'CAD': return 'C$';
       case 'SGD': return 'S$';
       case 'AED': return 'د.إ';
-      default: return '₹';
+      case 'INR': return '₹';
+      default: return currencyCode; // Return the code itself if unknown
     }
   };
   
-  // Get currency icon component
+  // Remove the default 'INR' from CurrencyIcon
   const CurrencyIcon = () => {
-    const currency = itinerary.currency || 'INR';
+    const currency = itinerary.currency;
     switch(currency) {
       case 'USD': return <DollarSign className="h-4 w-4" />;
       case 'EUR': return <Euro className="h-4 w-4" />;
       case 'GBP': return <PoundSterling className="h-4 w-4" />;
       case 'JPY': return <JapaneseYen className="h-4 w-4" />;
-      default: return <IndianRupee className="h-4 w-4" />;
+      case 'INR': return <IndianRupee className="h-4 w-4" />;
+      default: return <span>{currency}</span>; // Fallback for unknown currencies
     }
   };
   
+  // Use the currency from itinerary without default
   const currencySymbol = getCurrencySymbol(itinerary.currency);
 
   return (
