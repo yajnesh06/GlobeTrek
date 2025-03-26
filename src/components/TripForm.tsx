@@ -164,7 +164,26 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
           
           <TabsContent value="basic" className="space-y-6 animate-fade-in">
             <div className="space-y-4">
+       
+
               <FormField
+                control={form.control}
+                name="startingAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base">Starting From</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Your starting location"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> 
+
+<FormField
                 control={form.control}
                 name="destination"
                 render={({ field }) => (
@@ -179,23 +198,6 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                           {...field}
                         />
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="startingAddress"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base">Starting From</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Your starting location"
-                        {...field}
-                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
