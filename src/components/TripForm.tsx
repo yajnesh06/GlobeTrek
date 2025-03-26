@@ -91,20 +91,35 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
     },
   });
 
-  const budgetRanges = {
+  // Define budget ranges for INR
+  const inrBudgetRanges = {
     low: { min: 5000, max: 30000, default: 15000 },
     medium: { min: 30000, max: 100000, default: 50000 },
     high: { min: 100000, max: 500000, default: 150000 },
     luxury: { min: 300000, max: 1000000, default: 500000 },
   };
+  
+  // Define budget ranges for other currencies
+  const otherCurrencyBudgetRanges = {
+    low: { min: 2000, max: 6000, default: 5000 },
+    medium: { min: 8000, max: 20000, default: 15000 },
+    high: { min: 20000, max: 50000, default: 30000 },
+    luxury: { min: 50000, max: 100000, default: 60000 },
+  };
 
   const budgetValue = form.watch('budget');
   const currencyValue = form.watch('currency');
+  
+  // Determine which budget ranges to use based on currency
+  const budgetRanges = currencyValue === 'INR' ? inrBudgetRanges : otherCurrencyBudgetRanges;
+  
+  // Log for debugging
+  console.log(`Using ${currencyValue} currency with budget ranges:`, budgetRanges);
 
   React.useEffect(() => {
     const budget = form.getValues('budget');
     form.setValue('budgetAmount', budgetRanges[budget as keyof typeof budgetRanges].default);
-  }, [budgetValue, form]);
+  }, [budgetValue, currencyValue, form, budgetRanges]);
 
   const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
     onSubmit(data as TripFormData);
