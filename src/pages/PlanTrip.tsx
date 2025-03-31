@@ -38,14 +38,20 @@ const PlanTrip = () => {
       // Pass the selected currency to the itinerary generator
       const generatedItinerary = await generateItinerary({
         ...data,
-        currency: data.currency || 'INR' // Ensure currency is included
+        currency: data.currency // Make sure currency is included
       });
       
-      setItinerary(generatedItinerary);
-      
       if (generatedItinerary) {
+        // Ensure the exact budget amount from the form is used in the itinerary
+        const preservedItinerary = {
+          ...generatedItinerary,
+          currency: data.currency, // Force the currency to be the one from the form
+          budgetAmount: data.budgetAmount // Force the exact budget amount from the form
+        };
+        
+        setItinerary(preservedItinerary);
         toast.success("Your itinerary has been created!");
-        console.log("Generated itinerary successfully");
+        console.log("Generated itinerary successfully with preserved budget:", preservedItinerary.budgetAmount);
       } else {
         toast.error("Unable to generate itinerary. Please check console for details.");
         console.error("Itinerary generation returned null");

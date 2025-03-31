@@ -7,9 +7,11 @@ import { Send, User, Info } from "lucide-react";
 import { GeneratedItinerary } from '@/types';
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from 'sonner';
+import ReactMarkdown from 'react-markdown';
 
 // API Configuration for Gemini
 const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY;
+// Consider using a more conversational model
 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 interface TripChatProps {
@@ -52,44 +54,32 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
         return `I'm sorry, I can't provide information right now due to a configuration issue. Please check the deployment guide for instructions on setting up the API key.`;
       }
 
-      // Create enhanced prompt with itinerary context and user question
-      const prompt = `
-        You are an AI travel assistant providing information about a trip to ${itinerary.destination}.
-        
-        Here is the detailed trip information:
-        - Destination: ${itinerary.destination}
-        - Travel dates: From ${itinerary.startDate} to ${itinerary.endDate} (${itinerary.duration} days)
-        - Budget level: ${itinerary.budget || 'moderate'}
-        - Number of travelers: ${itinerary.travelers || 2}
-        - Interests: ${itinerary.interests?.join(', ') || 'various activities'}
-        - Accommodation preference: ${itinerary.accommodationType || 'standard hotels'}
-        - Transportation options: ${itinerary.transportationType?.join(', ') || 'various methods'}
-        
-        The itinerary includes:
-        - ${itinerary.days.length} days of planned activities
-        - ${itinerary.highlights.mustVisitPlaces.length} must-visit attractions
-        - ${itinerary.highlights.hiddenGems.length} hidden gems
-        - ${itinerary.highlights.restaurants.length} recommended restaurants
-        - ${itinerary.highlights.localFood.length} local food recommendations
+      // Include previous messages for context (limited to last 6 messages)
+      const conversationHistory = messages
+        .slice(-6)
+        .map(msg => `${msg.sender === 'user' ? 'User' : 'Assistant'}: ${msg.text}`)
+        .join('\n');
 
-        The user is asking: "${userQuestion}"
+      // Create a more focused prompt
+      const prompt = `
+        You are a helpful, friendly AI travel assistant for a trip to ${itinerary.destination}.
         
-        Provide a very concise, helpful response in 2-3 short sentences maximum. Be specific to ${itinerary.destination}, not generic.
-        Focus on directly answering the question with precise, locally relevant information.
+        Trip details:
+        - Destination: ${itinerary.destination}
+        - Dates: ${new Date(itinerary.startDate).toLocaleDateString()} to ${new Date(itinerary.endDate).toLocaleDateString()}
+        - Travelers: ${itinerary.travelers || 2}
+        - Interests: ${itinerary.interests?.join(', ') || 'various activities'}
         
-        If the question is about:
-        - Cost/budget: Include actual typical prices in local currency and USD
-        - Weather: Include actual seasonal info for the dates
-        - Food: Mention 1 specific local dish
-        - Transport: Give 1 specific recommendation
-        - Attractions: Mention only the most relevant 1-2 places
-        - Time: Give precise timing advice
-        - Language: Provide 1 useful phrase
-        - Currency: Give actual exchange rate info
-        - Accommodation: Recommend 1 specific area to stay
-        - Safety/tips: Provide 1 specific tip
+        Key attractions: ${itinerary.highlights.mustVisitPlaces.map(place => place.name).join(', ')}
         
-        DO NOT use more than 2-3 short sentences. Keep your response under 50 words.
+        Previous conversation:
+        ${conversationHistory}
+        
+        User question: "${userQuestion}"
+        
+        Respond in a conversational, helpful way. Keep your response brief (2-3 sentences) and directly address the question.
+        Don't provide generic travel advice unless specifically asked.
+        If you don't know something specific about this trip, you can say so and offer to help with something else.
       `;
 
       const response = await fetch(`${API_URL}?key=${API_KEY}`, {
@@ -101,17 +91,15 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
           contents: [
             {
               parts: [
-                {
-                  text: prompt
-                }
+                { text: prompt }
               ]
             }
           ],
           generationConfig: {
-            temperature: 0.5,
+            temperature: 0.2,  // Lower temperature for more focused responses
             topK: 20,
             topP: 0.8,
-            maxOutputTokens: 256,
+            maxOutputTokens: 150,  // Shorter responses
           }
         })
       });
@@ -216,7 +204,13 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
                     {message.sender === 'user' ? 'You' : 'Trip Assistant'}
                   </span>
                 </div>
-                <p className="text-sm md:text-base">{message.text}</p>
+                {message.sender === 'assistant' ? (
+                  <div className="text-sm md:text-base markdown-content">
+                    <ReactMarkdown>{message.text}</ReactMarkdown>
+                  </div>
+                ) : (
+                  <p className="text-sm md:text-base">{message.text}</p>
+                )}
                 <div className="text-xs mt-1 opacity-70 text-right">
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>

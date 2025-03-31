@@ -78,7 +78,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
       destination: '',
       startingAddress: '',
       startDate: new Date(),
-      endDate: new Date(new Date().setDate(new Date().getDate() + 7)),
+      endDate: new Date(new Date().setDate(new Date().getDate() + 4)),
       budget: 'medium',
       budgetAmount: 50000,
       travelers: 2,
@@ -122,6 +122,8 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   }, [budgetValue, currencyValue, form, budgetRanges]);
 
   const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
+    // Add a log to verify the currency is being submitted
+    console.log("Submitting form with currency:", data.currency);
     onSubmit(data as TripFormData);
   };
 

@@ -22,7 +22,6 @@ export async function getWeatherData(location: string): Promise<WeatherData | nu
   try {
     const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
     
-    // Check if API key is available
     if (!API_KEY) {
       console.error('Missing OpenWeather API key in environment variables');
       return null;
@@ -55,11 +54,27 @@ interface CostEstimate {
 export function generateTripCostEstimate(
   budgetLevel: string,
   travelers: number,
-  days: number,
-  customBudget?: number
+  duration: number,
+  budgetAmount: number,
+  currency: string = 'INR'
 ): CostEstimate {
-  // If a custom budget is provided, use it for calculations
-  if (customBudget && customBudget > 0) {
+  // Currency conversion rates relative to INR
+  const conversionRates: Record<string, number> = {
+    'USD': 0.012,
+    'EUR': 0.011,
+    'GBP': 0.0095,
+    'JPY': 1.33,
+    'AUD': 0.018,
+    'CAD': 0.016,
+    'SGD': 0.016,
+    'AED': 0.044,
+    'INR': 1
+  };
+  
+  const rate = conversionRates[currency] || 1;
+  
+  // If a budget amount is provided, use it for calculations
+  if (budgetAmount && budgetAmount > 0) {
     // Determine the distribution percentages based on the budget level
     let accommodationPercent = 0.35;
     let foodPercent = 0.25;
@@ -67,7 +82,7 @@ export function generateTripCostEstimate(
     let activitiesPercent = 0.15;
     let miscPercent = 0.10;
     
-    // Adjust percentages slightly based on budget level
+    // Adjust percentages based on budget level
     if (budgetLevel === 'budget') {
       accommodationPercent = 0.30;
       foodPercent = 0.25;
@@ -82,28 +97,28 @@ export function generateTripCostEstimate(
       miscPercent = 0.10;
     }
     
-    // Calculate costs based on percentages of the custom budget
-    const accommodationCost = Math.round(customBudget * accommodationPercent);
-    const foodCost = Math.round(customBudget * foodPercent);
-    const transportationCost = Math.round(customBudget * transportationPercent);
-    const activitiesCost = Math.round(customBudget * activitiesPercent);
-    const miscCost = Math.round(customBudget * miscPercent);
+    // Calculate costs based on percentages of the budget amount
+    const accommodationCost = Math.round(budgetAmount * accommodationPercent);
+    const foodCost = Math.round(budgetAmount * foodPercent);
+    const transportationCost = Math.round(budgetAmount * transportationPercent);
+    const activitiesCost = Math.round(budgetAmount * activitiesPercent);
+    const miscCost = Math.round(budgetAmount * miscPercent);
     
-    // Ensure the total matches the custom budget exactly
+    // Ensure the total matches the budget amount exactly
     const calculatedTotal = accommodationCost + foodCost + transportationCost + activitiesCost + miscCost;
-    const adjustment = customBudget - calculatedTotal;
+    const adjustment = budgetAmount - calculatedTotal;
     
     return {
-      totalCost: customBudget,
+      totalCost: budgetAmount,
       accommodationCost,
       foodCost,
       transportationCost,
       activitiesCost,
-      miscCost: miscCost + adjustment, // Add any rounding difference to miscellaneous
+      miscCost: miscCost + adjustment,
     };
   }
   
-  // Base costs per day per person in INR (Indian Rupees)
+  // Base costs per day per person in INR
   let accommodationCostPerDay = 0;
   let foodCostPerDay = 0;
   let transportationCostPerDay = 0;
@@ -113,35 +128,34 @@ export function generateTripCostEstimate(
   // Set costs based on budget level
   switch (budgetLevel.toLowerCase()) {
     case 'budget':
-      accommodationCostPerDay = 1000; // Hostel or budget hotel
-      foodCostPerDay = 600; // Street food, local eateries
-      transportationCostPerDay = 300; // Public transportation
-      activitiesCostPerDay = 500; // Free or low-cost activities
-      miscCostPerDay = 200; // Minimal extras
+      accommodationCostPerDay = 1000;
+      foodCostPerDay = 600;
+      transportationCostPerDay = 300;
+      activitiesCostPerDay = 500;
+      miscCostPerDay = 200;
       break;
     case 'moderate':
-      accommodationCostPerDay = 3000; // 3-star hotel
-      foodCostPerDay = 1500; // Mid-range restaurants
-      transportationCostPerDay = 800; // Mix of public and private
-      activitiesCostPerDay = 1200; // Standard attractions
-      miscCostPerDay = 500; // Some extras
+      accommodationCostPerDay = 3000;
+      foodCostPerDay = 1500;
+      transportationCostPerDay = 800;
+      activitiesCostPerDay = 1200;
+      miscCostPerDay = 500;
       break;
     case 'premium':
-      accommodationCostPerDay = 8000; // 4-star hotel
-      foodCostPerDay = 3000; // Nice restaurants
-      transportationCostPerDay = 2000; // Private transportation
-      activitiesCostPerDay = 3000; // Premium attractions
-      miscCostPerDay = 1000; // Shopping and extras
+      accommodationCostPerDay = 8000;
+      foodCostPerDay = 3000;
+      transportationCostPerDay = 2000;
+      activitiesCostPerDay = 3000;
+      miscCostPerDay = 1000;
       break;
     case 'luxury':
-      accommodationCostPerDay = 15000; // 5-star hotel
-      foodCostPerDay = 6000; // Fine dining
-      transportationCostPerDay = 4000; // Private vehicles, taxis
-      activitiesCostPerDay = 6000; // VIP experiences
-      miscCostPerDay = 3000; // Luxury extras
+      accommodationCostPerDay = 15000;
+      foodCostPerDay = 6000;
+      transportationCostPerDay = 4000;
+      activitiesCostPerDay = 6000;
+      miscCostPerDay = 3000;
       break;
     default:
-      // Default to moderate if not specified
       accommodationCostPerDay = 3000;
       foodCostPerDay = 1500;
       transportationCostPerDay = 800;
@@ -149,12 +163,19 @@ export function generateTripCostEstimate(
       miscCostPerDay = 500;
   }
   
+  // Convert base costs to selected currency
+  accommodationCostPerDay = Math.round(accommodationCostPerDay * rate);
+  foodCostPerDay = Math.round(foodCostPerDay * rate);
+  transportationCostPerDay = Math.round(transportationCostPerDay * rate);
+  activitiesCostPerDay = Math.round(activitiesCostPerDay * rate);
+  miscCostPerDay = Math.round(miscCostPerDay * rate);
+  
   // Calculate total costs
-  const accommodationCost = Math.round(accommodationCostPerDay * days * travelers);
-  const foodCost = Math.round(foodCostPerDay * days * travelers);
-  const transportationCost = Math.round(transportationCostPerDay * days * travelers);
-  const activitiesCost = Math.round(activitiesCostPerDay * days * travelers);
-  const miscCost = Math.round(miscCostPerDay * days * travelers);
+  const accommodationCost = Math.round(accommodationCostPerDay * duration * travelers);
+  const foodCost = Math.round(foodCostPerDay * duration * travelers);
+  const transportationCost = Math.round(transportationCostPerDay * duration * travelers);
+  const activitiesCost = Math.round(activitiesCostPerDay * duration * travelers);
+  const miscCost = Math.round(miscCostPerDay * duration * travelers);
   
   const totalCost = accommodationCost + foodCost + transportationCost + activitiesCost + miscCost;
   

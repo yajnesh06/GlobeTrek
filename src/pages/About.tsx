@@ -47,8 +47,7 @@ const About = () => {
           <motion.div
             key={index}
             variants={itemVariants}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+           
             className="bg-white shadow-md rounded-2xl p-6 flex flex-col items-center text-center transition-transform hover:shadow-xl relative"
           >
             <motion.div className="text-voyage-600 mb-4">{item.icon}</motion.div>

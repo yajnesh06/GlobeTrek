@@ -180,7 +180,7 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
       }
       
       const jsonText = generatedText.substring(jsonStartIndex, jsonEndIndex);
-      let itinerary = JSON.parse(jsonText) as GeneratedItinerary;
+      const itinerary = JSON.parse(jsonText) as GeneratedItinerary;
       
       // Ensure the required fields are present
       if (!itinerary.budget) itinerary.budget = tripData.budget;
@@ -197,7 +197,12 @@ export async function generateItinerary(tripData: TripFormData): Promise<Generat
         - ${itinerary.highlights.localFood.length} local foods
         - Budget: ${tripData.currency}${itinerary.budgetAmount.toLocaleString()}`);
       
-      return itinerary;
+      return {
+        ...itinerary,
+        // ... other itinerary properties
+        currency: tripData.currency, // Explicitly include the currency from the form data
+        // ... rest of the properties
+      };
     } catch (parseError) {
       console.error('Error parsing the generated content:', parseError);
       console.log('Raw response:', data);

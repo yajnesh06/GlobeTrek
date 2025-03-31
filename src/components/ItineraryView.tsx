@@ -14,7 +14,8 @@ interface ItineraryViewProps {
 }
 
 const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
-  // Add debugging log to see what currency is coming in
+  // Add more detailed debugging log
+  console.log("Itinerary full data:", itinerary);
   console.log("Itinerary currency:", itinerary.currency);
   
   // Calculate cost estimate based on itinerary data
@@ -22,14 +23,16 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
     itinerary.budget,
     itinerary.travelers || 2,
     itinerary.duration,
-    itinerary.budgetAmount
+    itinerary.budgetAmount,
+    itinerary.currency // Ensure currency is passed
   );
 
   // Calculate per-person budget
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
   
-  // Add currency validation with more explicit debugging
-  const validatedCurrency = itinerary.currency || 'INR'; // Default to INR if undefined
+  // Force the currency to use the one from the itinerary
+  // Make sure to use the exact currency value from the itinerary
+  const validatedCurrency = itinerary.currency || 'INR'; 
   console.log("Using currency:", validatedCurrency);
   
   // Rest of the component remains the same
