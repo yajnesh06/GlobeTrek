@@ -17,18 +17,18 @@ const About = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="relative min-h-screen bg-gradient-to-b from-white to-voyage-100 px-6 md:px-16 py-10 overflow-hidden font-sans"
+      className="relative min-h-screen bg-gradient-to-b from-white to-blue-100 px-6 md:px-16 py-10 overflow-hidden font-sans"
     >
       {/* Optimized Background Animation */}
       <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-voyage-400 opacity-30 blur-[60px]"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#2563eb] opacity-30 blur-[60px]"
         animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
       />
          <Navbar />
       {/* Title */}
       <motion.h1 variants={itemVariants} className="text-4xl p-4 m-6 md:text-6xl font-bold text-center text-gray-900 relative">
-        About <span className="text-voyage-600">GlobeTrekAI</span>
+        About <span className="text-[#2563eb]">GlobeTrekAI</span>
       </motion.h1>
 
       {/* Subtitle */}
@@ -50,7 +50,7 @@ const About = () => {
            
             className="bg-white shadow-md rounded-2xl p-6 flex flex-col items-center text-center transition-transform hover:shadow-xl relative"
           >
-            <motion.div className="text-voyage-600 mb-4">{item.icon}</motion.div>
+            <motion.div className="text-[#2563eb] mb-4">{item.icon}</motion.div>
             <h2 className="text-xl font-semibold text-gray-800">{item.title}</h2>
             <p className="text-gray-600 mt-2">{item.desc}</p>
           </motion.div>
@@ -63,7 +63,7 @@ const About = () => {
     href="/plan-trip"
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.92 }}
-    className="text-white font-semibold py-3 px-5 rounded-xl shadow-md transition-all  bg-voyage-500"
+    className="text-white font-semibold py-3 px-5 rounded-xl shadow-md transition-all bg-[#2563eb]"
   >
     Start Planning
   </motion.a>

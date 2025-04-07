@@ -71,8 +71,8 @@ const Index = () => {
           {/* Flowchart Box 1 */}
           <div className="relative bg-white border border-gray-200 rounded-xl p-4 md:p-5 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full max-w-[280px] md:max-w-xs">
             <div className="flex items-center mb-2 md:mb-3">
-              <div className="bg-voyage-100 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-voyage-200">
-                <Map className="h-4 w-4 md:h-5 md:w-5 text-voyage-600" />
+              <div className="bg-[#2563eb]/10 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-[#2563eb]/20">
+                <Map className="h-4 w-4 md:h-5 md:w-5 text-[#2563eb]" />
               </div>
               <h3 className="text-base md:text-lg font-bold text-gray-900">Share Your Preferences</h3>
             </div>
@@ -81,7 +81,7 @@ const Index = () => {
             </p>
             {/* Arrow pointing to the next box */}
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-              <svg className="w-5 h-5 md:w-6 md:h-6 text-voyage-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#2563eb] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
             </div>
@@ -90,8 +90,8 @@ const Index = () => {
           {/* Flowchart Box 2 */}
           <div className="relative bg-white border border-gray-200 rounded-xl p-4 md:p-5 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full max-w-[280px] md:max-w-xs">
             <div className="flex items-center mb-2 md:mb-3">
-              <div className="bg-voyage-100 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-voyage-200">
-                <Clock className="h-4 w-4 md:h-5 md:w-5 text-voyage-600" />
+              <div className="bg-[#2563eb]/10 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-[#2563eb]/20">
+                <Clock className="h-4 w-4 md:h-5 md:w-5 text-[#2563eb]" />
               </div>
               <h3 className="text-base md:text-lg font-bold text-gray-900">AI Creates Your Plan</h3>
             </div>
@@ -100,7 +100,7 @@ const Index = () => {
             </p>
             {/* Arrow pointing to the next box */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-              <svg className="w-5 h-5 md:w-6 md:h-6 text-voyage-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#2563eb] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
             </div>
@@ -109,8 +109,8 @@ const Index = () => {
           {/* Flowchart Box 3 */}
           <div className="relative bg-white border border-gray-200 rounded-xl p-4 md:p-5 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full max-w-[280px] md:max-w-xs">
             <div className="flex items-center mb-2 md:mb-3">
-              <div className="bg-voyage-100 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-voyage-200">
-                <Plane className="h-4 w-4 md:h-5 md:w-5 text-voyage-600" />
+              <div className="bg-[#2563eb]/10 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mr-2 md:mr-3 border border-[#2563eb]/20">
+                <Plane className="h-4 w-4 md:h-5 md:w-5 text-[#2563eb]" />
               </div>
               <h3 className="text-base md:text-lg font-bold text-gray-900">Enjoy Your Trip</h3>
             </div>
@@ -125,7 +125,7 @@ const Index = () => {
           <Link to="/plan-trip">
             <Button 
               size="lg" 
-              className="bg-voyage-500 hover:bg-voyage-600 text-white font-medium px-8 md:px-10 py-5 md:py-5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg md:text-xl"
+              className="bg-[#2563eb] hover:bg-[#1e40af] text-white font-medium px-8 md:px-10 py-5 md:py-5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg md:text-xl"
             >
               Start Planning Now
             </Button>
@@ -157,22 +157,26 @@ const Index = () => {
       
       {/* CTA section */}
       <section className="py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-voyage-500 to-voyage-700 opacity-90"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-voyage-400 rounded-full mix-blend-multiply filter blur-3xl opacity-70 -mb-40 -mr-40"></div>
-        <div className="absolute top-0 left-0 w-96 h-96 bg-voyage-600 rounded-full mix-blend-multiply filter blur-3xl opacity-70 -mt-40 -ml-40"></div>
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2563eb] to-[#1e40af] opacity-90 animate-gradient-x"></div>
+        
+        {/* Animated floating blobs */}
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#3b82f6] rounded-full mix-blend-multiply filter blur-3xl opacity-70 -mb-40 -mr-40 animate-blob"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-[#1d4ed8] rounded-full mix-blend-multiply filter blur-3xl opacity-70 -mt-40 -ml-40 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 right-1/4 w-72 h-72 bg-[#60a5fa] rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-4000"></div>
         
         <div className="container mx-auto max-w-4xl relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Plan Your Dream Trip?
           </h2>
-          <p className="text-xl text-voyage-100 mb-10 max-w-2xl mx-auto">
+          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
             Let our AI create a customized itinerary tailored to your interests and preferences. It only takes a few minutes!
           </p>
           
           <Link to="/plan-trip">
             <Button 
               size="lg" 
-              className="bg-white text-voyage-600 hover:bg-voyage-50 font-medium px-8 shadow-lg"
+              className="bg-white text-[#2563eb] hover:bg-blue-50 font-medium px-8 shadow-lg"
             >
               Create My Travel Plan
             </Button>
@@ -186,7 +190,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <Link to="/" className="flex items-center">
-                <Plane className="h-6 w-6 text-voyage-400 mr-2" />
+                <Plane className="h-6 w-6 text-[#60a5fa] mr-2" />
                 <span className="text-2xl font-bold">GlobeTrekAI</span>
               </Link>
               <p className="mt-2 text-gray-400 max-w-md">
