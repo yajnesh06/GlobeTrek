@@ -172,7 +172,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
   return (
     <Card className="h-[600px] flex flex-col">
-      <CardHeader className="bg-voyage-50 border-b border-voyage-100 px-4 py-3">
+      <CardHeader className="bg-blue-50 border-b border-blue-100 px-4 py-3">
         <CardTitle className="text-xl flex items-center gap-2">
           <Info className="h-5 w-5" />
           Trip Assistant
@@ -189,7 +189,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
                 className={`
                   max-w-[85%] md:max-w-[80%] px-4 py-2 rounded-lg 
                   ${message.sender === 'user' 
-                    ? 'bg-voyage-500 text-white rounded-tr-none' 
+                    ? 'bg-[#2563eb] text-white rounded-tr-none' 
                     : 'bg-gray-100 text-gray-800 rounded-tl-none'
                   }
                 `}
@@ -248,7 +248,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
           <Button 
             onClick={handleSendMessage} 
             disabled={!inputValue.trim() || isLoading}
-            className="bg-voyage-500 hover:bg-voyage-600"
+            className="bg-[#2563eb] hover:bg-[#1e40af]"
           >
             <Send className="h-4 w-4" />
           </Button>

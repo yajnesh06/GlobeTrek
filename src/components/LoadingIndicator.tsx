@@ -28,9 +28,9 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ message = "Generati
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <div className="relative w-20 h-20 mb-4">
-        <div className="absolute inset-0 rounded-full border-4 border-voyage-200 opacity-25"></div>
-        <div className="absolute inset-0 rounded-full border-4 border-voyage-500 border-t-transparent animate-spin"></div>
-        <Loader2 className="absolute inset-0 m-auto h-8 w-8 text-voyage-500 animate-pulse" />
+        <div className="absolute inset-0 rounded-full border-4 border-blue-200 opacity-25"></div>
+        <div className="absolute inset-0 rounded-full border-4 border-[#2563eb] border-t-transparent animate-spin"></div>
+        <Loader2 className="absolute inset-0 m-auto h-8 w-8 text-[#2563eb] animate-pulse" />
       </div>
       
       <h3 className="text-xl font-medium text-gray-900 mb-3">{message}</h3>
@@ -41,7 +41,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ message = "Generati
         </p>
         
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
-          <div className="bg-voyage-500 h-2.5 rounded-full animate-pulse-width"></div>
+          <div className="bg-[#2563eb] h-2.5 rounded-full animate-pulse-width"></div>
         </div>
         
         <div className="space-y-2 animate-pulse">
