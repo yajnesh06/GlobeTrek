@@ -40,7 +40,7 @@
 <a id="introduction"></a>
 ## 1. Introduction
 
-VoyageurAI is a modern AI-powered travel planning application designed to help users create personalized trip itineraries. Built with React, TypeScript, and powered by Google's Gemini AI, the application offers a seamless experience for planning trips based on user preferences, interests, and travel style.
+GLobeTrekAI is a modern AI-powered travel planning application designed to help users create personalized trip itineraries. Built with React, TypeScript, and powered by Google's Gemini AI, the application offers a seamless experience for planning trips based on user preferences, interests, and travel style.
 
 The application provides comprehensive trip planning features including day-by-day activity scheduling, curated travel highlights (attractions, hidden gems, restaurants, local foods), weather information, cost estimation, and the ability to save and share trips.
 

@@ -1,0 +1,16 @@
+name: Keep Supabase DB Alive
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # runs daily at 6 AM UTC
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Ping Supabase API or URL
+        run: |
+          curl -s https://phvtqnwwqbsboghcwtyj.supabase.co/rest/v1/your-table-name \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
