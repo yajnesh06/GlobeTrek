@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Curl Ping Supabase API or URL
         run: |
-          curl -s https://phvtqnwwqbsboghcwtyj.supabase.co/rest/v1/your-table-name \
+          curl -s https://phvtqnwwqbsboghcwtyj.supabase.co/rest/v1/saved_trips \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
