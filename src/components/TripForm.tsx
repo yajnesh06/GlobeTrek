@@ -34,6 +34,9 @@ const formSchema = z.object({
   transportationType: z.array(z.string()).min(1, 'Select at least one transportation type'),
   additionalNotes: z.string().optional(),
   currency: z.string().default('INR'),
+}).refine(data => data.endDate >= data.startDate, {
+  message: "End date cannot be earlier than start date",
+  path: ["endDate"], // Specify the field this error applies to
 });
 
 const interestOptions = [
