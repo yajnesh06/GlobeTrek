@@ -252,7 +252,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
                 <Button 
                   type="button" 
                   onClick={goToNextTab}
-                  className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+                  className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#1e40af]"
                 >
                   Next <ArrowRight className="h-4 w-4" />
                 </Button>
