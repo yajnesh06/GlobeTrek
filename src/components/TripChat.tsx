@@ -172,7 +172,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
   return (
     <Card className="h-[600px] flex flex-col">
-      <CardHeader className="bg-blue-50 border-b border-blue-100 px-4 py-3">
+      <CardHeader className="bg-[#2563eb]/10 border-b border-[#2563eb]/20 px-4 py-3">
         <CardTitle className="text-xl flex items-center gap-2">
           <Info className="h-5 w-5" />
           Trip Assistant

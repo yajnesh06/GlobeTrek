@@ -67,10 +67,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   return (
     <div className="w-full space-y-6">
       <Card>
-        <CardHeader className="bg-voyage-50 border-b border-voyage-100">
+        <CardHeader className="bg-[#2563eb]/10 border-b border-[#2563eb]/20">
           <div className="flex flex-col items-center">
-            <CardTitle className="text-2xl text-voyage-900">{itinerary.destination} Itinerary</CardTitle>
-            <p className="text-voyage-600 mt-1">
+            <CardTitle className="text-2xl text-[#2563eb]">{itinerary.destination} Itinerary</CardTitle>
+            <p className="text-[#2563eb]/80 mt-1">
               {new Date(itinerary.startDate).toLocaleDateString()} - {new Date(itinerary.endDate).toLocaleDateString()} 
               ({itinerary.duration} days)
             </p>
@@ -79,12 +79,12 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
-              <h3 className="text-xl font-medium text-voyage-800 mb-2">Trip Summary</h3>
+              <h3 className="text-xl font-medium text-[#2563eb] mb-2">Trip Summary</h3>
               <p className="text-gray-700 mb-4">{itinerary.summary}</p>
               
-              <div className="bg-voyage-50 p-4 rounded-lg mt-4">
-                <h4 className="text-lg font-medium text-voyage-800 flex items-center mb-3">
-                  <span className="bg-voyage-100 p-1 rounded-full mr-2"><CurrencyIcon /></span> 
+              <div className="bg-[#2563eb]/10 p-4 rounded-lg mt-4">
+                <h4 className="text-lg font-medium text-[#2563eb] flex items-center mb-3">
+                  <span className="bg-[#2563eb]/20 p-1 rounded-full mr-2"><CurrencyIcon /></span> 
                   Budget Breakdown
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -106,7 +106,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="font-medium">{currencySymbol}{costEstimate.accommodationCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
-                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.accommodationCost / itinerary.budgetAmount) * 100}%` }}></div>
+                      <div className="bg-[#2563eb] h-full rounded-full" style={{ width: `${(costEstimate.accommodationCost / itinerary.budgetAmount) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.accommodationCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
@@ -116,7 +116,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="font-medium">{currencySymbol}{costEstimate.foodCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
-                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.foodCost / itinerary.budgetAmount) * 100}%` }}></div>
+                      <div className="bg-[#2563eb] h-full rounded-full" style={{ width: `${(costEstimate.foodCost / itinerary.budgetAmount) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.foodCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
@@ -126,7 +126,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="font-medium">{currencySymbol}{costEstimate.transportationCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
-                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.transportationCost / itinerary.budgetAmount) * 100}%` }}></div>
+                      <div className="bg-[#2563eb] h-full rounded-full" style={{ width: `${(costEstimate.transportationCost / itinerary.budgetAmount) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.transportationCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
@@ -136,7 +136,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="font-medium">{currencySymbol}{costEstimate.activitiesCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
-                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.activitiesCost / itinerary.budgetAmount) * 100}%` }}></div>
+                      <div className="bg-[#2563eb] h-full rounded-full" style={{ width: `${(costEstimate.activitiesCost / itinerary.budgetAmount) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.activitiesCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
@@ -146,7 +146,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                       <span className="font-medium">{currencySymbol}{costEstimate.miscCost.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-200 h-1.5 mt-2 rounded-full overflow-hidden">
-                      <div className="bg-voyage-500 h-full rounded-full" style={{ width: `${(costEstimate.miscCost / itinerary.budgetAmount) * 100}%` }}></div>
+                      <div className="bg-[#2563eb] h-full rounded-full" style={{ width: `${(costEstimate.miscCost / itinerary.budgetAmount) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-right mt-1 text-gray-500">{Math.round((costEstimate.miscCost / itinerary.budgetAmount) * 100)}% of budget</div>
                   </div>
@@ -155,7 +155,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-medium text-voyage-800 mb-2">Current Weather</h3>
+              <h3 className="text-xl font-medium text-[#2563eb] mb-2">Current Weather</h3>
               <WeatherCard location={itinerary.destination} />
             </div>
           </div>
@@ -174,7 +174,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
         <TabsContent value="daily" className="space-y-6">
           {itinerary.days.map((day) => (
             <Card key={day.day} className="overflow-hidden">
-              <CardHeader className="bg-voyage-50 py-3 px-6">
+              <CardHeader className="bg-[#2563eb]/10 py-3 px-6">
                 <div className="flex justify-between items-center">
                   <CardTitle className="text-lg">Day {day.day}: {new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })}</CardTitle>
                   <Badge variant="outline" className="bg-white">{day.date}</Badge>
@@ -185,7 +185,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
                   {day.activities.map((activity, index) => (
                     <div key={index} className="p-4 hover:bg-gray-50">
                       <div className="flex items-start">
-                        <div className="bg-voyage-100 text-voyage-800 px-2 py-1 rounded text-sm font-medium min-w-20 text-center">
+                        <div className="bg-[#2563eb]/20 text-[#2563eb] px-2 py-1 rounded text-sm font-medium min-w-20 text-center">
                           {activity.time}
                         </div>
                         <div className="ml-4 flex-1">
