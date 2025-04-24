@@ -661,7 +661,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
             <div className="pt-6">
               <Button 
                 type="submit" 
-                className="w-full md:w-auto bg-gradient-to-r from-voyage-500 to-voyage-600 hover:from-voyage-600 hover:to-voyage-700 text-white font-medium py-2 px-6 rounded-md shadow-md"
+                className="w-full md:w-auto bg-gradient-to-r from-[#2563eb] to-[#1e40af] hover:from-[#1e40af] hover:to-[#2563eb] text-white font-medium py-2 px-6 rounded-md shadow-md"
               >
                 Generate Itinerary
               </Button>

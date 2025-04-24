@@ -19,7 +19,7 @@ const TripFormStepper: React.FC<StepperProps> = ({
       {/* Progress bar */}
       <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2">
         <div
-          className="h-full bg-voyage-500 transition-all duration-500 ease-in-out"
+          className="h-full bg-[#2563eb] transition-all duration-500 ease-in-out"
           style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
         ></div>
       </div>
@@ -40,9 +40,9 @@ const TripFormStepper: React.FC<StepperProps> = ({
                 className={cn(
                   "flex items-center justify-center w-10 h-10 rounded-full z-10 transition-all duration-300 cursor-pointer",
                   isCompleted
-                    ? "bg-voyage-500 text-white"
+                    ? "bg-[#2563eb] text-white"
                     : isActive
-                    ? "bg-white text-voyage-500 border-2 border-voyage-500 shadow-md"
+                    ? "bg-white text-[#2563eb] border-2 border-[#2563eb] shadow-md"
                     : "bg-white text-gray-400 border-2 border-gray-200"
                 )}
               >
@@ -56,7 +56,7 @@ const TripFormStepper: React.FC<StepperProps> = ({
                 className={cn(
                   "mt-2 text-xs font-medium whitespace-nowrap",
                   isActive || isCompleted
-                    ? "text-voyage-700"
+                    ? "text-[#2563eb]"
                     : "text-gray-500"
                 )}
               >
