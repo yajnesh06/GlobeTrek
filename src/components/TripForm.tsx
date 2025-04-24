@@ -336,11 +336,12 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               </CardContent>
             </Card>
             
+            // First Next button in the basic tab
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
                 onClick={goToNextTab}
-                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#1e40af]"
               >
                 Next <ArrowRight className="h-4 w-4" />
               </Button>
@@ -445,11 +446,12 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
+            // Budget tab Next button
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
                 onClick={goToNextTab}
-                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#1e40af]"
               >
                 Next <ArrowRight className="h-4 w-4" />
               </Button>
@@ -532,11 +534,12 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
+            // Preferences tab Next button
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
                 onClick={goToNextTab}
-                className="flex items-center gap-2 bg-gradient-to-r from-voyage-500 to-voyage-600"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#1e40af]"
               >
                 Next <ArrowRight className="h-4 w-4" />
               </Button>
@@ -658,6 +661,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
+            // Update the submit button (already updated)
             <div className="pt-6">
               <Button 
                 type="submit" 
