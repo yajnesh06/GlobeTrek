@@ -336,7 +336,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               </CardContent>
             </Card>
             
-            // First Next button in the basic tab
+            
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
@@ -446,7 +446,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
-            // Budget tab Next button
+           
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
@@ -534,7 +534,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
-            // Preferences tab Next button
+          
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
@@ -661,7 +661,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
-            // Update the submit button (already updated)
+            
             <div className="pt-6">
               <Button 
                 type="submit" 
