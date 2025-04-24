@@ -56,31 +56,41 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
       // Include previous messages for context (limited to last 6 messages)
       const conversationHistory = messages
-        .slice(-6)
+        .slice(-6) // Keep using the last 6 messages for context
         .map(msg => `${msg.sender === 'user' ? 'User' : 'Assistant'}: ${msg.text}`)
         .join('\n');
 
-      // Create a more focused prompt
+      // --- Prompt Refinement ---
+      // 1. Added Budget Amount and Currency to trip details.
+      // 2. Strengthened instructions for direct, specific answers using trip context and general knowledge.
       const prompt = `
-        You are a helpful, friendly AI travel assistant for a trip to ${itinerary.destination}.
-        
+        You are a helpful, friendly, and knowledgeable AI travel assistant specifically for a trip to ${itinerary.destination}.
+        Your goal is to provide direct, specific, and actionable answers based on the user's itinerary and your general travel knowledge.
+
         Trip details:
         - Destination: ${itinerary.destination}
         - Dates: ${new Date(itinerary.startDate).toLocaleDateString()} to ${new Date(itinerary.endDate).toLocaleDateString()}
         - Travelers: ${itinerary.travelers || 2}
         - Interests: ${itinerary.interests?.join(', ') || 'various activities'}
-        
-        Key attractions: ${itinerary.highlights.mustVisitPlaces.map(place => place.name).join(', ')}
-        
+        - Budget: Approximately ${itinerary.budgetAmount?.toLocaleString()} ${itinerary.currency || 'INR'} (${itinerary.budget || 'medium'} level) // Added budget details
+        - Key attractions mentioned: ${itinerary.highlights.mustVisitPlaces.map(place => place.name).join(', ')}
+
         Previous conversation:
         ${conversationHistory}
-        
+
         User question: "${userQuestion}"
-        
-        Respond in a conversational, helpful way. Keep your response brief (2-3 sentences) and directly address the question.
-        Don't provide generic travel advice unless specifically asked.
-        If you don't know something specific about this trip, you can say so and offer to help with something else.
+
+        Instructions:
+        - Answer the user's question directly and specifically.
+        - Use the provided trip details (destination, dates, budget, interests) to tailor your response.
+        - If the question asks for recommendations (like resorts, restaurants, activities), provide specific examples that fit the trip's context, especially the budget. For example, if asked for resorts in budget, list specific resort names.
+        - Keep your response concise and helpful (aim for 2-4 sentences unless more detail is necessary for a specific recommendation).
+        - Do NOT provide generic travel advice unless explicitly asked.
+        - If you lack specific information about this exact trip itinerary detail (that isn't general knowledge), acknowledge that briefly and offer alternative help.
+        - Format lists or multiple recommendations clearly if needed.
       `;
+      // --- End Prompt Refinement ---
+
 
       const response = await fetch(`${API_URL}?key=${API_KEY}`, {
         method: 'POST',
@@ -96,10 +106,10 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
             }
           ],
           generationConfig: {
-            temperature: 0.2,  // Lower temperature for more focused responses
-            topK: 20,
-            topP: 0.8,
-            maxOutputTokens: 150,  // Shorter responses
+            temperature: 0.4,  // Slightly increased for potentially better recommendations
+            topK: 30,          // Adjusted slightly
+            topP: 0.85,        // Adjusted slightly
+            maxOutputTokens: 150, // Increased token limit for potentially longer specific answers
           }
         })
       });
