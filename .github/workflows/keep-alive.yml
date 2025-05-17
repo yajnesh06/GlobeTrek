@@ -2,7 +2,7 @@ name: Keep Vercel API Alive
 
 on:
   schedule:
-    - cron: "0 */5 * * *"  # Runs every 3 hours
+    - cron: "0 */6 * * *"  # Runs every 3 hours
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
