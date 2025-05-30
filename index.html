@@ -7,17 +7,14 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta property="og:image" content="/og-image.png" />
 
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        img-src 'self' data: https://openweathermap.org https://images.unsplash.com https://i.vimeocdn.com;
-        connect-src 'self' https://api.unsplash.com https://api.pexels.com;
-        font-src 'self' data:;
-        style-src 'self' 'unsafe-inline';
-        script-src 'self' 'unsafe-eval';
-      "
-    />
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  img-src 'self' data: https://openweathermap.org https://images.unsplash.com https://i.vimeocdn.com;
+  connect-src 'self' https://api.unsplash.com https://api.pexels.com https://generativelanguage.googleapis.com;
+  font-src 'self' data:;
+  style-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-eval';
+">
   </head>
 
   <body>
