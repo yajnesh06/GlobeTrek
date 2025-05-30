@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -77,21 +76,23 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    // --- ADDED DEFAULT VALUES HERE ---
     defaultValues: {
-      destination: '',
-      startingAddress: '',
-      startDate: new Date(),
-      endDate: new Date(new Date().setDate(new Date().getDate() + 4)),
+      destination: 'Paris, France', // Example destination
+      startingAddress: 'Bengaluru, India', // Example starting address
+      startDate: new Date(), // Today's date
+      endDate: new Date(new Date().setDate(new Date().getDate() + 7)), // 7 days from today
       budget: 'medium',
-      budgetAmount: 50000,
+      budgetAmount: 18000, // This will be updated by useEffect based on currency/budget level
       travelers: 2,
-      interests: [],
-      dietaryRestrictions: [],
+      interests: ['Art & Culture', 'Food & Cuisine'], // Example interests
+      dietaryRestrictions: ['Vegetarian'], // Example dietary restrictions
       accommodationType: 'Mid-range Hotel',
-      transportationType: ['Public Transport'],
-      additionalNotes: '',
-      currency: 'INR',
+      transportationType: ['Public Transport', 'Walking'], // Example transportation
+      additionalNotes: 'Looking for romantic spots and hidden cafes.', // Example notes
+      currency: 'EUR', // Example currency
     },
+    // --- END ADDED DEFAULT VALUES ---
   });
 
   // Define budget ranges for INR
@@ -169,7 +170,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
           
           <TabsContent value="basic" className="space-y-6 animate-fade-in">
             <div className="space-y-4">
-       
+        
 
               <FormField
                 control={form.control}
@@ -416,40 +417,48 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               <FormField
                 control={form.control}
                 name="budgetAmount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base">Budget Amount</FormLabel>
-                    <div className="pb-6">
-                      <FormControl>
-                        <Slider
-                          min={budgetRanges[budgetValue as keyof typeof budgetRanges].min}
-                          max={budgetRanges[budgetValue as keyof typeof budgetRanges].max}
-                          step={1000}
-                          defaultValue={[field.value]}
-                          onValueChange={(vals) => {
-                            field.onChange(vals[0]);
-                          }}
-                        />
-                      </FormControl>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <FormDescription>
-                        {getCurrencySymbol(currencyValue)}{budgetRanges[budgetValue as keyof typeof budgetRanges].min.toLocaleString()}
-                      </FormDescription>
-                      <Badge variant="outline" className="text-base font-semibold">
-                        {getCurrencySymbol(currencyValue)}{field.value.toLocaleString()}
-                      </Badge>
-                      <FormDescription>
-                        {getCurrencySymbol(currencyValue)}{budgetRanges[budgetValue as keyof typeof budgetRanges].max.toLocaleString()}
-                      </FormDescription>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  // Determine step based on currency or budget range
+                  const currentBudgetRange = budgetRanges[budgetValue as keyof typeof budgetRanges];
+                  const range = currentBudgetRange.max - currentBudgetRange.min;
+                  // Example: Make step smaller for smaller ranges or non-INR currencies
+                  const step = currencyValue === 'INR' ? (range > 100000 ? 1000 : 500) : (range > 20000 ? 500 : 100);
+
+                  return (
+                    <FormItem>
+                      <FormLabel className="text-base">Budget Amount</FormLabel>
+                      <div className="pb-6">
+                        <FormControl>
+                          <Slider
+                            min={currentBudgetRange.min}
+                            max={currentBudgetRange.max}
+                            step={step} // Use dynamic step
+                            defaultValue={[field.value]}
+                            onValueChange={(vals) => {
+                              field.onChange(vals[0]);
+                            }}
+                          />
+                        </FormControl>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <FormDescription>
+                          {getCurrencySymbol(currencyValue)}{currentBudgetRange.min.toLocaleString()}
+                        </FormDescription>
+                        <Badge variant="outline" className="text-base font-semibold">
+                          {getCurrencySymbol(currencyValue)}{field.value.toLocaleString()}
+                        </Badge>
+                        <FormDescription>
+                          {getCurrencySymbol(currencyValue)}{currentBudgetRange.max.toLocaleString()}
+                        </FormDescription>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             </div>
             
-           
+            
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 
@@ -537,7 +546,7 @@ const TripForm: React.FC<TripFormProps> = ({ onSubmit }) => {
               />
             </div>
             
-          
+            
             <div className="flex justify-end pt-4">
               <Button 
                 type="button" 

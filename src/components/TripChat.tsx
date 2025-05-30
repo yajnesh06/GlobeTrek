@@ -12,7 +12,7 @@ import ReactMarkdown from 'react-markdown';
 // API Configuration for Gemini
 const API_KEY = import.meta.env.VITE_GOOGLE_GEMINI_API_KEY;
 // Consider using a more conversational model
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"; // Keeping flash for speed
 
 interface TripChatProps {
   itinerary: GeneratedItinerary;
@@ -51,7 +51,7 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
       // Check if API key is available
       if (!API_KEY) {
         console.error("Missing Gemini API key in environment variables");
-        return `I'm sorry, I can't provide information right now due to a configuration issue. Please check the deployment guide for instructions on setting up the API key.`;
+        return `I'm sorry, I can't provide information right now due to a configuration issue. Please ensure the API key is set up correctly.`;
       }
 
       // Include previous messages for context (limited to last 6 messages)
@@ -60,20 +60,20 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
         .map(msg => `${msg.sender === 'user' ? 'User' : 'Assistant'}: ${msg.text}`)
         .join('\n');
 
-      // --- Prompt Refinement ---
-      // 1. Added Budget Amount and Currency to trip details.
-      // 2. Strengthened instructions for direct, specific answers using trip context and general knowledge.
+      // --- PROMPT REFINEMENT ---
       const prompt = `
         You are a helpful, friendly, and knowledgeable AI travel assistant specifically for a trip to ${itinerary.destination}.
         Your goal is to provide direct, specific, and actionable answers based on the user's itinerary and your general travel knowledge.
+
+        **IMPORTANT LIMITATION:** You do NOT have access to real-time information (e.g., live weather updates, current flight statuses, exact current prices, real-time availability). If asked for real-time data, kindly state that you cannot provide it and offer general, historical information instead, if relevant.
 
         Trip details:
         - Destination: ${itinerary.destination}
         - Dates: ${new Date(itinerary.startDate).toLocaleDateString()} to ${new Date(itinerary.endDate).toLocaleDateString()}
         - Travelers: ${itinerary.travelers || 2}
         - Interests: ${itinerary.interests?.join(', ') || 'various activities'}
-        - Budget: Approximately ${itinerary.budgetAmount?.toLocaleString()} ${itinerary.currency || 'INR'} (${itinerary.budget || 'medium'} level) // Added budget details
-        - Key attractions mentioned: ${itinerary.highlights.mustVisitPlaces.map(place => place.name).join(', ')}
+        - Budget: Approximately ${itinerary.budgetAmount?.toLocaleString()} ${itinerary.currency || 'INR'} (${itinerary.budget || 'medium'} level)
+        - Key attractions mentioned in this itinerary: ${itinerary.highlights.mustVisitPlaces.map(place => place.name).join(', ')}
 
         Previous conversation:
         ${conversationHistory}
@@ -82,15 +82,16 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
 
         Instructions:
         - Answer the user's question directly and specifically.
-        - Use the provided trip details (destination, dates, budget, interests) to tailor your response.
-        - If the question asks for recommendations (like resorts, restaurants, activities), provide specific examples that fit the trip's context, especially the budget. For example, if asked for resorts in budget, list specific resort names.
-        - Keep your response concise and helpful (aim for 2-4 sentences unless more detail is necessary for a specific recommendation).
+        - **Prioritize information from the provided "Trip details" section first.**
+        - If the question asks for recommendations (like resorts, restaurants, activities, or must-visit places), provide specific examples that are well-known or generally fit the destination's context and the specified budget.
+        - For "must-visit places," refer to "Key attractions mentioned in this itinerary" first, then supplement with other well-known places if appropriate.
+        - If recommending, list specific names and offer a brief reason/description for each.
+        - Keep your response concise and helpful (aim for 2-5 sentences unless more detail is necessary for a specific recommendation or list).
         - Do NOT provide generic travel advice unless explicitly asked.
-        - If you lack specific information about this exact trip itinerary detail (that isn't general knowledge), acknowledge that briefly and offer alternative help.
-        - Format lists or multiple recommendations clearly if needed.
+        - If you genuinely lack specific information that isn't general knowledge or available in the provided trip details, acknowledge that briefly and offer alternative help.
+        - Format lists or multiple recommendations clearly using markdown (e.g., bullet points).
       `;
-      // --- End Prompt Refinement ---
-
+      // --- END PROMPT REFINEMENT ---
 
       const response = await fetch(`${API_URL}?key=${API_KEY}`, {
         method: 'POST',
@@ -106,10 +107,10 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
             }
           ],
           generationConfig: {
-            temperature: 0.4,  // Slightly increased for potentially better recommendations
-            topK: 30,          // Adjusted slightly
-            topP: 0.85,        // Adjusted slightly
-            maxOutputTokens: 150, // Increased token limit for potentially longer specific answers
+            temperature: 0.5,     // Slightly increased for more varied recommendations
+            topK: 40,             // Adjusted slightly
+            topP: 0.9,            // Adjusted slightly
+            maxOutputTokens: 300, // SIGNIFICANTLY INCREASED for more comprehensive recommendations
           }
         })
       });
@@ -121,6 +122,11 @@ const TripChat: React.FC<TripChatProps> = ({ itinerary }) => {
       }
 
       const data = await response.json();
+      // Handle cases where content might be empty (e.g., due to safety filters or no valid response)
+      if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content || !data.candidates[0].content.parts || data.candidates[0].content.parts.length === 0) {
+        console.warn('Gemini API returned an empty or invalid response:', data);
+        return "I apologize, but I couldn't generate a response for that. Please try rephrasing your question.";
+      }
       return data.candidates[0].content.parts[0].text.trim();
     } catch (error) {
       console.error('Error generating chat response:', error);

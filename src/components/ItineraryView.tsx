@@ -1,3 +1,5 @@
+// src/pages/itinerary/[id].tsx
+
 import React from 'react';
 import { GeneratedItinerary, HighlightItem } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,34 +10,32 @@ import WeatherCard from '@/components/WeatherCard';
 import TripChat from '@/components/TripChat';
 import { generateTripCostEstimate } from '@/lib/weather';
 import { IndianRupee, DollarSign, Euro, PoundSterling, JapaneseYen } from 'lucide-react';
+import { useAttractionImages } from '@/hooks/useAttractionImages'; // Make sure this import is correct
+import ImageWithFallback from '@/components/ui/ImageWithFallback'; // Make sure this import is correct
 
+// Define props for the main ItineraryView component
 interface ItineraryViewProps {
   itinerary: GeneratedItinerary;
 }
 
 const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
-  // Add more detailed debugging log
+  // ... (keep all your existing logic for currency, cost estimate, etc.) ...
   console.log("Itinerary full data:", itinerary);
   console.log("Itinerary currency:", itinerary.currency);
-  
-  // Calculate cost estimate based on itinerary data
+
   const costEstimate = generateTripCostEstimate(
     itinerary.budget,
     itinerary.travelers || 2,
     itinerary.duration,
     itinerary.budgetAmount,
-    itinerary.currency // Ensure currency is passed
+    itinerary.currency
   );
 
-  // Calculate per-person budget
   const perPersonBudget = Math.round(itinerary.budgetAmount / itinerary.travelers);
-  
-  // Force the currency to use the one from the itinerary
-  // Make sure to use the exact currency value from the itinerary
-  const validatedCurrency = itinerary.currency || 'INR'; 
+
+  const validatedCurrency = itinerary.currency || 'INR';
   console.log("Using currency:", validatedCurrency);
-  
-  // Rest of the component remains the same
+
   const getCurrencySymbol = (currencyCode: string) => {
     switch(currencyCode) {
       case 'USD': return '$';
@@ -47,10 +47,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       case 'SGD': return 'S$';
       case 'AED': return 'د.إ';
       case 'INR': return '₹';
-      default: return currencyCode; // Return the code itself if unknown
+      default: return currencyCode;
     }
   };
-  
+
   const CurrencyIcon = () => {
     switch(validatedCurrency) {
       case 'USD': return <DollarSign className="h-4 w-4" />;
@@ -58,10 +58,10 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
       case 'GBP': return <PoundSterling className="h-4 w-4" />;
       case 'JPY': return <JapaneseYen className="h-4 w-4" />;
       case 'INR': return <IndianRupee className="h-4 w-4" />;
-      default: return <span>{validatedCurrency}</span>; // Fallback for unknown currencies
+      default: return <span>{validatedCurrency}</span>;
     }
   };
-  
+
   const currencySymbol = getCurrencySymbol(validatedCurrency);
 
   return (
@@ -71,7 +71,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
           <div className="flex flex-col items-center">
             <CardTitle className="text-2xl text-[#2563eb]">{itinerary.destination} Itinerary</CardTitle>
             <p className="text-[#2563eb]/80 mt-1">
-              {new Date(itinerary.startDate).toLocaleDateString()} - {new Date(itinerary.endDate).toLocaleDateString()} 
+              {new Date(itinerary.startDate).toLocaleDateString()} - {new Date(itinerary.endDate).toLocaleDateString()}
               ({itinerary.duration} days)
             </p>
           </div>
@@ -81,17 +81,17 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
             <div className="md:col-span-2">
               <h3 className="text-xl font-medium text-[#2563eb] mb-2">Trip Summary</h3>
               <p className="text-gray-700 mb-4">{itinerary.summary}</p>
-              
+
               <div className="bg-[#2563eb]/10 p-4 rounded-lg mt-4">
                 <h4 className="text-lg font-medium text-[#2563eb] flex items-center mb-3">
-                  <span className="bg-[#2563eb]/20 p-1 rounded-full mr-2"><CurrencyIcon /></span> 
+                  <span className="bg-[#2563eb]/20 p-1 rounded-full mr-2"><CurrencyIcon /></span>
                   Budget Breakdown
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-white p-3 rounded shadow-sm">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600">Total Budget</span>
-                      <span className="text-xl font-bold text-voyage-600">{currencySymbol}{itinerary.budgetAmount.toLocaleString()}</span>
+                      <span className="text-xl font-bold text-[#2563eb]">{currencySymbol}{itinerary.budgetAmount.toLocaleString()}</span>
                     </div>
                   </div>
                   <div className="bg-white p-3 rounded shadow-sm">
@@ -170,7 +170,7 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
           <TabsTrigger value="hidden" className="flex-1 min-w-[120px]">Hidden Gems</TabsTrigger>
           <TabsTrigger value="chat" className="flex-1 min-w-[120px]">Chat</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="daily" className="space-y-6">
           {itinerary.days.map((day) => (
             <Card key={day.day} className="overflow-hidden">
@@ -208,49 +208,57 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
             </Card>
           ))}
         </TabsContent>
-        
-        <TabsContent value="attractions" className="space-y-6">
-          <HighlightSection 
-            title="Must-Visit Places" 
-            items={itinerary.highlights.mustVisitPlaces} 
+
+        {/* HighlightSection for Attractions - now correctly passes overallDestination */}
+        <TabsContent value="attractions">
+          <HighlightSection
+            title="Attractions"
+            items={itinerary.highlights.mustVisitPlaces}
+            overallDestination={itinerary.destination} // <--- PASS NEW PROP HERE
           />
         </TabsContent>
-        
-        <TabsContent value="dining" className="space-y-6">
-          <HighlightSection 
-            title="Recommended Restaurants" 
-            items={itinerary.highlights.restaurants} 
-          />
-          
-          <div className="mt-8">
-            <h3 className="text-xl font-medium mb-4">Local Foods to Try</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {itinerary.highlights.localFood.map((food, index) => (
-                <Card key={index} className="overflow-hidden">
+
+        {/* Dining content (remains unchanged as it doesn't use images) */}
+        <TabsContent value="dining">
+          <h3 className="text-xl font-medium mb-4">Dining Options</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {itinerary.highlights.restaurants.length > 0 ? (
+              itinerary.highlights.restaurants.map((item, index) => (
+                <Card key={index} className="overflow-hidden h-full">
                   <CardContent className="p-4">
-                    <h4 className="font-bold text-lg">{food.name}</h4>
-                    <p className="text-gray-600 mt-1">{food.description}</p>
-                    {food.tags && food.tags.length > 0 && (
+                    <h4 className="font-bold text-lg mb-1">{item.name}</h4>
+                    {item.location && (
+                      <p className="text-sm text-gray-600 flex items-center mb-2">
+                        <span className="mr-1 text-red-500">📍</span>
+                        {item.location}
+                      </p>
+                    )}
+                    <p className="text-gray-600 mt-2">{item.description}</p>
+                    {item.tags && item.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {food.tags.map((tag, idx) => (
+                        {item.tags.map((tag, idx) => (
                           <Badge key={idx} variant="outline">{tag}</Badge>
                         ))}
                       </div>
                     )}
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p className="col-span-full text-gray-500">No dining options available in this itinerary.</p>
+            )}
           </div>
         </TabsContent>
-        
-        <TabsContent value="hidden" className="space-y-6">
-          <HighlightSection 
-            title="Hidden Gems" 
-            items={itinerary.highlights.hiddenGems} 
+
+        {/* HighlightSection for Hidden Gems - now correctly passes overallDestination */}
+        <TabsContent value="hidden">
+          <HighlightSection
+            title="Hidden Gems"
+            items={itinerary.highlights.hiddenGems}
+            overallDestination={itinerary.destination} // <--- PASS NEW PROP HERE
           />
         </TabsContent>
-        
+
         <TabsContent value="chat" className="space-y-6">
           <TripChat itinerary={itinerary} />
         </TabsContent>
@@ -259,18 +267,40 @@ const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary }) => {
   );
 };
 
+// Define props for the HighlightSection component - UPDATED
 interface HighlightSectionProps {
   title: string;
   items: HighlightItem[];
+  overallDestination?: string; // <--- NEW PROP ADDED HERE
 }
 
-const HighlightSection: React.FC<HighlightSectionProps> = ({ title, items }) => {
+// HighlightSection component - UPDATED
+const HighlightSection: React.FC<HighlightSectionProps> = ({ title, items, overallDestination }) => { // <--- ACCEPT NEW PROP HERE
+  // Pass overallDestination to useAttractionImages
+  const { highlightItems, isLoading } = useAttractionImages(items, overallDestination); // <--- PASS NEW PROP HERE
+
   return (
     <div>
       <h3 className="text-xl font-medium mb-4">{title}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map((item, index) => (
+        {highlightItems.map((item, index) => (
           <Card key={index} className="overflow-hidden h-full">
+            <div className="w-full h-48">
+              {item.imageUrl ? (
+                <ImageWithFallback
+                  src={item.imageUrl}
+                  alt={item.imageAlt || `Photo of ${item.name}`}
+                  credit={item.imageCredit}
+                  className="w-full h-full object-cover"
+                />
+              ) : isLoading ? (
+                <div className="bg-gray-200 animate-pulse w-full h-full"></div>
+              ) : (
+                <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
+                  <span>No image available</span>
+                </div>
+              )}
+            </div>
             <CardContent className="p-4">
               <h4 className="font-bold text-lg">{item.name}</h4>
               {item.location && (

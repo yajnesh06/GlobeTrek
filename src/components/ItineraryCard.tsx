@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -45,22 +44,22 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ itinerary }) => {
   const getActivityIcon = (type: string) => {
     switch (type) {
       case 'attraction':
-        return <Navigation className="h-4 w-4 mr-1.5 text-voyage-500" />;
+        return <Navigation className="h-4 w-4 mr-1.5 text-[#2563eb]" />; // Changed from text-voyage-500
       case 'restaurant':
-        return <Utensils className="h-4 w-4 mr-1.5 text-voyage-500" />;
+        return <Utensils className="h-4 w-4 mr-1.5 text-[#2563eb]" />; // Changed from text-voyage-500
       case 'transportation':
-        return <MapPin className="h-4 w-4 mr-1.5 text-voyage-500" />;
+        return <MapPin className="h-4 w-4 mr-1.5 text-[#2563eb]" />; // Changed from text-voyage-500
       case 'accommodation':
-        return <MapPin className="h-4 w-4 mr-1.5 text-voyage-500" />;
+        return <MapPin className="h-4 w-4 mr-1.5 text-[#2563eb]" />; // Changed from text-voyage-500
       default:
-        return <Clock className="h-4 w-4 mr-1.5 text-voyage-500" />;
+        return <Clock className="h-4 w-4 mr-1.5 text-[#2563eb]" />; // Changed from text-voyage-500
     }
   };
   
   const renderHighlightItem = (item: HighlightItem, icon: React.ReactNode) => (
     <div key={item.name} className="bg-white rounded-lg p-4 shadow-sm border">
       <div className="flex items-start gap-3">
-        <div className="bg-voyage-50 p-2 rounded-md">
+        <div className="bg-[#2563eb]/10 p-2 rounded-md"> {/* Changed from bg-voyage-50 */}
           {icon}
         </div>
         <div className="flex-1">
@@ -125,10 +124,10 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ itinerary }) => {
         <Tabs defaultValue="itinerary" className="w-full">
           <div className="border-b px-6">
             <TabsList className="h-12">
-              <TabsTrigger value="itinerary" className="data-[state=active]:bg-transparent data-[state=active]:font-medium data-[state=active]:text-voyage-700">
+              <TabsTrigger value="itinerary" className="data-[state=active]:bg-transparent data-[state=active]:font-medium data-[state=active]:text-[#2563eb]"> {/* Changed from text-voyage-700 */}
                 Day-by-Day Itinerary
               </TabsTrigger>
-              <TabsTrigger value="highlights" className="data-[state=active]:bg-transparent data-[state=active]:font-medium data-[state=active]:text-voyage-700">
+              <TabsTrigger value="highlights" className="data-[state=active]:bg-transparent data-[state=active]:font-medium data-[state=active]:text-[#2563eb]"> {/* Changed from text-voyage-700 */}
                 Trip Highlights
               </TabsTrigger>
             </TabsList>
@@ -142,12 +141,12 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ itinerary }) => {
                     <div 
                       className={cn(
                         "flex items-center justify-between p-4 border-b cursor-pointer transition-colors",
-                        expandedDays.includes(day.day) ? "bg-voyage-50" : "hover:bg-gray-50"
+                        expandedDays.includes(day.day) ? "bg-[#2563eb]/10" : "hover:bg-gray-50" // Changed from bg-voyage-50
                       )}
                       onClick={() => toggleDayExpansion(day.day)}
                     >
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10 bg-voyage-100 rounded-full flex items-center justify-center text-voyage-700 font-medium">
+                        <div className="flex-shrink-0 w-10 h-10 bg-[#2563eb]/20 rounded-full flex items-center justify-center text-[#2563eb] font-medium"> {/* Changed from bg-voyage-100, text-voyage-700 */}
                           {day.day}
                         </div>
                         <div className="ml-4">
@@ -185,7 +184,7 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ itinerary }) => {
                               )}
                               
                               <div className="bg-white rounded-lg border p-3 ml-5 relative before:absolute before:w-5 before:h-px before:bg-gray-200 before:left-0 before:top-4 before:-translate-x-full">
-                                <div className="absolute left-0 top-3 w-3 h-3 rounded-full bg-voyage-500 -ml-7 z-10 ring-2 ring-white"></div>
+                                <div className="absolute left-0 top-3 w-3 h-3 rounded-full bg-[#2563eb] -ml-7 z-10 ring-2 ring-white"></div> {/* Changed from bg-voyage-500 */}
                                 
                                 <div className="flex items-start">
                                   <div className="flex-1">
@@ -226,48 +225,48 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ itinerary }) => {
             <div className="p-6 space-y-8">
               <section>
                 <div className="flex items-center mb-4">
-                  <Star className="h-5 w-5 text-voyage-500 mr-2" />
+                  <Star className="h-5 w-5 text-[#2563eb] mr-2" /> {/* Changed from text-voyage-500 */}
                   <h3 className="text-xl font-semibold text-gray-900">Must-Visit Places</h3>
                 </div>
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                   {itinerary.highlights.mustVisitPlaces.map((place) => 
-                    renderHighlightItem(place, <Star className="h-5 w-5 text-voyage-500" />)
+                    renderHighlightItem(place, <Star className="h-5 w-5 text-[#2563eb]" />) // Changed from text-voyage-500
                   )}
                 </div>
               </section>
               
               <section>
                 <div className="flex items-center mb-4">
-                  <Gem className="h-5 w-5 text-voyage-500 mr-2" />
+                  <Gem className="h-5 w-5 text-[#2563eb] mr-2" />
                   <h3 className="text-xl font-semibold text-gray-900">Hidden Gems</h3>
                 </div>
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                   {itinerary.highlights.hiddenGems.map((place) => 
-                    renderHighlightItem(place, <Gem className="h-5 w-5 text-voyage-500" />)
+                    renderHighlightItem(place, <Gem className="h-5 w-5 text-[#2563eb]" />) // Changed from text-voyage-500
                   )}
                 </div>
               </section>
               
               <section>
                 <div className="flex items-center mb-4">
-                  <Utensils className="h-5 w-5 text-voyage-500 mr-2" />
+                  <Utensils className="h-5 w-5 text-[#2563eb] mr-2" />
                   <h3 className="text-xl font-semibold text-gray-900">Recommended Restaurants</h3>
                 </div>
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                   {itinerary.highlights.restaurants.map((place) => 
-                    renderHighlightItem(place, <Utensils className="h-5 w-5 text-voyage-500" />)
+                    renderHighlightItem(place, <Utensils className="h-5 w-5 text-[#2563eb]" />)
                   )}
                 </div>
               </section>
               
               <section>
                 <div className="flex items-center mb-4">
-                  <Utensils className="h-5 w-5 text-voyage-500 mr-2" />
+                  <Utensils className="h-5 w-5 text-[#2563eb] mr-2" /> {/* Changed from text-voyage-500 */}
                   <h3 className="text-xl font-semibold text-gray-900">Local Food to Try</h3>
                 </div>
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                   {itinerary.highlights.localFood.map((food) => 
-                    renderHighlightItem(food, <Utensils className="h-5 w-5 text-voyage-500" />)
+                    renderHighlightItem(food, <Utensils className="h-5 w-5 text-[#2563eb]" />) // Changed from text-voyage-500
                   )}
                 </div>
               </section>
