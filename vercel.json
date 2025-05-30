@@ -1,16 +1,15 @@
 {
-    "routes": [
-      {
-        "src": "/(.*)",
-        "headers": {
-          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://phvtqnwwqbsboghcwtyj.supabase.co https://api.openweathermap.org https://generativelanguage.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'",
-          "Referrer-Policy": "strict-origin-when-cross-origin",
-          "X-Frame-Options": "DENY",
-          "X-Content-Type-Options": "nosniff",
-          "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-          "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
-        }
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://openweathermap.org https://images.unsplash.com https://i.vimeocdn.com; font-src 'self'; connect-src 'self' https://phvtqnwwqbsboghcwtyj.supabase.co https://api.openweathermap.org https://generativelanguage.googleapis.com https://api.unsplash.com https://api.pexels.com; frame-src 'none'; object-src 'none'; base-uri 'self'",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+        "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
       }
-    ]
-  }
-  
+    }
+  ]
+}
