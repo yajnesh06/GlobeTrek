@@ -428,41 +428,49 @@ export const imageService = {
       }
     }
 
-    // Parallel API calls with timeout
+    // Define API calls - USING PROXY FOR WIKIPEDIA NOW
     const apiCalls = [];
     
-    for (const query of searchQueries.slice(0, 2)) { // Limit to first 2 queries for speed
-      // Wikipedia
-      apiCalls.push(
-        fetchWikipediaImage(query).catch(error => {
-          console.warn(`Wikipedia failed for "${query}":`, error.message);
-          return null;
-        })
-      );
-      
-      // Unsplash
-      if (unsplashApiKey) {
-        apiCalls.push(
-          fetchUnsplashImage(query, unsplashApiKey).catch(error => {
-            console.warn(`Unsplash failed for "${query}":`, error.message);
-            return null;
-          })
-        );
-      }
-      
-      // Pexels
-      if (pexelsApiKey) {
-        apiCalls.push(
-          fetchPexelsImage(query, pexelsApiKey).catch(error => {
-            console.warn(`Pexels failed for "${query}":`, error.message);
-            return null;
-          })
-        );
-      }
-    }
-
     try {
-      // Wait for first successful result or all to complete (max 8 seconds)
+      // Try Wikipedia first (via proxy)
+      for (const query of searchQueries.slice(0, 2)) {
+        const wikipediaResult = await fetchWikipediaImageViaProxy(query);
+        if (wikipediaResult && !usedImageUrls.has(wikipediaResult.url)) {
+          usedImageUrls.add(wikipediaResult.url);
+          setCachedImage(`${item.name}::${searchQueries[0]}`, wikipediaResult);
+          return { 
+            ...item, 
+            imageUrl: wikipediaResult.url, 
+            imageAlt: wikipediaResult.alt, 
+            imageCredit: wikipediaResult.credit 
+          };
+        }
+      }
+      
+      // Continue with other image sources if Wikipedia fails
+      for (const query of searchQueries.slice(0, 2)) {
+        // Unsplash
+        if (unsplashApiKey) {
+          apiCalls.push(
+            fetchUnsplashImage(query, unsplashApiKey).catch(error => {
+              console.warn(`Unsplash failed for "${query}":`, error.message);
+              return null;
+            })
+          );
+        }
+        
+        // Pexels
+        if (pexelsApiKey) {
+          apiCalls.push(
+            fetchPexelsImage(query, pexelsApiKey).catch(error => {
+              console.warn(`Pexels failed for "${query}":`, error.message);
+              return null;
+            })
+          );
+        }
+      }
+
+      // Process results from other APIs
       const results = await Promise.allSettled(apiCalls);
       
       let bestImage: { url: string; alt: string; credit: string } | null = null;
@@ -483,7 +491,6 @@ export const imageService = {
 
       if (bestImage) {
         usedImageUrls.add(bestImage.url);
-        // Cache the result
         setCachedImage(`${item.name}::${searchQueries[0]}`, bestImage);
         return { ...item, imageUrl: bestImage.url, imageAlt: bestImage.alt, imageCredit: bestImage.credit };
       }
@@ -492,7 +499,13 @@ export const imageService = {
       console.error(`[ImageService] Error fetching images for "${item.name}":`, error);
     }
 
-    return { ...item, imageUrl: undefined, imageAlt: undefined, imageCredit: undefined };
+    // Return with default placeholder if all APIs fail
+    return { 
+      ...item, 
+      imageUrl: `/assets/defaults/${item.category?.toLowerCase() || 'attraction'}.jpg`,
+      imageAlt: `${item.name}`,
+      imageCredit: 'Default image' 
+    };
   },
 
   /**
@@ -658,4 +671,37 @@ function generateSearchQueries(item: HighlightItem, overallDestination?: string)
   queries.push(item.name);
   
   return Array.from(new Set(queries.filter(q => q.trim())));
+}
+
+// Add this function to your code
+async function fetchWikipediaImageViaProxy(query: string): Promise<{ url: string; alt: string; credit: string } | null> {
+  try {
+    // Use your own API endpoint instead of direct Wikipedia API calls
+    const response = await fetchWithTimeout(
+      `/api/wikipedia?query=${encodeURIComponent(query)}`,
+      {}, 
+      5000
+    );
+    
+    if (!response.ok) {
+      console.warn(`[Wikipedia Proxy] API error for "${query}": ${response.status}`);
+      return null;
+    }
+    
+    const data = await response.json();
+    
+    if (data.imageUrl) {
+      return {
+        url: data.imageUrl,
+        alt: data.title || query,
+        credit: 'Wikipedia'
+      };
+    }
+    
+    console.log(`[Wikipedia Proxy] No image found for "${query}"`);
+    return null;
+  } catch (error) {
+    console.warn(`[Wikipedia Proxy] Error for "${query}":`, error);
+    return null;
+  }
 }
