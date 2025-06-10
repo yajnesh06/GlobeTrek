@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TripForm from '@/components/TripForm';
@@ -26,7 +25,6 @@ const PlanTrip = () => {
     toast.info("Generating your personalized itinerary...");
     
     try {
-      // Add some debug logs to help troubleshoot production issues
       console.log("Starting itinerary generation with data:", {
         destination: data.destination,
         budget: data.budget,
@@ -35,18 +33,16 @@ const PlanTrip = () => {
         travelers: data.travelers
       });
       
-      // Pass the selected currency to the itinerary generator
       const generatedItinerary = await generateItinerary({
         ...data,
-        currency: data.currency // Make sure currency is included
+        currency: data.currency
       });
       
       if (generatedItinerary) {
-        // Ensure the exact budget amount from the form is used in the itinerary
         const preservedItinerary = {
           ...generatedItinerary,
-          currency: data.currency, // Force the currency to be the one from the form
-          budgetAmount: data.budgetAmount // Force the exact budget amount from the form
+          currency: data.currency,
+          budgetAmount: data.budgetAmount
         };
         
         setItinerary(preservedItinerary);
@@ -79,7 +75,6 @@ const PlanTrip = () => {
     console.log("Attempting to save trip for user:", user.id);
     
     try {
-      // Convert GeneratedItinerary to JSON compatible format
       const tripDataJson = JSON.parse(JSON.stringify(itinerary));
       
       console.log("Saving trip to Supabase...");
@@ -132,8 +127,8 @@ const PlanTrip = () => {
       <div className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16">
         {!itinerary ? (
           <Card className="max-w-3xl mx-auto shadow-lg overflow-hidden border-0 rounded-xl">
-            <CardHeader className="bg-gradient-to-r from-voyage-50 to-voyage-100 border-b border-voyage-200 p-6 sm:p-8">
-              <CardTitle className="text-2xl md:text-3xl font-bold text-center text-voyage-900">Plan Your Dream Trip</CardTitle>
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200 p-6 sm:p-8">
+              <CardTitle className="text-2xl md:text-3xl font-bold text-center text-blue-900">Plan Your Dream Trip</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               {isLoading ? (
@@ -152,20 +147,20 @@ const PlanTrip = () => {
         ) : (
           <div className="w-full max-w-6xl mx-auto">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 gap-4">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-voyage-900 bg-clip-text text-transparent bg-gradient-to-r from-voyage-700 to-voyage-500">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-900 bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-500">
                 Your Trip to {itinerary.destination}
               </h1>
               <div className="flex flex-wrap gap-3">
                 <Button 
                   variant="outline"
-                  className="flex items-center gap-2 border-2 border-voyage-300 text-voyage-700 hover:bg-voyage-50"
+                  className="flex items-center gap-2 border-2 border-blue-300 text-blue-700 hover:bg-blue-50"
                   onClick={handleShareTrip}
                 >
                   <Share className="h-4 w-4" />
                   Share
                 </Button>
                 <Button 
-                  className="bg-gradient-to-r from-voyage-500 to-voyage-600 hover:from-voyage-600 hover:to-voyage-700 flex items-center gap-2 shadow-md"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 flex items-center gap-2 shadow-md"
                   onClick={handleSaveTrip}
                   disabled={isSaving || !user}
                 >
@@ -184,7 +179,7 @@ const PlanTrip = () => {
                 <Button 
                   variant="ghost"
                   onClick={() => setItinerary(null)} 
-                  className="text-voyage-600 hover:text-voyage-800 hover:bg-voyage-50"
+                  className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
                 >
                   Plan Another Trip
                 </Button>

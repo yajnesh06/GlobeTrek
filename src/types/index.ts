@@ -43,7 +43,8 @@ export interface HighlightItem {
   tags?: string[];
   imageUrl?: string;      // New field for the attraction image
   imageAlt?: string;      // New field for image alt text
-  imageCredit?: string;   // New field for image attribution
+  imageCredit?: string;
+  category?: string;   // New field for image attribution
 }
 
 export interface GeneratedItinerary {
