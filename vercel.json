@@ -9,7 +9,19 @@
         "X-Content-Type-Options": "nosniff",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
         "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
-      }
+      },
+      "continue": true
+    },
+    { "handle": "filesystem" },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 256,
+      "maxDuration": 10
+    }
+  }
 }

@@ -676,7 +676,7 @@ function generateSearchQueries(item: HighlightItem, overallDestination?: string)
 // Add this function to your code
 async function fetchWikipediaImageViaProxy(query: string): Promise<{ url: string; alt: string; credit: string } | null> {
   try {
-    // Use your own API endpoint instead of direct Wikipedia API calls
+    // Use absolute path for API endpoint (ensure it starts with /)
     const response = await fetchWithTimeout(
       `/api/wikipedia?query=${encodeURIComponent(query)}`,
       {}, 

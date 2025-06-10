@@ -1,11 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+// Export as a default function
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers
+  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -18,9 +19,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
   try {
     // Clean the query
-    const cleanQuery = query.split(',')[0].replace(/\s+\d+.*$/, '').replace(/\s+[(-].*$/, '').trim();
+    const cleanQuery = query
+      .split(',')[0]
+      .replace(/\s+\d+.*$/, '')
+      .replace(/\s+[(-].*$/, '')
+      .trim();
     
-    // Get search results
+    // First try a search to get the proper page title
     const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanQuery)}&format=json&srlimit=1`;
     const searchResponse = await fetch(searchUrl);
     
@@ -34,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(404).json({ error: 'No Wikipedia page found' });
     }
     
-    // Get page summary with image
+    // Now get the summary using the proper page title
     const pageTitle = searchData.query.search[0].title;
     const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
     const summaryResponse = await fetch(summaryUrl);
@@ -46,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await summaryResponse.json();
     
     if (data.thumbnail?.source) {
-      // Get higher resolution image
+      // Get a higher resolution image if possible
       const betterImage = data.thumbnail.source.replace(/\/\d+px-/, '/800px-');
       
       return res.json({
