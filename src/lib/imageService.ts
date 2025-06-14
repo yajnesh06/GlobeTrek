@@ -1,4 +1,5 @@
-import { HighlightItem } from '@/types';
+import { HighlightItem } from '../types';
+// If your types file is in a different location, adjust the path accordingly.
 
 // --- Constants ---
 const WIKIPEDIA_API_BASE = 'https://en.wikipedia.org/w/api.php';
@@ -429,7 +430,7 @@ export const imageService = {
     }
 
     // Define API calls - USING PROXY FOR WIKIPEDIA NOW
-    const apiCalls = [];
+    const apiCalls: Promise<{ url: string; alt: string; credit: string } | null>[] = [];
     
     try {
       // Try Wikipedia first (via proxy)
@@ -657,7 +658,7 @@ async function fetchPexelsImage(query: string, apiKey: string): Promise<{ url: s
 }
 
 function generateSearchQueries(item: HighlightItem, overallDestination?: string): string[] {
-  const queries = [];
+  const queries: string[] = [];
   
   // Most specific first
   if (item.location) {

@@ -7,10 +7,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
+  // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   
+  // Get the query parameter
   const { query } = req.query;
   
   if (!query || typeof query !== 'string') {
@@ -18,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
   
   try {
-    // Clean the query
+    // Clean the query - extract just the main attraction name
     const cleanQuery = query
       .split(',')[0]
       .replace(/\s+\d+.*$/, '')
@@ -30,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const searchResponse = await fetch(searchUrl);
     
     if (!searchResponse.ok) {
-      return res.status(searchResponse.status).json({ error: `Wikipedia search API returned ${searchResponse.status}` });
+      return res.status(502).json({ error: 'Wikipedia search failed' });
     }
     
     const searchData = await searchResponse.json();
@@ -39,31 +41,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(404).json({ error: 'No Wikipedia page found' });
     }
     
-    // Now get the summary using the proper page title
+    // Get the summary with thumbnail
     const pageTitle = searchData.query.search[0].title;
     const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
     const summaryResponse = await fetch(summaryUrl);
     
     if (!summaryResponse.ok) {
-      return res.status(summaryResponse.status).json({ error: `Wikipedia summary API returned ${summaryResponse.status}` });
+      return res.status(502).json({ error: 'Wikipedia summary failed' });
     }
     
     const data = await summaryResponse.json();
     
     if (data.thumbnail?.source) {
-      // Get a higher resolution image if possible
-      const betterImage = data.thumbnail.source.replace(/\/\d+px-/, '/800px-');
-      
-      return res.json({
-        imageUrl: betterImage,
+      const imageUrl = data.thumbnail.source.replace(/\/\d+px-/, '/800px-');
+
+      return res.status(200).json({
+        imageUrl,
         title: data.title,
         extract: data.extract
       });
     }
     
-    return res.status(404).json({ error: 'No image found for this article' });
+    return res.status(404).json({ error: 'No image found' });
   } catch (error) {
-    console.error('Wikipedia proxy error:', error);
-    return res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error occurred' });
+    console.error('API Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }

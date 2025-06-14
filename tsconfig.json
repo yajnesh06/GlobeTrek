@@ -1,19 +1,29 @@
+// tsconfig.node.json
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
+    // Keep your existing options that are relevant to node environment
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
-    "skipLibCheck": true,
     "allowJs": true,
     "noUnusedLocals": false,
-    "strictNullChecks": false
-  }
+    "strictNullChecks": false,
+
+    // Add/Update these options from the recommendation
+    "esModuleInterop": true,
+    "target": "ES2020", // Ensure this is ES2020 or higher for modern features
+    "module": "NodeNext",
+    "moduleResolution": "nodenext", // <-- changed here
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // DOM libs might be needed for some APIs even in node, but review if truly necessary for node-only code
+    "skipLibCheck": true, // Recommended to avoid issues with library types
+    "isolatedModules": true,
+    "noEmit": true // Crucial for development setups where a bundler (like Vite, Webpack) handles actual emission
+  },
+  "include": [
+    "api/**/*.ts", // Make sure this path is included
+    // ... any other paths relevant to your node build
+  ]
 }

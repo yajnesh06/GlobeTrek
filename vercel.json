@@ -12,16 +12,6 @@
       },
       "continue": true
     },
-    { "handle": "filesystem" },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ],
-  "functions": {
-    "api/**/*.ts": {
-      "memory": 256,
-      "maxDuration": 10
-    }
-  }
+    { "handle": "filesystem" }
+  ]
 }
