@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -123,6 +122,38 @@ export default {
 						transform: 'translateY(-10px)',
 					},
 				},
+				'blob': {
+					'0%': {
+						transform: 'translate(0px, 0px) scale(1)',
+					},
+					'33%': {
+						transform: 'translate(30px, -50px) scale(1.1)',
+					},
+					'66%': {
+						transform: 'translate(-20px, 20px) scale(0.9)',
+					},
+					'100%': {
+						transform: 'translate(0px, 0px) scale(1)',
+					},
+				},
+				'gradient-x': {
+					'0%, 100%': {
+						'background-size': '200% 200%',
+						'background-position': 'left center',
+					},
+					'50%': {
+						'background-size': '200% 200%',
+						'background-position': 'right center',
+					},
+				},
+				'spin-reverse': {
+					from: {
+						transform: 'rotate(0deg)',
+					},
+					to: {
+						transform: 'rotate(-360deg)',
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -132,6 +163,10 @@ export default {
 				'slide-up': 'slide-up 0.8s ease-out',
 				'slide-down': 'slide-down 0.8s ease-out',
 				'bounce-light': 'bounce-light 2s infinite ease-in-out',
+				'blob': 'blob 7s infinite',
+				'gradient-x': 'gradient-x 15s ease infinite',
+				'spin-slow': 'spin 50s linear infinite',
+				'spin-reverse': 'spin-reverse 20s linear infinite',
 			},
 			extend: {
 				animation: {
