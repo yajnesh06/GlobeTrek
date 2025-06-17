@@ -9,8 +9,12 @@ jobs:
   ping-supabase:
     runs-on: ubuntu-latest
     steps:
-      - name: Curl Ping Supabase API or URL
+      - name: Curl Ping Supabase API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl -s https://phvtqnwwqbsboghcwtyj.supabase.co/rest/v1/saved_trips \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
+          curl -sS "${SUPABASE_URL}/rest/v1/saved_trips?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            --fail
