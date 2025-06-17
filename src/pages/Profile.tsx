@@ -1,24 +1,28 @@
-
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { useAuth } from '../contexts/AuthContext';
+import Navbar from '../components/Navbar';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { Separator } from '../components/ui/separator';
 import { MapPin, Calendar, Plane } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
+
+type User = {
+  full_name?: string;
+  email: string;
+  avatar_url?: string;
+};
 
 const Profile = () => {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuth() as { user: User | null, loading: boolean };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-voyage-600 mx-auto"></div>
-          <p className="mt-4 text-voyage-600">Loading your profile...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb] mx-auto"></div> {/* Changed from border-blue-600 */}
+          <p className="mt-4 text-[#2563eb]">Loading your profile...</p> {/* Changed from text-blue-600 */}
         </div>
       </div>
     );
@@ -36,7 +40,7 @@ const Profile = () => {
             <CardContent className="text-center">
               <p className="mb-6">Please sign in to view your profile.</p>
               <Link to="/">
-                <Button className="bg-voyage-500 hover:bg-voyage-600">
+                <Button className="bg-[#2563eb] hover:bg-[#1d4ed8]"> {/* Changed from bg-blue-500 hover:bg-blue-600 */}
                   Return to Home
                 </Button>
               </Link>
@@ -63,7 +67,7 @@ const Profile = () => {
       <div className="container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16">
         <div className="max-w-5xl mx-auto">
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-voyage-500 h-32 md:h-48 relative">
+            <div className="bg-[#2563eb] h-32 md:h-48 relative"> {/* Changed from bg-blue-500 */}
               <div className="absolute -bottom-16 left-8 bg-white p-2 rounded-full border-4 border-white">
                 <Avatar className="h-28 w-28">
                   <AvatarImage src={user.avatar_url || undefined} alt={user.full_name || 'User'} />
@@ -102,7 +106,7 @@ const Profile = () => {
                       View and manage all your saved trip itineraries.
                     </p>
                     <Link to="/saved-trips">
-                      <Button className="bg-voyage-500 hover:bg-voyage-600">
+                      <Button className="bg-[#2563eb] hover:bg-[#1d4ed8]"> {/* Changed from bg-blue-500 hover:bg-blue-600 */}
                         View Saved Trips
                       </Button>
                     </Link>
